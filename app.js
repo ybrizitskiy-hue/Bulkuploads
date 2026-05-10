@@ -75,6 +75,8 @@
       brandResults: document.getElementById("brandResults"),
       playerNote: document.getElementById("playerNote"),
       playerNoteError: document.getElementById("playerNoteError"),
+      playerNotePriority: document.getElementById("playerNotePriority"),
+      priorityPill: document.getElementById("priorityPill"),
       inPlayBetDelay: document.getElementById("inPlayBetDelay"),
       disableCO: document.getElementById("disableCO"),
       betFactor: document.getElementById("betFactor"),
@@ -157,6 +159,7 @@
         disableCO: els.disableCO.checked,
         brandId: els.brandId.value.trim(),
         playerNote: els.playerNote.value.trim(),
+        playerNotePriority: els.playerNotePriority.value,
         inPlayBetDelay: els.inPlayBetDelay.value.trim()
       };
     }
@@ -171,7 +174,7 @@
         riskCategory: settings.category,
         betFactor: settings.betFactor,
         playerNote: settings.playerNote || "",
-        playerNotePriority: "",
+        playerNotePriority: settings.playerNotePriority || "2",
         Resolved: "",
         disableBoost: ""
       }));
@@ -308,6 +311,8 @@
       els.disableCOPill.textContent = settings.disableCO ? "YES / TRUE" : "NO / empty";
       els.brandPill.textContent = settings.brandId || "empty";
       els.notePill.textContent = settings.playerNote || "empty";
+      const priorityLabels = { "3": "Positive / 3", "2": "Neutral / 2", "1": "Negative / 1" };
+      els.priorityPill.textContent = priorityLabels[settings.playerNotePriority] || "Neutral / 2";
       els.delayPill.textContent = settings.inPlayBetDelay || "empty";
       els.playerNote.classList.toggle("invalid", hasAccounts && !noteIsValid);
       els.playerNoteError.classList.toggle("show", hasAccounts && !noteIsValid);
@@ -360,6 +365,7 @@
       els.brandId.value = "";
       hideBrandResults();
       els.playerNote.value = "";
+      els.playerNotePriority.value = "2";
       els.inPlayBetDelay.value = "";
       els.disableCO.checked = false;
       updateUi();
@@ -812,7 +818,7 @@
     });
     els.betnotesDrop.addEventListener("drop", (event) => loadBetnotesFile(event.dataTransfer.files[0]));
 
-    [els.accounts, els.playerNote, els.inPlayBetDelay, els.disableCO, els.betFactor].forEach((el) => {
+    [els.accounts, els.playerNote, els.playerNotePriority, els.inPlayBetDelay, els.disableCO, els.betFactor].forEach((el) => {
       el.addEventListener("input", updateUi);
       el.addEventListener("change", updateUi);
     });
