@@ -717,6 +717,104 @@
 
     .error-box.show { display: block; }
 
+    .field-error {
+      display: none;
+      margin-top: 8px;
+      color: #ffb4b4;
+      font-size: 13px;
+      line-height: 1.35;
+      font-weight: 800;
+    }
+
+    .field-error.show { display: block; }
+
+    input.invalid, textarea.invalid {
+      border-color: rgba(255,45,45,.72) !important;
+      box-shadow: 0 0 0 4px rgba(255,45,45,.10) !important;
+    }
+
+    .mini-table {
+      display: grid;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .mini-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      border: 1px solid var(--line);
+      background: var(--panel-2);
+      border-radius: 18px;
+      padding: 14px;
+      font-weight: 800;
+    }
+
+    .mini-row span:last-child { color: var(--green); }
+
+
+
+    /* Compact layout: keeps each tool visible without painful scrolling */
+    .page { width: min(1440px, calc(100% - 40px)); padding: 22px 0 24px; }
+    .topbar { margin-bottom: 14px; }
+    .badge { padding: 5px 10px; font-size: 12px; margin-bottom: 8px; }
+    h1 { font-size: clamp(28px, 3vw, 38px); }
+    .subtitle { margin-top: 8px; font-size: 14px; line-height: 1.35; max-width: 920px; }
+    .reset-btn { padding: 10px 15px; border-radius: 13px; }
+    .tool-tabs { gap: 8px; margin-bottom: 14px; }
+    .tool-tab { padding: 10px 14px; border-radius: 13px; font-size: 14px; }
+    .grid, .wide-grid { gap: 16px; grid-template-columns: minmax(0, 1.02fr) minmax(380px, .98fr); }
+    .card { border-radius: 20px; }
+    .card-title { padding: 13px 17px; font-size: 18px; }
+    .card-body { padding: 16px 18px; }
+    .form-grid { gap: 12px; }
+    label.caption, .caption { margin-bottom: 6px; font-size: 11px; }
+    select, input { height: 42px; padding: 0 13px; border-radius: 13px; font-size: 14px; }
+    textarea { min-height: 150px; padding: 12px 13px; border-radius: 13px; line-height: 1.4; font-size: 14px; }
+    .factor-box { min-height: 68px; padding: 11px 13px; border-radius: 15px; }
+    .factor-line { gap: 9px; margin-top: 4px; }
+    .category-swatch { width: 22px; height: 22px; border-radius: 7px; }
+    .factor-input { height: 34px; font-size: 26px; border-radius: 9px; }
+    .hint, .brand-hint { margin-top: 5px; font-size: 12px; line-height: 1.25; }
+    .search-control { gap: 8px; }
+    .search-button { height: 42px; padding: 0 13px; border-radius: 13px; font-size: 13px; }
+    .brand-results, .category-results { top: calc(100% + 6px); max-height: 205px; border-radius: 13px; padding: 5px; }
+    .brand-option, .category-option { padding: 9px 10px; border-radius: 10px; font-size: 14px; }
+    .toggle-switch { height: 42px; padding: 0 13px; border-radius: 13px; font-size: 14px; }
+    .switch-track { width: 62px; height: 28px; }
+    .switch-track::before { font-size: 10px; right: 8px; }
+    .toggle-switch input:checked + .switch-track::before { left: 8px; }
+    .switch-thumb { width: 20px; height: 20px; }
+    .toggle-switch input:checked + .switch-track .switch-thumb { transform: translateX(34px); }
+    .button-row { gap: 10px; }
+    .primary-btn, .secondary-btn { height: 44px; border-radius: 13px; padding: 0 16px; font-size: 14px; }
+    .stats { gap: 10px; }
+    .stat { padding: 12px 13px; border-radius: 15px; }
+    .stat-label { font-size: 11px; }
+    .stat-value { font-size: 26px; }
+    .info-box { margin-top: 12px; padding: 12px 13px; border-radius: 15px; font-size: 13px; line-height: 1.38; }
+    .info-title { font-size: 14px; margin-bottom: 5px; }
+    .settings-list { gap: 8px; margin-top: 12px; }
+    .setting-row { padding: 10px 12px; border-radius: 15px; }
+    .setting-name { font-size: 13px; }
+    .setting-desc { font-size: 12px; }
+    .pill { padding: 6px 10px; font-size: 12px; border-radius: 12px; max-width: 55%; }
+    .preview-wrap { margin-top: 12px; padding: 12px; border-radius: 15px; }
+    .preview-title { margin-bottom: 8px; font-size: 13px; }
+    pre { max-height: 155px; padding: 12px; border-radius: 12px; font-size: 12px; line-height: 1.45; }
+    .file-drop { min-height: 118px; padding: 18px; border-radius: 16px; }
+    .file-drop-title { font-size: 17px; }
+    .file-drop-subtitle { margin-top: 5px; font-size: 13px; line-height: 1.35; }
+    .file-name { margin-top: 9px; padding: 6px 10px; font-size: 12px; }
+    .error-box { margin-top: 9px; padding: 10px 12px; font-size: 13px; border-radius: 13px; }
+    .field-error { margin-top: 5px; font-size: 12px; }
+    .mini-table { gap: 8px; margin-top: 12px; }
+    .mini-row { padding: 10px 12px; border-radius: 14px; font-size: 13px; }
+    .footer-card { margin-top: 14px; padding: 13px 15px; border-radius: 18px; }
+    .footer-icon { width: 36px; height: 36px; border-radius: 13px; }
+    .footer-title { font-size: 16px; }
+    .footer-text { font-size: 12px; line-height: 1.4; }
+
     @media (max-width: 980px) {
       .page { width: min(100% - 28px, 760px); padding-top: 24px; }
       .topbar { flex-direction: column; }
@@ -739,7 +837,7 @@
       <div>
         <div class="badge">Y.B.Project ARC</div>
         <h1>Bulk Uploads Helper</h1>
-        <p class="subtitle">Use the Bulk Uploads Generator to create upload CSVs, or use File Cutter to split an already prepared CSV into files with max 98 accounts each.</p>
+        <p class="subtitle">Use Bulk Uploads Generator to create upload CSVs, File Cutter to split already prepared upload files, or Auto Betnotes Format+Cut to convert bet note reports into ready upload CSVs.</p>
       </div>
       <button class="reset-btn" id="resetBtn" type="button">Reset form</button>
     </section>
@@ -747,6 +845,7 @@
     <section class="tool-tabs" aria-label="Tools">
       <button class="tool-tab active" id="generatorTab" type="button">Bulk Uploads Generator</button>
       <button class="tool-tab" id="cutterTab" type="button">File Cutter</button>
+      <button class="tool-tab" id="betnotesTab" type="button">Auto Betnotes Format+Cut</button>
     </section>
 
     <section class="tool-panel" id="generatorPanel">
@@ -787,7 +886,8 @@
 
             <div class="full">
               <label class="caption" for="playerNote">Player note</label>
-              <input id="playerNote" placeholder="Optional note to apply to all pasted accounts" />
+              <input id="playerNote" minlength="5" required placeholder="Mandatory: minimum 5 symbols" />
+              <div class="field-error" id="playerNoteError">Player note is mandatory and must contain at least 5 symbols.</div>
             </div>
 
             <div>
@@ -943,17 +1043,89 @@
       </section>
     </section>
 
+
+    <section class="tool-panel hidden" id="betnotesPanel">
+      <section class="wide-grid">
+        <div class="card">
+          <div class="card-title">Auto Betnotes Format+Cut</div>
+          <div class="card-body">
+            <div class="form-grid">
+              <div class="full">
+                <label class="caption" for="betnotesFile">Upload automated bet notes report</label>
+                <label class="file-drop" id="betnotesDrop" for="betnotesFile">
+                  <input id="betnotesFile" type="file" accept=".xlsx,.xls,.csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel,text/csv" />
+                  <div>
+                    <div class="file-drop-title">Drop XLSX/CSV here or click to choose</div>
+                    <div class="file-drop-subtitle">The tool reads Bet ID, Brand, Bet Note Priority, and Bet Note, then creates CSV files with max 998 betIds each.</div>
+                    <div class="file-name" id="betnotesFileName">No file selected</div>
+                  </div>
+                </label>
+                <div class="error-box" id="betnotesError"></div>
+              </div>
+
+              <div class="full button-row">
+                <button class="primary-btn" id="formatBetnotesBtn" type="button" disabled>
+                  <span>▦</span>
+                  <span>Format and download</span>
+                </button>
+                <button class="secondary-btn" id="clearBetnotesBtn" type="button">
+                  <span>×</span>
+                  <span>Clear file</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Betnotes preview</div>
+          <div class="card-body">
+            <div class="stats">
+              <div class="stat">
+                <div class="stat-label">Bet IDs</div>
+                <div class="stat-value" id="betnotesRowsCount">0</div>
+              </div>
+              <div class="stat">
+                <div class="stat-label">Files</div>
+                <div class="stat-value" id="betnotesFilesCount">0</div>
+              </div>
+              <div class="stat">
+                <div class="stat-label">Max / file</div>
+                <div class="stat-value">998</div>
+              </div>
+            </div>
+
+            <div class="info-box">
+              <div class="info-title"><span id="betnotesStatusIcon">✓</span><span id="betnotesStatusTitle">Waiting for report</span></div>
+              <div id="betnotesStatusText">Upload the automated bet noting report and I will format it into betId, brand, betNotePriority, betNoteText.</div>
+            </div>
+
+            <div class="mini-table">
+              <div class="mini-row"><span>Output columns</span><span>betId, brand, betNotePriority, betNoteText</span></div>
+              <div class="mini-row"><span>Source columns</span><span>Bet ID, Brand, Bet Note Priority, Bet Note</span></div>
+            </div>
+
+            <div class="preview-wrap">
+              <div class="preview-title">▦ <span>Formatted CSV preview</span></div>
+              <pre id="betnotesPreview">Upload XLSX/CSV to see the formatted output preview.</pre>
+            </div>
+          </div>
+        </div>
+      </section>
+    </section>
+
     <section class="footer-card">
       <div class="footer-icon">CSV</div>
       <div>
         <div class="footer-title">Bulk Uploads Generator</div>
-        <div class="footer-text">Generator columns: playerId, brandId, playerAlias, inPlayBetDelay, disableCO, riskCategory, betFactor, playerNote, playerNotePriority, Resolved, disableBoost. File Cutter keeps the uploaded CSV header and splits only the data rows.</div>
+        <div class="footer-text">Generator columns: playerId, brandId, playerAlias, inPlayBetDelay, disableCO, riskCategory, betFactor, playerNote, playerNotePriority, Resolved, disableBoost. File Cutter keeps the uploaded CSV header and splits only the data rows. Auto Betnotes Format+Cut outputs betId, brand, betNotePriority, betNoteText.</div>
       </div>
     </section>
   </main>
 
   <div class="toast" id="toast">Copied</div>
 
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script>
     const CATEGORY_META = [
       { name: "VIP", factor: "2", color: "#00b313", textColor: "#ffffff" },
@@ -994,6 +1166,8 @@
     ];
 
     const MAX_PLAYERS_PER_FILE = 98;
+    const MAX_BETNOTES_PER_FILE = 998;
+    const BETNOTE_HEADERS = ["betId", "brand", "betNotePriority", "betNoteText"];
 
     const BRANDS = [
       "daznbetes",
@@ -1028,6 +1202,7 @@
       brandId: document.getElementById("brandId"),
       brandResults: document.getElementById("brandResults"),
       playerNote: document.getElementById("playerNote"),
+      playerNoteError: document.getElementById("playerNoteError"),
       inPlayBetDelay: document.getElementById("inPlayBetDelay"),
       disableCO: document.getElementById("disableCO"),
       betFactor: document.getElementById("betFactor"),
@@ -1052,8 +1227,10 @@
       toast: document.getElementById("toast"),
       generatorTab: document.getElementById("generatorTab"),
       cutterTab: document.getElementById("cutterTab"),
+      betnotesTab: document.getElementById("betnotesTab"),
       generatorPanel: document.getElementById("generatorPanel"),
       cutterPanel: document.getElementById("cutterPanel"),
+      betnotesPanel: document.getElementById("betnotesPanel"),
       cutterFile: document.getElementById("cutterFile"),
       fileDrop: document.getElementById("fileDrop"),
       cutterFileName: document.getElementById("cutterFileName"),
@@ -1065,7 +1242,19 @@
       cutterStatusIcon: document.getElementById("cutterStatusIcon"),
       cutterStatusTitle: document.getElementById("cutterStatusTitle"),
       cutterStatusText: document.getElementById("cutterStatusText"),
-      cutterPreview: document.getElementById("cutterPreview")
+      cutterPreview: document.getElementById("cutterPreview"),
+      betnotesFile: document.getElementById("betnotesFile"),
+      betnotesDrop: document.getElementById("betnotesDrop"),
+      betnotesFileName: document.getElementById("betnotesFileName"),
+      betnotesError: document.getElementById("betnotesError"),
+      formatBetnotesBtn: document.getElementById("formatBetnotesBtn"),
+      clearBetnotesBtn: document.getElementById("clearBetnotesBtn"),
+      betnotesRowsCount: document.getElementById("betnotesRowsCount"),
+      betnotesFilesCount: document.getElementById("betnotesFilesCount"),
+      betnotesStatusIcon: document.getElementById("betnotesStatusIcon"),
+      betnotesStatusTitle: document.getElementById("betnotesStatusTitle"),
+      betnotesStatusText: document.getElementById("betnotesStatusText"),
+      betnotesPreview: document.getElementById("betnotesPreview")
     };
 
     function splitAccounts(raw) {
@@ -1228,6 +1417,7 @@
     function updateUi() {
       const { accounts, settings, chunks } = currentState();
       const hasAccounts = accounts.length > 0;
+      const noteIsValid = settings.playerNote.length >= 5;
       const isZip = accounts.length > MAX_PLAYERS_PER_FILE;
       const filesCount = hasAccounts ? chunks.length : 0;
 
@@ -1237,7 +1427,9 @@
       els.statusIcon.textContent = isZip ? "!" : "✓";
       els.statusTitle.textContent = `${settings.category} upload / betFactor ${settings.betFactor}`;
       els.statusText.textContent = !hasAccounts
-        ? "Paste player IDs to start."
+        ? "Paste player IDs to start. Player note is mandatory and must be at least 5 symbols."
+        : !noteIsValid
+          ? "Player note is mandatory. Add at least 5 symbols before generating the file."
         : isZip
           ? `More than 98 players detected. Download will be a ZIP with ${chunks.length} CSV files, max 98 players in each.`
           : "Ready to generate one CSV file. Maximum per single file is 98 players.";
@@ -1245,8 +1437,10 @@
       els.brandPill.textContent = settings.brandId || "empty";
       els.notePill.textContent = settings.playerNote || "empty";
       els.delayPill.textContent = settings.inPlayBetDelay || "empty";
-      els.generateBtn.disabled = !hasAccounts;
-      els.copyBtn.disabled = !hasAccounts;
+      els.playerNote.classList.toggle("invalid", hasAccounts && !noteIsValid);
+      els.playerNoteError.classList.toggle("show", hasAccounts && !noteIsValid);
+      els.generateBtn.disabled = !hasAccounts || !noteIsValid;
+      els.copyBtn.disabled = !hasAccounts || !noteIsValid;
       els.generateIcon.textContent = isZip ? "▣" : "↓";
       els.generateLabel.textContent = `Generate ${hasAccounts && isZip ? "ZIP" : "CSV"}`;
       els.previewTitle.textContent = `CSV preview${accounts.length > 8 ? " (first 8 rows)" : ""}`;
@@ -1445,10 +1639,13 @@
 
     function setActiveTool(tool) {
       const showCutter = tool === "cutter";
-      els.generatorTab.classList.toggle("active", !showCutter);
+      const showBetnotes = tool === "betnotes";
+      els.generatorTab.classList.toggle("active", !showCutter && !showBetnotes);
       els.cutterTab.classList.toggle("active", showCutter);
-      els.generatorPanel.classList.toggle("hidden", showCutter);
+      els.betnotesTab.classList.toggle("active", showBetnotes);
+      els.generatorPanel.classList.toggle("hidden", showCutter || showBetnotes);
       els.cutterPanel.classList.toggle("hidden", !showCutter);
+      els.betnotesPanel.classList.toggle("hidden", !showBetnotes);
     }
 
     function showCutterError(message) {
@@ -1576,11 +1773,207 @@
       downloadBlob(createZip(files), `${name}-split-${chunks.length}-files.zip`);
     }
 
+
+
+    let betnotesState = {
+      fileName: "",
+      rows: []
+    };
+
+    function showBetnotesError(message) {
+      els.betnotesError.textContent = message || "";
+      els.betnotesError.classList.toggle("show", Boolean(message));
+    }
+
+    function parseCsvToArrays(text) {
+      const cleaned = String(text || "").replace(/^﻿/, "");
+      const rows = [];
+      let row = [];
+      let current = "";
+      let inQuotes = false;
+
+      for (let i = 0; i < cleaned.length; i++) {
+        const char = cleaned[i];
+        const next = cleaned[i + 1];
+
+        if (char === '"') {
+          if (inQuotes && next === '"') {
+            current += '"';
+            i++;
+          } else {
+            inQuotes = !inQuotes;
+          }
+          continue;
+        }
+
+        if (!inQuotes && char === ',') {
+          row.push(current);
+          current = "";
+          continue;
+        }
+
+        if (!inQuotes && (char === "\n" || char === "\r")) {
+          if (char === "\r" && next === "\n") i++;
+          row.push(current);
+          if (row.some((cell) => String(cell).trim() !== "")) rows.push(row);
+          row = [];
+          current = "";
+          continue;
+        }
+
+        current += char;
+      }
+
+      row.push(current);
+      if (row.some((cell) => String(cell).trim() !== "")) rows.push(row);
+      return rows;
+    }
+
+    function normalizeHeader(value) {
+      return String(value || "")
+        .replace(/^﻿/, "")
+        .trim()
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "");
+    }
+
+    function findHeaderIndex(rows) {
+      const required = ["betid", "brand", "betnotepriority", "betnote"];
+      return rows.findIndex((row) => {
+        const normalized = row.map(normalizeHeader);
+        return required.every((name) => normalized.includes(name));
+      });
+    }
+
+    function extractBetnoteRows(rows) {
+      const headerIndex = findHeaderIndex(rows);
+      if (headerIndex === -1) {
+        throw new Error("Could not find required columns: Bet ID, Brand, Bet Note Priority, Bet Note.");
+      }
+
+      const headers = rows[headerIndex].map(normalizeHeader);
+      const index = {
+        betId: headers.indexOf("betid"),
+        brand: headers.indexOf("brand"),
+        betNotePriority: headers.indexOf("betnotepriority"),
+        betNoteText: headers.indexOf("betnote")
+      };
+
+      return rows.slice(headerIndex + 1)
+        .map((row) => ({
+          betId: String(row[index.betId] ?? "").trim(),
+          brand: String(row[index.brand] ?? "").trim(),
+          betNotePriority: String(row[index.betNotePriority] ?? "").trim(),
+          betNoteText: String(row[index.betNoteText] ?? "").trim()
+        }))
+        .filter((row) => row.betId !== "");
+    }
+
+    function buildBetnotesCsv(rows, includeBom = true) {
+      const lines = rows.map((row) => BETNOTE_HEADERS.map((header) => escapeCsv(row[header])).join(","));
+      return `${includeBom ? "﻿" : ""}${BETNOTE_HEADERS.join(",")}\r\n${lines.join("\r\n")}${lines.length ? "\r\n" : ""}`;
+    }
+
+    function updateBetnotesUi() {
+      const rows = betnotesState.rows || [];
+      const fileCount = rows.length ? Math.ceil(rows.length / MAX_BETNOTES_PER_FILE) : 0;
+      els.betnotesRowsCount.textContent = rows.length;
+      els.betnotesFilesCount.textContent = fileCount;
+      els.formatBetnotesBtn.disabled = rows.length === 0;
+      els.betnotesFileName.textContent = betnotesState.fileName || "No file selected";
+      els.betnotesStatusIcon.textContent = rows.length > MAX_BETNOTES_PER_FILE ? "!" : "✓";
+      els.betnotesStatusTitle.textContent = rows.length ? `${rows.length} betIds / ${fileCount} output file${fileCount === 1 ? "" : "s"}` : "Waiting for report";
+      els.betnotesStatusText.textContent = rows.length
+        ? `Formatted output will use fixed columns and max ${MAX_BETNOTES_PER_FILE} betIds per CSV.`
+        : "Upload the automated bet noting report and I will format it into betId, brand, betNotePriority, betNoteText.";
+      els.betnotesPreview.textContent = rows.length
+        ? buildBetnotesCsv(rows.slice(0, 8), false) + (rows.length > 8 ? "..." : "")
+        : "Upload XLSX/CSV to see the formatted output preview.";
+    }
+
+    function clearBetnotes() {
+      betnotesState = { fileName: "", rows: [] };
+      els.betnotesFile.value = "";
+      showBetnotesError("");
+      updateBetnotesUi();
+    }
+
+    function loadBetnotesFile(file) {
+      if (!file) return;
+      const lowerName = file.name.toLowerCase();
+      const isSpreadsheet = lowerName.endsWith(".xlsx") || lowerName.endsWith(".xls");
+      const isCsv = lowerName.endsWith(".csv");
+      if (!isSpreadsheet && !isCsv) {
+        clearBetnotes();
+        showBetnotesError("Please upload XLSX, XLS, or CSV file.");
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          let rows;
+          if (isCsv) {
+            rows = parseCsvToArrays(reader.result);
+          } else {
+            if (!window.XLSX) throw new Error("XLSX parser is still loading. Please refresh the page and try again.");
+            const workbook = XLSX.read(reader.result, { type: "array" });
+            const firstSheetName = workbook.SheetNames[0];
+            const worksheet = workbook.Sheets[firstSheetName];
+            rows = XLSX.utils.sheet_to_json(worksheet, { header: 1, raw: false, defval: "" });
+          }
+
+          const formattedRows = extractBetnoteRows(rows);
+          if (!formattedRows.length) {
+            clearBetnotes();
+            showBetnotesError("Required columns were found, but there are no rows with Bet ID.");
+            return;
+          }
+
+          betnotesState = { fileName: file.name, rows: formattedRows };
+          showBetnotesError("");
+          updateBetnotesUi();
+        } catch (error) {
+          clearBetnotes();
+          showBetnotesError(error.message || "Could not read this file. Please check the template and try again.");
+        }
+      };
+      reader.onerror = () => {
+        clearBetnotes();
+        showBetnotesError("Could not read this file. Please check it and try again.");
+      };
+
+      if (isCsv) reader.readAsText(file, "utf-8");
+      else reader.readAsArrayBuffer(file);
+    }
+
+    function handleFormatBetnotes() {
+      const rows = betnotesState.rows || [];
+      if (!rows.length) return;
+      const chunks = chunkArray(rows, MAX_BETNOTES_PER_FILE);
+      const name = baseName(betnotesState.fileName || "auto-betnotes");
+
+      if (chunks.length === 1) {
+        downloadBlob(new Blob([buildBetnotesCsv(chunks[0], true)], { type: "text/csv;charset=utf-8" }), `${name}-betnotes-01-of-01.csv`);
+        return;
+      }
+
+      const files = chunks.map((chunk, index) => ({
+        name: `${name}-betnotes-${String(index + 1).padStart(2, "0")}-of-${String(chunks.length).padStart(2, "0")}.csv`,
+        content: buildBetnotesCsv(chunk, true)
+      }));
+      downloadBlob(createZip(files), `${name}-betnotes-${chunks.length}-files.zip`);
+    }
+
     els.generatorTab.addEventListener("click", () => setActiveTool("generator"));
     els.cutterTab.addEventListener("click", () => setActiveTool("cutter"));
+    els.betnotesTab.addEventListener("click", () => setActiveTool("betnotes"));
     els.cutterFile.addEventListener("change", () => loadCutterFile(els.cutterFile.files[0]));
     els.cutFileBtn.addEventListener("click", handleCutFile);
     els.clearCutterBtn.addEventListener("click", clearCutter);
+    els.betnotesFile.addEventListener("change", () => loadBetnotesFile(els.betnotesFile.files[0]));
+    els.formatBetnotesBtn.addEventListener("click", handleFormatBetnotes);
+    els.clearBetnotesBtn.addEventListener("click", clearBetnotes);
     ["dragenter", "dragover"].forEach((eventName) => {
       els.fileDrop.addEventListener(eventName, (event) => {
         event.preventDefault();
@@ -1594,6 +1987,19 @@
       });
     });
     els.fileDrop.addEventListener("drop", (event) => loadCutterFile(event.dataTransfer.files[0]));
+    ["dragenter", "dragover"].forEach((eventName) => {
+      els.betnotesDrop.addEventListener(eventName, (event) => {
+        event.preventDefault();
+        els.betnotesDrop.classList.add("dragover");
+      });
+    });
+    ["dragleave", "drop"].forEach((eventName) => {
+      els.betnotesDrop.addEventListener(eventName, (event) => {
+        event.preventDefault();
+        els.betnotesDrop.classList.remove("dragover");
+      });
+    });
+    els.betnotesDrop.addEventListener("drop", (event) => loadBetnotesFile(event.dataTransfer.files[0]));
 
     [els.accounts, els.playerNote, els.inPlayBetDelay, els.disableCO, els.betFactor].forEach((el) => {
       el.addEventListener("input", updateUi);
@@ -1606,6 +2012,7 @@
     applyCategoryStyle();
     updateUi();
     updateCutterUi();
+    updateBetnotesUi();
   </script>
 </body>
 </html>
