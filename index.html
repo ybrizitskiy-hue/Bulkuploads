@@ -201,13 +201,27 @@
       justify-content: center;
     }
 
-    .factor-number {
-      margin-top: 5px;
+    .factor-input {
+      margin-top: 7px;
+      height: 44px;
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      color: var(--green);
       font-size: 32px;
       line-height: 1;
       font-weight: 950;
-      color: var(--green);
       letter-spacing: -.04em;
+      box-shadow: none;
+    }
+
+    .factor-input:focus {
+      border: 0;
+      box-shadow: none;
+      outline: 2px solid rgba(69,255,104,.35);
+      outline-offset: 3px;
+      border-radius: 8px;
     }
 
     .hint { margin-top: 7px; color: var(--muted-2); font-size: 13px; font-weight: 750; }
@@ -342,15 +356,17 @@
     .setting-name { font-size: 14px; font-weight: 950; }
     .setting-desc { margin-top: 2px; font-size: 13px; color: var(--muted-2); font-weight: 750; }
     .pill {
-      max-width: 230px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      border-radius: 999px;
+      max-width: min(420px, 58%);
+      overflow: visible;
+      white-space: normal;
+      word-break: break-word;
+      text-align: right;
+      border-radius: 14px;
       background: #101827;
-      color: #e8edf7;
-      padding: 7px 11px;
+      color: #f5f7fb;
+      padding: 8px 12px;
       font-size: 13px;
+      line-height: 1.35;
       font-weight: 950;
     }
     .pill.green { color: var(--green); }
@@ -375,18 +391,18 @@
 
     pre {
       margin: 0;
-      max-height: 246px;
+      max-height: 300px;
       overflow: auto;
-      white-space: pre-wrap;
-      word-break: break-word;
-      background: #070b13;
-      border: 1px solid rgba(255,255,255,.06);
+      white-space: pre;
+      word-break: normal;
+      background: #020713;
+      border: 1px solid rgba(69,255,104,.18);
       border-radius: 14px;
-      padding: 14px;
-      color: #c7cedd;
-      font-size: 12px;
-      line-height: 1.55;
-      font-weight: 650;
+      padding: 16px;
+      color: #f4f7ff;
+      font-size: 13px;
+      line-height: 1.65;
+      font-weight: 750;
     }
 
     .footer-card {
@@ -445,6 +461,8 @@
       .form-grid, .stats { grid-template-columns: 1fr; }
       .button-row { flex-direction: column; }
       .secondary-btn { width: 100%; }
+      .setting-row { align-items: flex-start; flex-direction: column; }
+      .pill { max-width: 100%; text-align: left; }
       body::before { opacity: .55; }
     }
   </style>
@@ -455,7 +473,7 @@
       <div>
         <div class="badge">Y.B.Project ARC</div>
         <h1>Bulk Uploads Helper</h1>
-        <p class="subtitle">Paste player IDs, choose the upload category, and generate files matching the player upload CSV format. If the list has more than 98 players, the helper automatically creates a ZIP with separated CSV files.</p>
+        <p class="subtitle">Paste player IDs, choose the upload category, add brand when needed, and generate files matching the player upload CSV format. If the list has more than 98 players, the helper automatically creates a ZIP with separated CSV files.</p>
       </div>
       <button class="reset-btn" id="resetBtn" type="button">Reset form</button>
     </section>
@@ -479,9 +497,14 @@
             </div>
 
             <div class="factor-box">
-              <div class="caption">Bet factor</div>
-              <div class="factor-number" id="factorNumber">1.01</div>
-              <div class="hint">Filled automatically for every account.</div>
+              <label class="caption" for="betFactor">Bet factor</label>
+              <input class="factor-input" id="betFactor" value="1.01" inputmode="decimal" />
+              <div class="hint">Pre-filled by category, but you can change it.</div>
+            </div>
+
+            <div class="full">
+              <label class="caption" for="brandId">Brand ID</label>
+              <input id="brandId" placeholder="Optional brand value to apply to all pasted accounts" />
             </div>
 
             <div class="full">
@@ -542,6 +565,13 @@
           </div>
 
           <div class="settings-list">
+            <div class="setting-row">
+              <div>
+                <div class="setting-name">Brand ID</div>
+                <div class="setting-desc">brandId column value</div>
+              </div>
+              <div class="pill" id="brandPill">empty</div>
+            </div>
             <div class="setting-row">
               <div>
                 <div class="setting-name">Disable CO</div>
@@ -614,10 +644,11 @@
     const els = {
       category: document.getElementById("category"),
       accounts: document.getElementById("accounts"),
+      brandId: document.getElementById("brandId"),
       playerNote: document.getElementById("playerNote"),
       inPlayBetDelay: document.getElementById("inPlayBetDelay"),
       disableCO: document.getElementById("disableCO"),
-      factorNumber: document.getElementById("factorNumber"),
+      betFactor: document.getElementById("betFactor"),
       playersCount: document.getElementById("playersCount"),
       filesCount: document.getElementById("filesCount"),
       outputType: document.getElementById("outputType"),
@@ -625,6 +656,7 @@
       statusTitle: document.getElementById("statusTitle"),
       statusText: document.getElementById("statusText"),
       disableCOPill: document.getElementById("disableCOPill"),
+      brandPill: document.getElementById("brandPill"),
       notePill: document.getElementById("notePill"),
       delayPill: document.getElementById("delayPill"),
       preview: document.getElementById("preview"),
@@ -662,8 +694,9 @@
     function getSettings() {
       return {
         category: els.category.value,
-        betFactor: BET_FACTORS[els.category.value],
+        betFactor: els.betFactor.value.trim() || BET_FACTORS[els.category.value],
         disableCO: els.disableCO.checked,
+        brandId: els.brandId.value.trim(),
         playerNote: els.playerNote.value.trim(),
         inPlayBetDelay: els.inPlayBetDelay.value.trim()
       };
@@ -672,7 +705,7 @@
     function buildRows(accounts, settings) {
       return accounts.map((playerId) => ({
         playerId,
-        brandId: "",
+        brandId: settings.brandId || "",
         playerAlias: "",
         inPlayBetDelay: settings.inPlayBetDelay || "",
         disableCO: settings.disableCO ? "TRUE" : "",
@@ -800,7 +833,6 @@
       const isZip = accounts.length > MAX_PLAYERS_PER_FILE;
       const filesCount = hasAccounts ? chunks.length : 0;
 
-      els.factorNumber.textContent = settings.betFactor;
       els.playersCount.textContent = accounts.length;
       els.filesCount.textContent = filesCount;
       els.outputType.textContent = hasAccounts ? (isZip ? "ZIP" : "CSV") : "—";
@@ -812,6 +844,7 @@
           ? `More than 98 players detected. Download will be a ZIP with ${chunks.length} CSV files, max 98 players in each.`
           : "Ready to generate one CSV file. Maximum per single file is 98 players.";
       els.disableCOPill.textContent = settings.disableCO ? "TRUE" : "empty";
+      els.brandPill.textContent = settings.brandId || "empty";
       els.notePill.textContent = settings.playerNote || "empty";
       els.delayPill.textContent = settings.inPlayBetDelay || "empty";
       els.generateBtn.disabled = !hasAccounts;
@@ -856,14 +889,21 @@
 
     function resetForm() {
       els.category.value = "Core";
+      els.betFactor.value = BET_FACTORS.Core;
       els.accounts.value = "";
+      els.brandId.value = "";
       els.playerNote.value = "";
       els.inPlayBetDelay.value = "";
       els.disableCO.checked = false;
       updateUi();
     }
 
-    [els.category, els.accounts, els.playerNote, els.inPlayBetDelay, els.disableCO].forEach((el) => {
+    els.category.addEventListener("change", () => {
+      els.betFactor.value = BET_FACTORS[els.category.value];
+      updateUi();
+    });
+
+    [els.accounts, els.brandId, els.playerNote, els.inPlayBetDelay, els.disableCO, els.betFactor].forEach((el) => {
       el.addEventListener("input", updateUi);
       el.addEventListener("change", updateUi);
     });

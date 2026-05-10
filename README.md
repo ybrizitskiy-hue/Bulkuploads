@@ -25,3 +25,7 @@ No build step is needed. The site is plain HTML/CSS/JavaScript.
   - Sharp: `0.01`
   - Latency: `0.01`
   - PVIP: `1.50`
+
+
+Update notes:
+- Brand ID can be entered once and will be applied to the `brandId` column for every generated account.
