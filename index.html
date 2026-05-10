@@ -31,7 +31,10 @@
       margin: 0;
       background: var(--bg);
       color: var(--text);
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      font-family: "Segoe UI", Roboto, Arial, Helvetica, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: geometricPrecision;
       overflow-x: hidden;
     }
 
@@ -85,7 +88,7 @@
       border-radius: 999px;
       padding: 7px 13px;
       font-size: 13px;
-      font-weight: 900;
+      font-weight: 800;
       letter-spacing: -.02em;
       box-shadow: 0 10px 30px rgba(0,0,0,.25);
       margin-bottom: 14px;
@@ -96,7 +99,7 @@
       font-size: clamp(34px, 4vw, 48px);
       letter-spacing: -.045em;
       line-height: 1;
-      font-weight: 950;
+      font-weight: 800;
     }
 
     .subtitle {
@@ -114,7 +117,7 @@
       background: var(--input-2);
       border-radius: 16px;
       padding: 14px 20px;
-      font-weight: 950;
+      font-weight: 800;
       box-shadow: 0 10px 30px rgba(0,0,0,.25);
       outline: 1px solid var(--line);
       cursor: pointer;
@@ -144,7 +147,7 @@
       border-bottom: 1px solid var(--line);
       padding: 18px 21px;
       font-size: 20px;
-      font-weight: 950;
+      font-weight: 800;
     }
 
     .card-body { padding: 22px; }
@@ -164,7 +167,7 @@
       font-size: 12px;
       line-height: 1;
       text-transform: uppercase;
-      font-weight: 950;
+      font-weight: 800;
       letter-spacing: .03em;
     }
 
@@ -176,7 +179,7 @@
       border-radius: 16px;
       outline: none;
       font: inherit;
-      font-weight: 750;
+      font-weight: 700;
       transition: border-color .15s ease, box-shadow .15s ease;
     }
 
@@ -211,7 +214,7 @@
       color: var(--green);
       font-size: 32px;
       line-height: 1;
-      font-weight: 950;
+      font-weight: 800;
       letter-spacing: -.04em;
       box-shadow: none;
     }
@@ -224,26 +227,89 @@
       border-radius: 8px;
     }
 
-    .hint { margin-top: 7px; color: var(--muted-2); font-size: 13px; font-weight: 750; }
+    .hint { margin-top: 7px; color: var(--muted-2); font-size: 13px; font-weight: 700; }
 
-    .toggle {
+    .brand-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(180px, .55fr);
+      gap: 12px;
+      align-items: end;
+    }
+
+    .brand-custom-wrap { display: none; }
+    .brand-custom-wrap.show { display: block; }
+
+    .toggle-switch {
       height: 54px;
       display: flex;
       align-items: center;
-      gap: 12px;
+      justify-content: space-between;
+      gap: 14px;
       align-self: end;
       border: 1px solid var(--line);
       background: #20283a;
       border-radius: 16px;
-      padding: 0 15px;
-      font-weight: 950;
+      padding: 0 16px;
+      font-weight: 800;
       cursor: pointer;
       user-select: none;
       transition: .15s ease;
     }
 
-    .toggle:hover { background: #263047; }
-    .toggle input { width: 20px; height: 20px; padding: 0; accent-color: var(--green); }
+    .toggle-switch:hover { background: #263047; }
+    .toggle-switch input { position: absolute; opacity: 0; pointer-events: none; }
+
+    .switch-track {
+      position: relative;
+      width: 72px;
+      height: 34px;
+      flex: 0 0 auto;
+      border-radius: 999px;
+      background: #111827;
+      border: 1px solid rgba(255,255,255,.13);
+      box-shadow: inset 0 0 16px rgba(0,0,0,.30);
+      transition: .18s ease;
+    }
+
+    .switch-track::before {
+      content: "NO";
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #9aa4b8;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .switch-thumb {
+      position: absolute;
+      left: 4px;
+      top: 4px;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: #7d879c;
+      transition: .18s ease;
+      box-shadow: 0 6px 14px rgba(0,0,0,.35);
+    }
+
+    .toggle-switch input:checked + .switch-track {
+      background: rgba(69,255,104,.18);
+      border-color: rgba(69,255,104,.55);
+    }
+
+    .toggle-switch input:checked + .switch-track::before {
+      content: "YES";
+      left: 10px;
+      right: auto;
+      color: var(--green);
+    }
+
+    .toggle-switch input:checked + .switch-track .switch-thumb {
+      transform: translateX(38px);
+      background: var(--green);
+    }
 
     .button-row {
       display: flex;
@@ -260,7 +326,7 @@
       align-items: center;
       justify-content: center;
       gap: 10px;
-      font-weight: 950;
+      font-weight: 800;
       font-size: 15px;
       cursor: pointer;
       transition: .16s ease;
@@ -301,7 +367,7 @@
 
     .stat-label {
       font-size: 12px;
-      font-weight: 950;
+      font-weight: 800;
       text-transform: uppercase;
       color: #d5d9e5;
     }
@@ -310,7 +376,7 @@
       margin-top: 3px;
       font-size: 32px;
       line-height: 1;
-      font-weight: 950;
+      font-weight: 800;
       letter-spacing: -.04em;
     }
 
@@ -322,7 +388,7 @@
       padding: 16px;
       color: #eef7ff;
       font-size: 14px;
-      font-weight: 750;
+      font-weight: 700;
       line-height: 1.55;
     }
 
@@ -332,7 +398,7 @@
       gap: 9px;
       color: white;
       font-size: 15px;
-      font-weight: 950;
+      font-weight: 800;
       margin-bottom: 7px;
     }
 
@@ -353,8 +419,8 @@
       padding: 14px;
     }
 
-    .setting-name { font-size: 14px; font-weight: 950; }
-    .setting-desc { margin-top: 2px; font-size: 13px; color: var(--muted-2); font-weight: 750; }
+    .setting-name { font-size: 14px; font-weight: 800; }
+    .setting-desc { margin-top: 2px; font-size: 13px; color: var(--muted-2); font-weight: 700; }
     .pill {
       max-width: min(420px, 58%);
       overflow: visible;
@@ -367,7 +433,7 @@
       padding: 8px 12px;
       font-size: 13px;
       line-height: 1.35;
-      font-weight: 950;
+      font-weight: 800;
     }
     .pill.green { color: var(--green); }
 
@@ -386,7 +452,7 @@
       margin-bottom: 11px;
       color: #d9deeb;
       font-size: 14px;
-      font-weight: 950;
+      font-weight: 800;
     }
 
     pre {
@@ -402,7 +468,7 @@
       color: #f4f7ff;
       font-size: 13px;
       line-height: 1.65;
-      font-weight: 750;
+      font-weight: 700;
     }
 
     .footer-card {
@@ -426,10 +492,10 @@
       border-radius: 16px;
       color: #07120c;
       background: var(--green);
-      font-weight: 950;
+      font-weight: 800;
     }
 
-    .footer-title { font-weight: 950; font-size: 18px; }
+    .footer-title { font-weight: 800; font-size: 18px; }
     .footer-text { margin-top: 4px; color: var(--muted); font-size: 14px; line-height: 1.6; font-weight: 700; }
 
     .toast {
@@ -447,7 +513,7 @@
       color: white;
       padding: 13px 16px;
       box-shadow: 0 18px 40px rgba(0,0,0,.35);
-      font-weight: 900;
+      font-weight: 800;
     }
     .toast.show { opacity: 1; transform: translateY(0); }
 
@@ -458,7 +524,7 @@
     }
 
     @media (max-width: 640px) {
-      .form-grid, .stats { grid-template-columns: 1fr; }
+      .form-grid, .stats, .brand-row { grid-template-columns: 1fr; }
       .button-row { flex-direction: column; }
       .secondary-btn { width: 100%; }
       .setting-row { align-items: flex-start; flex-direction: column; }
@@ -502,9 +568,38 @@
               <div class="hint">Pre-filled by category, but you can change it.</div>
             </div>
 
-            <div class="full">
-              <label class="caption" for="brandId">Brand ID</label>
-              <input id="brandId" placeholder="Optional brand value to apply to all pasted accounts" />
+            <div class="full brand-row">
+              <div>
+                <label class="caption" for="brandId">Brand ID</label>
+                <select id="brandId">
+                  <option value="">Select brand</option>
+                  <option>daznbetes</option>
+                  <option>quinnbet</option>
+                  <option>daznbet</option>
+                  <option>daznbetde</option>
+                  <option>borawin</option>
+                  <option>betbox</option>
+                  <option>ntigaming</option>
+                  <option>mistycasino</option>
+                  <option>ganobet</option>
+                  <option>casitoros</option>
+                  <option>madridbet</option>
+                  <option>casinoplata</option>
+                  <option>granpampa</option>
+                  <option>betmasr</option>
+                  <option>goldpot</option>
+                  <option>casitap</option>
+                  <option>reysur</option>
+                  <option>epikbahis</option>
+                  <option>casinospino</option>
+                  <option>yedibahis</option>
+                  <option value="__custom">Custom brand...</option>
+                </select>
+              </div>
+              <div class="brand-custom-wrap" id="brandCustomWrap">
+                <label class="caption" for="customBrandId">Custom brand</label>
+                <input id="customBrandId" placeholder="Type custom brand" />
+              </div>
             </div>
 
             <div class="full">
@@ -522,9 +617,10 @@
               <input id="inPlayBetDelay" placeholder="Optional; leave empty if not needed" />
             </div>
 
-            <label class="toggle" for="disableCO">
+            <label class="toggle-switch" for="disableCO">
+              <span>Disable CO</span>
               <input id="disableCO" type="checkbox" />
-              Disable CO
+              <span class="switch-track"><span class="switch-thumb"></span></span>
             </label>
 
             <div class="full button-row">
@@ -645,6 +741,8 @@
       category: document.getElementById("category"),
       accounts: document.getElementById("accounts"),
       brandId: document.getElementById("brandId"),
+      customBrandId: document.getElementById("customBrandId"),
+      brandCustomWrap: document.getElementById("brandCustomWrap"),
       playerNote: document.getElementById("playerNote"),
       inPlayBetDelay: document.getElementById("inPlayBetDelay"),
       disableCO: document.getElementById("disableCO"),
@@ -696,7 +794,7 @@
         category: els.category.value,
         betFactor: els.betFactor.value.trim() || BET_FACTORS[els.category.value],
         disableCO: els.disableCO.checked,
-        brandId: els.brandId.value.trim(),
+        brandId: els.brandId.value === "__custom" ? els.customBrandId.value.trim() : els.brandId.value.trim(),
         playerNote: els.playerNote.value.trim(),
         inPlayBetDelay: els.inPlayBetDelay.value.trim()
       };
@@ -843,7 +941,7 @@
         : isZip
           ? `More than 98 players detected. Download will be a ZIP with ${chunks.length} CSV files, max 98 players in each.`
           : "Ready to generate one CSV file. Maximum per single file is 98 players.";
-      els.disableCOPill.textContent = settings.disableCO ? "TRUE" : "empty";
+      els.disableCOPill.textContent = settings.disableCO ? "YES / TRUE" : "NO / empty";
       els.brandPill.textContent = settings.brandId || "empty";
       els.notePill.textContent = settings.playerNote || "empty";
       els.delayPill.textContent = settings.inPlayBetDelay || "empty";
@@ -892,18 +990,26 @@
       els.betFactor.value = BET_FACTORS.Core;
       els.accounts.value = "";
       els.brandId.value = "";
+      els.customBrandId.value = "";
+      els.brandCustomWrap.classList.remove("show");
       els.playerNote.value = "";
       els.inPlayBetDelay.value = "";
       els.disableCO.checked = false;
       updateUi();
     }
 
+    els.brandId.addEventListener("change", () => {
+      els.brandCustomWrap.classList.toggle("show", els.brandId.value === "__custom");
+      if (els.brandId.value === "__custom") els.customBrandId.focus();
+      updateUi();
+    });
+
     els.category.addEventListener("change", () => {
       els.betFactor.value = BET_FACTORS[els.category.value];
       updateUi();
     });
 
-    [els.accounts, els.brandId, els.playerNote, els.inPlayBetDelay, els.disableCO, els.betFactor].forEach((el) => {
+    [els.accounts, els.brandId, els.customBrandId, els.playerNote, els.inPlayBetDelay, els.disableCO, els.betFactor].forEach((el) => {
       el.addEventListener("input", updateUi);
       el.addEventListener("change", updateUi);
     });
