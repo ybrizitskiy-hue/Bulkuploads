@@ -11,3 +11,9 @@ Static website. Upload the contents of this folder to GitHub Pages or any static
 ## Update in v9
 
 Compact layout so each tool takes less vertical space and requires much less scrolling.
+
+
+Version v11: softened colours and improved searchable dropdown behaviour.
+
+
+Version v12: professional UI cleanup, softer colors, cleaner tab navigation, removed the repeating footer helper card.

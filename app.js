@@ -1,22 +1,22 @@
 
     const CATEGORY_META = [
-      { name: "VIP", factor: "2", color: "#00b313", textColor: "#ffffff" },
-      { name: "PVIP", factor: "1.5", color: "#1e9fe8", textColor: "#ffffff" },
-      { name: "Core", factor: "1.01", color: "#00f947", textColor: "#06120a" },
-      { name: "Unclass", factor: "1", color: "#af09b6", textColor: "#ffffff" },
-      { name: "New★", factor: "1", color: "#8a8a8a", textColor: "#ffffff" },
-      { name: "OpPolicy", factor: "1", color: "#20e2ca", textColor: "#051311" },
-      { name: "SpainClos", factor: "0.99", color: "#ff2a10", textColor: "#ffffff" },
-      { name: "Review", factor: "0.5", color: "#dfff00", textColor: "#101500" },
-      { name: "PPTR", factor: "1", color: "#000000", textColor: "#ffffff" },
-      { name: "Wise", factor: "0.1", color: "#ffc400", textColor: "#171000" },
-      { name: "BonusAbuse", factor: "0.49", color: "#7e2020", textColor: "#ffffff" },
-      { name: "Arbs", factor: "0.01", color: "#ff161d", textColor: "#ffffff" },
-      { name: "Palps", factor: "0.01", color: "#ff161d", textColor: "#ffffff" },
-      { name: "Exchange", factor: "0.01", color: "#ff161d", textColor: "#ffffff" },
-      { name: "Latency", factor: "0.01", color: "#ff161d", textColor: "#ffffff" },
-      { name: "Integrity", factor: "0.01", color: "#ff161d", textColor: "#ffffff" },
-      { name: "Sharp", factor: "0.01", color: "#ff161d", textColor: "#ffffff" }
+      { name: "VIP", factor: "2", color: "#26a641", textColor: "#f7fff9" },
+      { name: "PVIP", factor: "1.5", color: "#3498d8", textColor: "#f7fbff" },
+      { name: "Core", factor: "1.01", color: "#38d66b", textColor: "#06120a" },
+      { name: "Unclass", factor: "1", color: "#a84bb4", textColor: "#fff7ff" },
+      { name: "New★", factor: "1", color: "#8a8f99", textColor: "#ffffff" },
+      { name: "OpPolicy", factor: "1", color: "#36cfc1", textColor: "#061513" },
+      { name: "SpainClos", factor: "0.99", color: "#e6503e", textColor: "#fff8f7" },
+      { name: "Review", factor: "0.5", color: "#cce83a", textColor: "#101500" },
+      { name: "PPTR", factor: "1", color: "#111827", textColor: "#ffffff" },
+      { name: "Wise", factor: "0.1", color: "#e8b930", textColor: "#171000" },
+      { name: "BonusAbuse", factor: "0.49", color: "#7d2f31", textColor: "#ffffff" },
+      { name: "Arbs", factor: "0.01", color: "#d83a41", textColor: "#ffffff" },
+      { name: "Palps", factor: "0.01", color: "#d83a41", textColor: "#ffffff" },
+      { name: "Exchange", factor: "0.01", color: "#d83a41", textColor: "#ffffff" },
+      { name: "Latency", factor: "0.01", color: "#d83a41", textColor: "#ffffff" },
+      { name: "Integrity", factor: "0.01", color: "#d83a41", textColor: "#ffffff" },
+      { name: "Sharp", factor: "0.01", color: "#d83a41", textColor: "#ffffff" }
     ];
 
     const BET_FACTORS = Object.fromEntries(CATEGORY_META.map((item) => [item.name, item.factor]));
@@ -373,6 +373,7 @@
 
     function renderBrandResults() {
       const matches = matchingBrands();
+      const selectedBrand = els.brandId.value.trim().toLowerCase();
       els.brandResults.innerHTML = "";
 
       if (!matches.length) {
@@ -384,7 +385,7 @@
         matches.forEach((brand) => {
           const button = document.createElement("button");
           button.type = "button";
-          button.className = "brand-option";
+          button.className = "brand-option" + (brand.toLowerCase() === selectedBrand ? " selected" : "");
           button.textContent = brand;
           button.addEventListener("mousedown", (event) => {
             event.preventDefault();
@@ -413,7 +414,7 @@
       if (event.key === "Enter") {
         event.preventDefault();
         const first = els.brandResults.querySelector(".brand-option");
-        if (first && els.brandId.value.trim() === "") els.brandId.value = first.textContent;
+        if (first) els.brandId.value = first.textContent;
         hideBrandResults();
         updateUi();
       }
@@ -456,7 +457,7 @@
         matches.forEach((item) => {
           const button = document.createElement("button");
           button.type = "button";
-          button.className = "category-option";
+          button.className = "category-option" + (item.name === selectedCategory ? " selected" : "");
           button.style.setProperty("--option-color", item.color);
           button.innerHTML = `<span class="category-left"><span class="mini-swatch"></span><span>${item.name}</span></span><span class="category-factor">BF ${item.factor}</span>`;
           button.addEventListener("mousedown", (event) => {
@@ -477,8 +478,6 @@
     els.categorySearch.addEventListener("focus", renderCategoryResults);
     els.categorySearch.addEventListener("input", () => {
       renderCategoryResults();
-      const exact = CATEGORY_META.find((item) => item.name.toLowerCase() === els.categorySearch.value.trim().toLowerCase());
-      if (exact) chooseCategory(exact.name);
     });
     els.categorySearch.addEventListener("keydown", (event) => {
       if (event.key === "Escape") hideCategoryResults();
@@ -499,7 +498,8 @@
     });
     els.categorySearchBtn.addEventListener("click", () => {
       els.categorySearch.focus();
-      renderCategoryResults();
+      if (els.categoryResults.classList.contains("show")) hideCategoryResults();
+      else renderCategoryResults();
     });
 
 
