@@ -196,6 +196,17 @@
 
     ::placeholder { color: #6e778b; opacity: 1; }
 
+    .simple-select {
+      appearance: auto;
+      cursor: pointer;
+      background-color: var(--input);
+    }
+
+    .simple-select option {
+      background: #111827;
+      color: #ffffff;
+    }
+
     .factor-box {
       min-height: 86px;
       border: 1px solid color-mix(in srgb, var(--category-color) 30%, rgba(255,255,255,.12));
@@ -871,11 +882,26 @@
           <div class="form-grid">
             <div class="category-picker">
               <label class="caption" for="categorySearch">Upload category</label>
-              <div class="search-control">
-                <input id="categorySearch" autocomplete="off" value="Core" placeholder="Choose or search category" />
-                <button class="search-button" id="categorySearchBtn" type="button" aria-label="Open categories">⌄</button>
-              </div>
-              <div class="category-results" id="categoryResults" role="listbox" aria-label="Category suggestions"></div>
+              <select id="categorySearch" class="simple-select" aria-label="Upload category">
+                  <option value="PVIP">PVIP</option>
+                  <option value="Core" selected>Core</option>
+                  <option value="Unclass">Unclass</option>
+                  <option value="Wise">Wise</option>
+                  <option value="BonusAbuse">BonusAbuse</option>
+                  <option value="VIP">VIP</option>
+                  <option value="New★">New★</option>
+                  <option value="OpPolicy">OpPolicy</option>
+                  <option value="SpainClos">SpainClos</option>
+                  <option value="Review">Review</option>
+                  <option value="PPTR">PPTR</option>
+                  <option value="Arbs">Arbs</option>
+                  <option value="Palps">Palps</option>
+                  <option value="Exchange">Exchange</option>
+                  <option value="Latency">Latency</option>
+                  <option value="Integrity">Integrity</option>
+                  <option value="Sharp">Sharp</option>
+              </select>
+              <div class="brand-hint">PVIP, Core, Unclass, Wise, and BonusAbuse are pinned at the top.</div>
             </div>
 
             <div class="factor-box" id="factorBox">
@@ -1136,23 +1162,23 @@
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script>
     const CATEGORY_META = [
-      { name: "VIP", factor: "2", color: "#2f9d4a", textColor: "#f7fff9" },
-      { name: "PVIP", factor: "1.5", color: "#2f8cc9", textColor: "#f7fbff" },
-      { name: "Core", factor: "1.01", color: "#34b85d", textColor: "#f7fff9" },
-      { name: "Unclass", factor: "1", color: "#9b45a6", textColor: "#fff7ff" },
-      { name: "New★", factor: "1", color: "#777f8d", textColor: "#ffffff" },
-      { name: "OpPolicy", factor: "1", color: "#29b9ad", textColor: "#f7fffe" },
-      { name: "SpainClos", factor: "0.99", color: "#d34d3c", textColor: "#fff8f7" },
-      { name: "Review", factor: "0.5", color: "#bfdc2f", textColor: "#101500" },
-      { name: "PPTR", factor: "1", color: "#0b0f17", textColor: "#ffffff" },
-      { name: "Wise", factor: "0.1", color: "#d6aa2e", textColor: "#171000" },
-      { name: "BonusAbuse", factor: "0.49", color: "#743032", textColor: "#ffffff" },
-      { name: "Arbs", factor: "0.01", color: "#c93c43", textColor: "#ffffff" },
-      { name: "Palps", factor: "0.01", color: "#c93c43", textColor: "#ffffff" },
-      { name: "Exchange", factor: "0.01", color: "#c93c43", textColor: "#ffffff" },
-      { name: "Latency", factor: "0.01", color: "#c93c43", textColor: "#ffffff" },
-      { name: "Integrity", factor: "0.01", color: "#c93c43", textColor: "#ffffff" },
-      { name: "Sharp", factor: "0.01", color: "#c93c43", textColor: "#ffffff" }
+      { name: "PVIP", factor: "1.5", color: "#5aa9e6", textColor: "#f7fbff" },
+      { name: "Core", factor: "1.01", color: "#55c878", textColor: "#06120a" },
+      { name: "Unclass", factor: "1", color: "#a85db4", textColor: "#fff7ff" },
+      { name: "Wise", factor: "0.1", color: "#d8ad3d", textColor: "#171000" },
+      { name: "BonusAbuse", factor: "0.49", color: "#8a3e40", textColor: "#ffffff" },
+      { name: "VIP", factor: "2", color: "#3fa85a", textColor: "#f7fff9" },
+      { name: "New★", factor: "1", color: "#8a8f99", textColor: "#ffffff" },
+      { name: "OpPolicy", factor: "1", color: "#49c9bf", textColor: "#061513" },
+      { name: "SpainClos", factor: "0.99", color: "#d65a4a", textColor: "#fff8f7" },
+      { name: "Review", factor: "0.5", color: "#c7d84a", textColor: "#101500" },
+      { name: "PPTR", factor: "1", color: "#111827", textColor: "#ffffff" },
+      { name: "Arbs", factor: "0.01", color: "#cf454b", textColor: "#ffffff" },
+      { name: "Palps", factor: "0.01", color: "#cf454b", textColor: "#ffffff" },
+      { name: "Exchange", factor: "0.01", color: "#cf454b", textColor: "#ffffff" },
+      { name: "Latency", factor: "0.01", color: "#cf454b", textColor: "#ffffff" },
+      { name: "Integrity", factor: "0.01", color: "#cf454b", textColor: "#ffffff" },
+      { name: "Sharp", factor: "0.01", color: "#cf454b", textColor: "#ffffff" }
     ];
 
     const BET_FACTORS = Object.fromEntries(CATEGORY_META.map((item) => [item.name, item.factor]));
@@ -1564,84 +1590,17 @@
       els.categorySwatch.style.background = meta.color;
     }
 
-    function matchingCategories(forceAll = false) {
-      const query = els.categorySearch.value.trim().toLowerCase();
-      if (forceAll || !query) return CATEGORY_META;
-      return CATEGORY_META.filter((item) => item.name.toLowerCase().includes(query));
-    }
-
     function chooseCategory(name) {
       const meta = CATEGORY_BY_NAME[name] || CATEGORY_BY_NAME.Core;
       selectedCategory = meta.name;
       els.categorySearch.value = meta.name;
       els.betFactor.value = meta.factor;
       applyCategoryStyle();
-      hideCategoryResults();
       updateUi();
     }
 
-    function renderCategoryResults(forceAll = false) {
-      const matches = matchingCategories(forceAll);
-      els.categoryResults.innerHTML = "";
-
-      if (!matches.length) {
-        const empty = document.createElement("div");
-        empty.className = "brand-empty";
-        empty.textContent = "No matching category.";
-        els.categoryResults.appendChild(empty);
-      } else {
-        matches.forEach((item) => {
-          const button = document.createElement("button");
-          button.type = "button";
-          button.className = "category-option" + (item.name === selectedCategory ? " selected" : "");
-          button.style.setProperty("--option-color", item.color);
-          button.innerHTML = `<span class="category-left"><span class="mini-swatch"></span><span>${item.name}</span></span><span class="category-factor">BF ${item.factor}</span>`;
-          button.addEventListener("mousedown", (event) => {
-            event.preventDefault();
-            chooseCategory(item.name);
-          });
-          els.categoryResults.appendChild(button);
-        });
-      }
-
-      els.categoryResults.classList.add("show");
-    }
-
-    function hideCategoryResults() {
-      els.categoryResults.classList.remove("show");
-    }
-
-    els.categorySearch.addEventListener("focus", () => {
-      els.categorySearch.select();
-      renderCategoryResults(true);
-    });
-    els.categorySearch.addEventListener("click", () => {
-      renderCategoryResults(true);
-    });
-    els.categorySearch.addEventListener("input", () => {
-      renderCategoryResults(false);
-    });
-    els.categorySearch.addEventListener("keydown", (event) => {
-      if (event.key === "Escape") hideCategoryResults();
-      if (event.key === "Enter") {
-        event.preventDefault();
-        const first = matchingCategories(false)[0];
-        if (first) chooseCategory(first.name);
-      }
-    });
-    els.categorySearch.addEventListener("blur", () => {
-      setTimeout(() => {
-        const exact = CATEGORY_META.find((item) => item.name.toLowerCase() === els.categorySearch.value.trim().toLowerCase());
-        if (exact) chooseCategory(exact.name);
-        else els.categorySearch.value = selectedCategory;
-        hideCategoryResults();
-        updateUi();
-      }, 120);
-    });
-    els.categorySearchBtn.addEventListener("click", () => {
-      els.categorySearch.focus();
-      if (els.categoryResults.classList.contains("show")) hideCategoryResults();
-      else renderCategoryResults(true);
+    els.categorySearch.addEventListener("change", () => {
+      chooseCategory(els.categorySearch.value);
     });
 
 

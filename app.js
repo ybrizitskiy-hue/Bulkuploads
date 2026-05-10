@@ -1,22 +1,22 @@
 
     const CATEGORY_META = [
-      { name: "VIP", factor: "2", color: "#26a641", textColor: "#f7fff9" },
-      { name: "PVIP", factor: "1.5", color: "#3498d8", textColor: "#f7fbff" },
-      { name: "Core", factor: "1.01", color: "#38d66b", textColor: "#06120a" },
-      { name: "Unclass", factor: "1", color: "#a84bb4", textColor: "#fff7ff" },
+      { name: "PVIP", factor: "1.5", color: "#5aa9e6", textColor: "#f7fbff" },
+      { name: "Core", factor: "1.01", color: "#55c878", textColor: "#06120a" },
+      { name: "Unclass", factor: "1", color: "#a85db4", textColor: "#fff7ff" },
+      { name: "Wise", factor: "0.1", color: "#d8ad3d", textColor: "#171000" },
+      { name: "BonusAbuse", factor: "0.49", color: "#8a3e40", textColor: "#ffffff" },
+      { name: "VIP", factor: "2", color: "#3fa85a", textColor: "#f7fff9" },
       { name: "New★", factor: "1", color: "#8a8f99", textColor: "#ffffff" },
-      { name: "OpPolicy", factor: "1", color: "#36cfc1", textColor: "#061513" },
-      { name: "SpainClos", factor: "0.99", color: "#e6503e", textColor: "#fff8f7" },
-      { name: "Review", factor: "0.5", color: "#cce83a", textColor: "#101500" },
+      { name: "OpPolicy", factor: "1", color: "#49c9bf", textColor: "#061513" },
+      { name: "SpainClos", factor: "0.99", color: "#d65a4a", textColor: "#fff8f7" },
+      { name: "Review", factor: "0.5", color: "#c7d84a", textColor: "#101500" },
       { name: "PPTR", factor: "1", color: "#111827", textColor: "#ffffff" },
-      { name: "Wise", factor: "0.1", color: "#e8b930", textColor: "#171000" },
-      { name: "BonusAbuse", factor: "0.49", color: "#7d2f31", textColor: "#ffffff" },
-      { name: "Arbs", factor: "0.01", color: "#d83a41", textColor: "#ffffff" },
-      { name: "Palps", factor: "0.01", color: "#d83a41", textColor: "#ffffff" },
-      { name: "Exchange", factor: "0.01", color: "#d83a41", textColor: "#ffffff" },
-      { name: "Latency", factor: "0.01", color: "#d83a41", textColor: "#ffffff" },
-      { name: "Integrity", factor: "0.01", color: "#d83a41", textColor: "#ffffff" },
-      { name: "Sharp", factor: "0.01", color: "#d83a41", textColor: "#ffffff" }
+      { name: "Arbs", factor: "0.01", color: "#cf454b", textColor: "#ffffff" },
+      { name: "Palps", factor: "0.01", color: "#cf454b", textColor: "#ffffff" },
+      { name: "Exchange", factor: "0.01", color: "#cf454b", textColor: "#ffffff" },
+      { name: "Latency", factor: "0.01", color: "#cf454b", textColor: "#ffffff" },
+      { name: "Integrity", factor: "0.01", color: "#cf454b", textColor: "#ffffff" },
+      { name: "Sharp", factor: "0.01", color: "#cf454b", textColor: "#ffffff" }
     ];
 
     const BET_FACTORS = Object.fromEntries(CATEGORY_META.map((item) => [item.name, item.factor]));
@@ -428,84 +428,17 @@
       els.categorySwatch.style.background = meta.color;
     }
 
-    function matchingCategories(forceAll = false) {
-      const query = els.categorySearch.value.trim().toLowerCase();
-      if (forceAll || !query) return CATEGORY_META;
-      return CATEGORY_META.filter((item) => item.name.toLowerCase().includes(query));
-    }
-
     function chooseCategory(name) {
       const meta = CATEGORY_BY_NAME[name] || CATEGORY_BY_NAME.Core;
       selectedCategory = meta.name;
       els.categorySearch.value = meta.name;
       els.betFactor.value = meta.factor;
       applyCategoryStyle();
-      hideCategoryResults();
       updateUi();
     }
 
-    function renderCategoryResults(forceAll = false) {
-      const matches = matchingCategories(forceAll);
-      els.categoryResults.innerHTML = "";
-
-      if (!matches.length) {
-        const empty = document.createElement("div");
-        empty.className = "brand-empty";
-        empty.textContent = "No matching category.";
-        els.categoryResults.appendChild(empty);
-      } else {
-        matches.forEach((item) => {
-          const button = document.createElement("button");
-          button.type = "button";
-          button.className = "category-option" + (item.name === selectedCategory ? " selected" : "");
-          button.style.setProperty("--option-color", item.color);
-          button.innerHTML = `<span class="category-left"><span class="mini-swatch"></span><span>${item.name}</span></span><span class="category-factor">BF ${item.factor}</span>`;
-          button.addEventListener("mousedown", (event) => {
-            event.preventDefault();
-            chooseCategory(item.name);
-          });
-          els.categoryResults.appendChild(button);
-        });
-      }
-
-      els.categoryResults.classList.add("show");
-    }
-
-    function hideCategoryResults() {
-      els.categoryResults.classList.remove("show");
-    }
-
-    els.categorySearch.addEventListener("focus", () => {
-      els.categorySearch.select();
-      renderCategoryResults(true);
-    });
-    els.categorySearch.addEventListener("click", () => {
-      renderCategoryResults(true);
-    });
-    els.categorySearch.addEventListener("input", () => {
-      renderCategoryResults(false);
-    });
-    els.categorySearch.addEventListener("keydown", (event) => {
-      if (event.key === "Escape") hideCategoryResults();
-      if (event.key === "Enter") {
-        event.preventDefault();
-        const first = matchingCategories(false)[0];
-        if (first) chooseCategory(first.name);
-      }
-    });
-    els.categorySearch.addEventListener("blur", () => {
-      setTimeout(() => {
-        const exact = CATEGORY_META.find((item) => item.name.toLowerCase() === els.categorySearch.value.trim().toLowerCase());
-        if (exact) chooseCategory(exact.name);
-        else els.categorySearch.value = selectedCategory;
-        hideCategoryResults();
-        updateUi();
-      }, 120);
-    });
-    els.categorySearchBtn.addEventListener("click", () => {
-      els.categorySearch.focus();
-      if (els.categoryResults.classList.contains("show")) hideCategoryResults();
-      else renderCategoryResults(true);
+    els.categorySearch.addEventListener("change", () => {
+      chooseCategory(els.categorySearch.value);
     });
 
 
