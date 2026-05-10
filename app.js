@@ -428,9 +428,9 @@
       els.categorySwatch.style.background = meta.color;
     }
 
-    function matchingCategories() {
+    function matchingCategories(forceAll = false) {
       const query = els.categorySearch.value.trim().toLowerCase();
-      if (!query) return CATEGORY_META;
+      if (forceAll || !query) return CATEGORY_META;
       return CATEGORY_META.filter((item) => item.name.toLowerCase().includes(query));
     }
 
@@ -444,8 +444,8 @@
       updateUi();
     }
 
-    function renderCategoryResults() {
-      const matches = matchingCategories();
+    function renderCategoryResults(forceAll = false) {
+      const matches = matchingCategories(forceAll);
       els.categoryResults.innerHTML = "";
 
       if (!matches.length) {
@@ -475,15 +475,21 @@
       els.categoryResults.classList.remove("show");
     }
 
-    els.categorySearch.addEventListener("focus", renderCategoryResults);
+    els.categorySearch.addEventListener("focus", () => {
+      els.categorySearch.select();
+      renderCategoryResults(true);
+    });
+    els.categorySearch.addEventListener("click", () => {
+      renderCategoryResults(true);
+    });
     els.categorySearch.addEventListener("input", () => {
-      renderCategoryResults();
+      renderCategoryResults(false);
     });
     els.categorySearch.addEventListener("keydown", (event) => {
       if (event.key === "Escape") hideCategoryResults();
       if (event.key === "Enter") {
         event.preventDefault();
-        const first = matchingCategories()[0];
+        const first = matchingCategories(false)[0];
         if (first) chooseCategory(first.name);
       }
     });
@@ -499,7 +505,7 @@
     els.categorySearchBtn.addEventListener("click", () => {
       els.categorySearch.focus();
       if (els.categoryResults.classList.contains("show")) hideCategoryResults();
-      else renderCategoryResults();
+      else renderCategoryResults(true);
     });
 
 
