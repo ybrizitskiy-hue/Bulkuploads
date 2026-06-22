@@ -7,447 +7,531 @@
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <style>
     :root {
-      --bg: #f4f7fb;
-      --surface: #ffffff;
-      --surface-2: #eef4fb;
-      --text: #172033;
-      --muted: #65758b;
-      --border: #dbe5f0;
-      --primary: #3867d6;
-      --primary-2: #2f5ec7;
-      --danger: #c94b4b;
-      --success: #178c5a;
+      --bg: #171d2b;
+      --panel: rgba(39, 45, 64, 0.96);
+      --panel-2: #20283a;
+      --input: #0b1220;
+      --input-2: #151d2d;
+      --line: rgba(215,225,245,.10);
+      --muted: #aeb7c8;
+      --muted-2: #828ca1;
+      --green: #42c86b;
+      --green-2: #56d47b;
+      --cyan: #2f9bb1;
+      --text: #f7f9ff;
+      --danger: #ff7373;
       --category-color: #55c878;
       --factor-text-color: #06120a;
-      --shadow: 0 12px 34px rgba(26, 44, 74, 0.10);
-      --radius: 18px;
-      --radius-sm: 12px;
-      color-scheme: light;
+      --shadow: 0 18px 48px rgba(0,0,0,.24);
+      --radius: 22px;
     }
 
     * { box-sizing: border-box; }
+    html, body { min-height: 100%; }
 
     body {
       margin: 0;
-      min-height: 100vh;
-      background: radial-gradient(circle at top left, #e9f0ff 0, transparent 34rem), var(--bg);
+      background: var(--bg);
       color: var(--text);
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: Inter, "Segoe UI", Roboto, Arial, Helvetica, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      left: -150px;
+      top: -70px;
+      width: 440px;
+      height: 560px;
+      transform: rotate(-39deg);
+      background: linear-gradient(180deg, rgba(66,200,107,.18), rgba(47,155,177,.14));
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      right: -135px;
+      bottom: -120px;
+      width: 560px;
+      height: 390px;
+      background-image: radial-gradient(circle, rgba(40,214,238,.9) 1.5px, transparent 2px);
+      background-size: 18px 18px;
+      opacity: .075;
+      pointer-events: none;
+      z-index: 0;
     }
 
     button, input, textarea, select { font: inherit; }
 
     .page {
-      width: min(1180px, calc(100% - 32px));
+      position: relative;
+      z-index: 1;
+      width: min(1360px, calc(100% - 64px));
       margin: 0 auto;
-      padding: 28px 0 40px;
+      padding: 28px 0 34px;
     }
 
     .topbar {
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 18px;
+      align-items: flex-start;
+      gap: 24px;
+      margin-bottom: 26px;
     }
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      min-width: 0;
-    }
-
-    .brand-mark {
-      width: 46px;
-      height: 46px;
-      border-radius: 14px;
-      display: grid;
-      place-items: center;
-      color: white;
-      font-weight: 800;
-      background: linear-gradient(135deg, #3867d6, #55c878);
-      box-shadow: var(--shadow);
-      letter-spacing: -0.04em;
-    }
-
-    .eyebrow {
-      margin: 0 0 2px;
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
+    .badge {
+      display: inline-flex;
+      border: 1px solid #4d6375;
+      background: #12303d;
+      border-radius: 999px;
+      padding: 7px 13px;
+      font-size: 13px;
+      font-weight: 750;
+      letter-spacing: -.02em;
+      box-shadow: 0 10px 30px rgba(0,0,0,.25);
+      margin-bottom: 14px;
     }
 
     h1 {
       margin: 0;
-      font-size: clamp(27px, 4vw, 46px);
-      letter-spacing: -0.055em;
-      line-height: 1.02;
+      font-size: clamp(34px, 4vw, 48px);
+      letter-spacing: -.045em;
+      line-height: 1;
+      font-weight: 750;
     }
 
-    .subhead {
-      margin: 8px 0 0;
-      max-width: 760px;
+    .subtitle {
+      margin: 14px 0 0;
+      max-width: 870px;
       color: var(--muted);
+      font-weight: 650;
+      line-height: 1.48;
       font-size: 15px;
-      line-height: 1.55;
     }
 
-    .btn {
+    .reset-btn {
       border: 0;
-      border-radius: 999px;
-      padding: 11px 16px;
-      font-weight: 800;
+      color: #fff;
+      background: var(--input-2);
+      border-radius: 16px;
+      padding: 14px 20px;
+      font-weight: 750;
+      box-shadow: 0 10px 30px rgba(0,0,0,.25);
+      outline: 1px solid var(--line);
       cursor: pointer;
-      background: var(--primary);
-      color: white;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      box-shadow: 0 10px 22px rgba(56, 103, 214, 0.22);
-      transition: transform .15s ease, background .15s ease, opacity .15s ease;
-    }
-
-    .btn:hover:not(:disabled) { transform: translateY(-1px); background: var(--primary-2); }
-    .btn:disabled { opacity: .48; cursor: not-allowed; box-shadow: none; }
-    .btn.secondary { background: #e9eef7; color: var(--text); box-shadow: none; }
-    .btn.ghost { background: transparent; color: var(--text); border: 1px solid var(--border); box-shadow: none; }
-    .btn.danger { background: #fff0f0; color: #9c3131; box-shadow: none; }
-
-    .tabs {
-      margin: 22px 0;
-      display: flex;
-      gap: 8px;
-      padding: 6px;
-      background: rgba(255, 255, 255, .72);
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      width: fit-content;
-      max-width: 100%;
-      overflow-x: auto;
-      box-shadow: var(--shadow);
-    }
-
-    .tab {
-      border: 0;
-      background: transparent;
-      color: var(--muted);
-      border-radius: 999px;
-      padding: 10px 14px;
-      font-weight: 800;
-      cursor: pointer;
+      transition: .16s ease;
       white-space: nowrap;
     }
 
-    .tab.active {
-      color: white;
-      background: var(--primary);
-      box-shadow: 0 8px 18px rgba(56, 103, 214, .24);
+    .reset-btn:hover { background: #1f2840; transform: translateY(-1px); }
+
+    .tool-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 22px;
     }
+
+    .tool-tab {
+      border: 1px solid var(--line);
+      color: var(--muted);
+      background: rgba(21,29,45,.78);
+      border-radius: 16px;
+      padding: 13px 18px;
+      font-weight: 750;
+      cursor: pointer;
+      transition: .16s ease;
+      box-shadow: 0 10px 24px rgba(0,0,0,.14);
+    }
+
+    .tool-tab:hover { color: #fff; background: #1f2840; }
+    .tool-tab.active { color: #07120c; background: var(--green); border-color: rgba(66,200,107,.65); }
 
     .grid {
       display: grid;
-      grid-template-columns: minmax(0, 1.1fr) minmax(320px, .9fr);
-      gap: 18px;
+      grid-template-columns: minmax(0, 1.05fr) minmax(420px, .95fr);
+      gap: 22px;
       align-items: start;
     }
 
     .card {
-      background: rgba(255, 255, 255, .86);
-      border: 1px solid var(--border);
+      border: 1px solid var(--line);
+      background: var(--panel);
       border-radius: var(--radius);
-      padding: 18px;
       box-shadow: var(--shadow);
+      overflow: visible;
+      backdrop-filter: blur(6px);
     }
 
-    .section-title {
-      margin: 0 0 14px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 17px;
-      letter-spacing: -0.02em;
+    .card-title {
+      border-bottom: 1px solid var(--line);
+      padding: 14px 18px;
+      font-size: 18px;
+      font-weight: 750;
+      letter-spacing: -.01em;
     }
 
-    .section-title .icon {
-      width: 34px;
-      height: 34px;
-      border-radius: 11px;
-      background: var(--surface-2);
-      display: grid;
-      place-items: center;
-      color: var(--primary);
-    }
+    .card-body { padding: 22px; position: relative; }
+    #generatorPanel .grid .card:first-child { position: relative; z-index: 30; }
+    #generatorPanel .grid .card:last-child { position: relative; z-index: 1; }
 
     .form-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
     }
 
-    .field { position: relative; }
-    .field.full { grid-column: 1 / -1; }
+    .full { grid-column: 1 / -1; }
 
-    label {
+    label.caption, .caption {
       display: block;
+      margin-bottom: 8px;
+      color: #d5d9e5;
       font-size: 12px;
-      font-weight: 900;
-      color: #334155;
-      margin-bottom: 7px;
-      letter-spacing: .01em;
+      line-height: 1;
+      text-transform: uppercase;
+      font-weight: 750;
+      letter-spacing: .03em;
     }
 
-    .hint {
-      margin: 7px 0 0;
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.4;
-    }
-
-    input[type="text"], input[type="number"], textarea, select {
+    select, input, textarea {
       width: 100%;
-      border: 1px solid var(--border);
-      background: #fbfdff;
-      color: var(--text);
-      border-radius: var(--radius-sm);
-      padding: 12px 13px;
+      color: white;
+      background: var(--input);
+      border: 1px solid var(--line);
+      border-radius: 16px;
       outline: none;
-      transition: border-color .15s ease, box-shadow .15s ease, background .15s ease;
+      font-weight: 700;
+      transition: border-color .15s ease, box-shadow .15s ease;
     }
 
-    input:focus, textarea:focus, select:focus {
-      border-color: rgba(56, 103, 214, .55);
-      box-shadow: 0 0 0 4px rgba(56, 103, 214, .11);
-      background: white;
+    select, input { height: 54px; padding: 0 15px; }
+    textarea { min-height: 232px; resize: vertical; padding: 15px; line-height: 1.55; }
+    textarea.note-field { min-height: 112px; }
+
+    select:focus, input:focus, textarea:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px rgba(67,214,107,.08);
     }
 
-    textarea {
-      min-height: 168px;
-      resize: vertical;
-      line-height: 1.42;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      font-size: 13px;
-    }
+    textarea.invalid { border-color: var(--danger); box-shadow: 0 0 0 3px rgba(255,115,115,.10); }
+    ::placeholder { color: #6e778b; opacity: 1; }
 
-    textarea.small { min-height: 86px; font-family: inherit; }
-    .invalid { border-color: rgba(201, 75, 75, .85) !important; box-shadow: 0 0 0 4px rgba(201, 75, 75, .10) !important; }
-    .error { display: none; color: var(--danger); font-size: 12px; font-weight: 800; margin-top: 7px; }
-    .error.show { display: block; }
+    .simple-select { appearance: auto; cursor: pointer; background-color: var(--input); }
+    .simple-select option { background: #111827; color: #ffffff; }
 
-    .category-row {
-      display: grid;
-      grid-template-columns: 34px minmax(0, 1fr);
-      gap: 8px;
-      align-items: center;
-    }
+    .category-wrap, .brand-wrap { position: relative; }
+    .category-search-row { position: relative; display: flex; align-items: center; gap: 10px; }
+    .category-search-row select { padding-left: 48px; }
 
-    .swatch {
-      width: 34px;
-      height: 34px;
-      border-radius: 11px;
-      background: var(--category-color);
-      border: 1px solid rgba(0,0,0,.08);
-    }
-
-    .category-results, .brand-results {
+    .category-swatch {
       position: absolute;
+      left: 14px;
+      width: 22px;
+      height: 22px;
+      flex: 0 0 auto;
+      border-radius: 7px;
+      background: var(--category-color);
+      box-shadow: 0 0 0 1px rgba(255,255,255,.18);
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .factor-box {
+      min-height: 86px;
+      border: 1px solid color-mix(in srgb, var(--category-color) 30%, rgba(255,255,255,.12));
+      background: color-mix(in srgb, var(--category-color) 8%, #20283a);
+      border-radius: 16px;
+      padding: 13px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.025);
+      transition: border-color .15s ease, background .15s ease;
+    }
+
+    .factor-line { display: flex; align-items: center; gap: 12px; margin-top: 7px; }
+    .factor-box .category-swatch { position: static; width: 28px; height: 28px; }
+
+    .factor-input {
+      height: 44px;
+      padding: 0 8px;
+      border: 0;
+      border-radius: 10px;
+      background: rgba(7,12,22,.52);
+      color: #f7f9ff;
+      font-size: 32px;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -.04em;
+      box-shadow: none;
+      text-shadow: none;
+    }
+
+    .factor-input:focus { border: 0; box-shadow: none; }
+
+    .hint, .brand-hint {
+      margin: 7px 0 0;
+      color: var(--muted-2);
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+
+    .brand-results, .category-results {
+      display: none;
+      position: absolute;
+      z-index: 40;
+      top: calc(100% + 8px);
       left: 0;
       right: 0;
-      top: calc(100% + 6px);
-      z-index: 20;
-      display: none;
-      max-height: 220px;
+      max-height: 260px;
       overflow: auto;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      background: white;
-      box-shadow: var(--shadow);
-      padding: 6px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: #151d2d;
+      border-radius: 16px;
+      padding: 8px;
+      box-shadow: 0 22px 46px rgba(0,0,0,.36);
     }
 
-    .category-results.show, .brand-results.show { display: block; }
+    .brand-results.show, .category-results.show { display: block; }
     .brand-option, .category-option {
-      display: block;
       width: 100%;
       border: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 12px;
+      color: #f7f9ff;
       background: transparent;
-      border-radius: 10px;
-      padding: 9px 10px;
-      text-align: left;
+      border-radius: 12px;
       cursor: pointer;
+      font-weight: 750;
+      text-align: left;
+    }
+
+    .brand-option:hover, .brand-option.selected, .category-option:hover, .category-option.selected { background: #20283a; }
+    .brand-empty { padding: 12px; color: var(--muted-2); font-weight: 750; }
+
+    .toggle-switch {
+      height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      align-self: end;
+      border: 1px solid var(--line);
+      background: #20283a;
+      border-radius: 16px;
+      padding: 0 16px;
+      font-weight: 750;
+      cursor: pointer;
+      user-select: none;
+      transition: .15s ease;
+    }
+
+    .toggle-switch:hover { background: #263047; }
+    .toggle-switch input { position: absolute; opacity: 0; pointer-events: none; }
+
+    .switch-track {
+      position: relative;
+      width: 72px;
+      height: 34px;
+      flex: 0 0 auto;
+      border-radius: 999px;
+      background: #111827;
+      border: 1px solid rgba(255,255,255,.13);
+      box-shadow: inset 0 0 16px rgba(0,0,0,.30);
+      transition: .18s ease;
+    }
+
+    .switch-track::before {
+      content: "NO";
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #9aa4b8;
+      font-size: 11px;
+      font-weight: 750;
+    }
+
+    .switch-thumb {
+      position: absolute;
+      left: 4px;
+      top: 4px;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: #7d879c;
+      transition: .18s ease;
+      box-shadow: 0 6px 14px rgba(0,0,0,.35);
+    }
+
+    .toggle-switch input:checked + .switch-track {
+      background: rgba(69,255,104,.18);
+      border-color: rgba(69,255,104,.55);
+    }
+
+    .toggle-switch input:checked + .switch-track::before {
+      content: "YES";
+      left: 10px;
+      right: auto;
+      color: var(--green);
+    }
+
+    .toggle-switch input:checked + .switch-track .switch-thumb {
+      transform: translateX(38px);
+      background: var(--green);
+    }
+
+    .button-row { display: flex; gap: 12px; margin-top: 2px; }
+
+    .primary-btn, .secondary-btn, .danger-btn {
+      height: 54px;
+      border: 0;
+      border-radius: 16px;
+      padding: 0 20px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-weight: 750;
+      font-size: 15px;
+      cursor: pointer;
+      transition: .16s ease;
+      white-space: nowrap;
+    }
+
+    .primary-btn { flex: 1; background: #3aa861; color: #07120c; box-shadow: 0 10px 22px rgba(0,0,0,.16); }
+    .primary-btn:hover:not(:disabled) { background: #45b76d; transform: translateY(-1px); }
+    .secondary-btn { background: var(--input-2); color: white; outline: 1px solid var(--line); }
+    .secondary-btn:hover:not(:disabled) { background: #1f2840; }
+    .danger-btn { background: rgba(255,115,115,.12); color: #ffd4d4; outline: 1px solid rgba(255,115,115,.20); }
+    .danger-btn:hover:not(:disabled) { background: rgba(255,115,115,.18); }
+    button:disabled { cursor: not-allowed; opacity: .42; }
+
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+
+    .stat {
+      border: 1px solid rgba(255,255,255,.06);
+      background: var(--panel-2);
+      border-radius: 18px;
+      padding: 16px;
+    }
+
+    .stat-label { color: var(--muted-2); font-size: 12px; font-weight: 750; text-transform: uppercase; letter-spacing: .03em; }
+    .stat-value { margin-top: 5px; font-size: 30px; font-weight: 850; line-height: 1; letter-spacing: -.04em; }
+
+    .info-box {
+      margin-top: 16px;
+      padding: 15px 16px;
+      border-radius: 18px;
+      border: 1px solid rgba(66,200,107,.18);
+      background: rgba(66,200,107,.08);
+      color: #d9ffe1;
       font-weight: 700;
-      color: var(--text);
+      line-height: 1.45;
     }
 
-    .brand-option:hover, .brand-option.selected, .category-option:hover { background: var(--surface-2); }
-    .brand-empty { padding: 10px; color: var(--muted); font-size: 13px; line-height: 1.35; }
+    .info-title { margin: 0 0 5px; color: white; font-weight: 800; }
+    .info-text { margin: 0; color: var(--muted); }
 
-    .toggles {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-      grid-column: 1 / -1;
-    }
+    .settings-list { display: grid; gap: 10px; margin-top: 16px; }
 
-    .toggle-card {
-      border: 1px solid var(--border);
-      background: #fbfdff;
-      border-radius: 15px;
-      padding: 13px 14px;
+    .setting-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-    }
-
-    .toggle-copy b { display: block; font-size: 13px; }
-    .toggle-copy span { display: block; color: var(--muted); font-size: 12px; margin-top: 2px; }
-
-    .switch {
-      position: relative;
-      display: inline-flex;
-      width: 48px;
-      height: 28px;
-      flex: 0 0 auto;
-    }
-
-    .switch input { opacity: 0; width: 0; height: 0; }
-    .slider {
-      position: absolute;
-      inset: 0;
-      cursor: pointer;
-      border-radius: 999px;
-      background: #cbd5e1;
-      transition: .18s ease;
-    }
-
-    .slider:before {
-      content: "";
-      position: absolute;
-      width: 22px;
-      height: 22px;
-      left: 3px;
-      top: 3px;
-      border-radius: 50%;
-      background: white;
-      box-shadow: 0 2px 8px rgba(15, 23, 42, .22);
-      transition: .18s ease;
-    }
-
-    .switch input:checked + .slider { background: var(--primary); }
-    .switch input:checked + .slider:before { transform: translateX(20px); }
-
-    .actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 16px;
-    }
-
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin-bottom: 12px;
-    }
-
-    .stat {
-      background: #fbfdff;
-      border: 1px solid var(--border);
-      border-radius: 15px;
-      padding: 12px;
-    }
-
-    .stat .label { color: var(--muted); font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: .08em; }
-    .stat .value { margin-top: 4px; font-size: 24px; font-weight: 900; letter-spacing: -0.04em; }
-
-    .status {
-      display: flex;
-      align-items: flex-start;
-      gap: 11px;
-      padding: 13px;
+      padding: 12px 13px;
+      border: 1px solid rgba(255,255,255,.06);
+      background: rgba(15,23,42,.40);
       border-radius: 16px;
-      background: var(--surface-2);
-      border: 1px solid var(--border);
-      margin-bottom: 12px;
     }
 
-    .status-icon {
-      width: 31px;
-      height: 31px;
-      border-radius: 11px;
-      display: grid;
-      place-items: center;
-      background: white;
-      color: var(--success);
-      font-weight: 900;
-      flex: 0 0 auto;
+    .setting-row strong { font-size: 13px; }
+    .setting-row small { display: block; margin-top: 3px; color: var(--muted-2); font-weight: 700; }
+
+    .pill {
+      max-width: 62%;
+      color: #06120a;
+      background: var(--green);
+      border-radius: 999px;
+      padding: 7px 10px;
+      font-size: 12px;
+      font-weight: 850;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
-    .status-title { margin: 0 0 3px; font-weight: 900; }
-    .status-text { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.4; white-space: pre-line; }
-
-    .pill-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
-      margin-bottom: 12px;
-    }
-
-    .pill-card {
-      border: 1px solid var(--border);
-      background: #fbfdff;
-      border-radius: 14px;
-      padding: 11px 12px;
-      min-width: 0;
-    }
-
-    .pill-card .k { color: var(--muted); font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: .06em; }
-    .pill-card .d { color: var(--muted); font-size: 11px; margin-top: 3px; }
-    .pill-card .v { margin-top: 7px; font-weight: 900; overflow-wrap: anywhere; }
-
+    .preview-title { display: flex; align-items: center; gap: 9px; margin: 18px 0 10px; font-weight: 800; }
     pre {
       margin: 0;
-      padding: 14px;
-      border-radius: 15px;
-      border: 1px solid var(--border);
-      background: #0f172a;
-      color: #dbeafe;
-      min-height: 160px;
+      min-height: 188px;
+      max-height: 360px;
       overflow: auto;
       white-space: pre;
-      font: 12px/1.45 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.08);
+      background: #0b1220;
+      color: #dbeafe;
+      padding: 16px;
+      font-size: 13px;
+      line-height: 1.5;
+      box-shadow: inset 0 0 30px rgba(0,0,0,.22);
     }
 
-    .drop {
-      border: 1.8px dashed #adc0da;
-      border-radius: var(--radius);
-      background: #fbfdff;
-      padding: 24px;
-      text-align: center;
+    .drop-zone {
+      min-height: 180px;
+      border: 1px dashed rgba(255,255,255,.22);
+      background: rgba(11,18,32,.68);
+      border-radius: 18px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 9px;
+      color: var(--muted);
       cursor: pointer;
-      transition: background .15s ease, border-color .15s ease;
+      transition: .16s ease;
     }
 
-    .drop.dragover {
-      background: #edf4ff;
-      border-color: var(--primary);
-    }
+    .drop-zone strong { color: #fff; font-size: 18px; }
+    .drop-zone.dragover, .drop-zone:hover { border-color: rgba(66,200,107,.65); background: rgba(66,200,107,.08); }
+    .file-name { margin-top: 8px; color: var(--green); font-weight: 800; }
 
-    .drop strong { display: block; font-size: 16px; margin-bottom: 6px; }
-    .drop span { color: var(--muted); font-size: 13px; line-height: 1.4; }
-    .file-name { margin-top: 10px; color: var(--muted); font-size: 13px; font-weight: 700; }
+    .error {
+      display: none;
+      margin-top: 10px;
+      color: #ffd4d4;
+      background: rgba(255,115,115,.11);
+      border: 1px solid rgba(255,115,115,.25);
+      border-radius: 13px;
+      padding: 10px 12px;
+      font-weight: 750;
+      line-height: 1.35;
+    }
+    .error.show { display: block; }
+
     .hidden { display: none !important; }
 
     .toast {
       position: fixed;
       left: 50%;
       bottom: 24px;
-      transform: translate(-50%, 12px);
-      background: #111827;
-      color: white;
+      transform: translate(-50%, 16px);
+      z-index: 100;
+      background: var(--green);
+      color: #07120c;
       border-radius: 999px;
       padding: 11px 17px;
       font-weight: 900;
@@ -456,258 +540,262 @@
       transition: opacity .18s ease, transform .18s ease;
       box-shadow: var(--shadow);
     }
-
     .toast.show { opacity: 1; transform: translate(-50%, 0); }
 
-    @media (max-width: 860px) {
-      .topbar { align-items: flex-start; flex-direction: column; }
+    @media (max-width: 980px) {
+      .page { width: min(100% - 32px, 1360px); }
       .grid { grid-template-columns: 1fr; }
-      .form-grid, .toggles, .pill-grid { grid-template-columns: 1fr; }
-      .stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-      .tabs { width: 100%; }
+    }
+
+    @media (max-width: 760px) {
+      .topbar { flex-direction: column; }
+      .form-grid, .stats { grid-template-columns: 1fr; }
+      .button-row { flex-direction: column; }
+      .secondary-btn, .danger-btn { width: 100%; }
+      .setting-row { align-items: flex-start; flex-direction: column; }
+      .pill { max-width: 100%; text-align: left; }
+      body::before { opacity: .55; }
     }
 
     @media (max-width: 520px) {
-      .page { width: min(100% - 20px, 1180px); padding-top: 18px; }
-      .stats { grid-template-columns: 1fr; }
-      .card { padding: 14px; }
-      .btn { width: 100%; justify-content: center; }
+      .page { width: min(100% - 20px, 1360px); padding-top: 18px; }
+      .tool-tab { width: 100%; }
+      .card-body { padding: 16px; }
     }
   </style>
 </head>
 <body>
-  <div class="page">
-    <header class="topbar">
+  <main class="page">
+    <section class="topbar">
       <div>
-        <div class="brand">
-          <div class="brand-mark">YB</div>
-          <div>
-            <p class="eyebrow">Y.B.Project ARC</p>
-            <h1>Bulk Uploads Helper</h1>
-          </div>
-        </div>
-        <p class="subhead">Create and prepare upload files in three focused tools: generate player CSVs, split ready files, or format automated bet notes.</p>
+        <div class="badge">Y.B.Project ARC</div>
+        <h1>Bulk Uploads Helper</h1>
+        <p class="subtitle">Create and prepare upload files in three focused tools: generate player CSVs, split ready files, or format automated bet notes.</p>
       </div>
-      <button class="btn ghost" type="button" id="resetBtn">Reset form</button>
-    </header>
+      <button class="reset-btn" id="resetBtn" type="button">Reset form</button>
+    </section>
 
-    <nav class="tabs" aria-label="Tools">
-      <button class="tab active" type="button" id="generatorTab">Bulk Uploads Generator</button>
-      <button class="tab" type="button" id="cutterTab">File Cutter</button>
-      <button class="tab" type="button" id="betnotesTab">Auto Betnotes Format+Cut</button>
-    </nav>
+    <section class="tool-tabs" aria-label="Tools">
+      <button class="tool-tab active" id="generatorTab" type="button">Bulk Uploads Generator</button>
+      <button class="tool-tab" id="cutterTab" type="button">File Cutter</button>
+      <button class="tool-tab" id="betnotesTab" type="button">Auto Betnotes Format+Cut</button>
+    </section>
 
-    <section id="generatorPanel" class="grid">
-      <div class="card">
-        <h2 class="section-title"><span class="icon">↥</span> Upload CSV setup</h2>
-        <div class="form-grid">
-          <div class="field">
-            <label for="categorySearch">Upload category</label>
-            <div class="category-row">
-              <span class="swatch" id="categorySwatch" aria-hidden="true"></span>
-              <select id="categorySearch">
-                <option>PVIP</option>
-                <option selected>Core</option>
-                <option>Unclass</option>
-                <option>Wise</option>
-                <option>BonusAbuse</option>
-                <option>VIP</option>
-                <option>New★</option>
-                <option>OpPolicy</option>
-                <option>SpainClos</option>
-                <option>Review</option>
-                <option>PPTR</option>
-                <option>Arbs</option>
-                <option>Palps</option>
-                <option>Exchange</option>
-                <option>Latency</option>
-                <option>Integrity</option>
-                <option>Sharp</option>
-              </select>
-            </div>
-            <button class="hidden" type="button" id="categorySearchBtn">Search</button>
-            <div class="category-results" id="categoryResults"></div>
-            <p class="hint">PVIP, Core, Unclass, Wise, and BonusAbuse are pinned at the top.</p>
-          </div>
-
-          <div class="field">
-            <label for="betFactor">Bet factor</label>
-            <input id="betFactor" type="text" value="1.01" />
-            <div class="hidden" id="factorBox"></div>
-            <p class="hint">Pre-filled by category, but you can change it.</p>
-          </div>
-
-          <div class="field">
-            <label for="brandId">Brand ID</label>
-            <input id="brandId" type="text" autocomplete="off" placeholder="e.g. daznbetes" />
-            <div class="brand-results" id="brandResults"></div>
-            <p class="hint">Search existing brands or type a custom value.</p>
-          </div>
-
-          <div class="field">
-            <label for="inPlayBetDelay">In-play bet delay</label>
-            <input id="inPlayBetDelay" type="text" placeholder="empty by default" />
-          </div>
-
-          <div class="field full">
-            <label for="accounts">Player IDs / accounts</label>
-            <textarea id="accounts" placeholder="Paste player IDs here. Use new lines, spaces, commas, semicolons, or tabs."></textarea>
-          </div>
-
-          <div class="field full">
-            <label for="playerNote">Player note</label>
-            <textarea class="small" id="playerNote" placeholder="Mandatory, minimum 5 symbols"></textarea>
-            <div class="error" id="playerNoteError">Player note is mandatory and must contain at least 5 symbols.</div>
-          </div>
-
-          <div class="field">
-            <label for="playerNotePriority">Player note priority</label>
-            <select id="playerNotePriority">
-              <option value="3">Positive</option>
-              <option value="2" selected>Neutral</option>
-              <option value="1">Negative</option>
-            </select>
-            <span class="hidden" id="priorityPill"></span>
-          </div>
-
-          <div class="toggles">
-            <div class="toggle-card">
-              <div class="toggle-copy">
-                <b>Disable CO</b>
-                <span>Writes TRUE in disableCO.</span>
+    <section id="generatorPanel">
+      <div class="grid">
+        <div class="card">
+          <div class="card-title">Upload CSV setup</div>
+          <div class="card-body">
+            <div class="form-grid">
+              <div class="full category-wrap">
+                <label class="caption" for="categorySearch">Upload category</label>
+                <div class="category-search-row">
+                  <span class="category-swatch" id="categorySwatch" aria-hidden="true"></span>
+                  <select class="simple-select" id="categorySearch">
+                    <option>PVIP</option>
+                    <option selected>Core</option>
+                    <option>Unclass</option>
+                    <option>Wise</option>
+                    <option>BonusAbuse</option>
+                    <option>VIP</option>
+                    <option>New★</option>
+                    <option>OpPolicy</option>
+                    <option>SpainClos</option>
+                    <option>Review</option>
+                    <option>PPTR</option>
+                    <option>Arbs</option>
+                    <option>Palps</option>
+                    <option>Exchange</option>
+                    <option>Latency</option>
+                    <option>Integrity</option>
+                    <option>Sharp</option>
+                  </select>
+                  <button class="hidden" type="button" id="categorySearchBtn">Search</button>
+                </div>
+                <div class="category-results" id="categoryResults"></div>
+                <p class="hint">PVIP, Core, Unclass, Wise, and BonusAbuse are pinned at the top.</p>
               </div>
-              <label class="switch" for="disableCO" aria-label="Disable CO">
+
+              <div>
+                <label class="caption" for="betFactor">Bet factor</label>
+                <div class="factor-box" id="factorBox">
+                  <div class="factor-line">
+                    <span class="category-swatch" aria-hidden="true"></span>
+                    <input class="factor-input" id="betFactor" type="text" value="1.01" />
+                  </div>
+                </div>
+                <p class="hint">Pre-filled by category, but you can change it.</p>
+              </div>
+
+              <div class="brand-wrap">
+                <label class="caption" for="brandId">Brand ID</label>
+                <input id="brandId" type="text" autocomplete="off" placeholder="Search existing brands or type custom value" />
+                <div class="brand-results" id="brandResults"></div>
+                <p class="brand-hint">Search existing brands or type a custom value.</p>
+              </div>
+
+              <div class="full">
+                <label class="caption" for="accounts">Player IDs / accounts</label>
+                <textarea id="accounts" placeholder="Paste player IDs here. Use new lines, spaces, commas, semicolons, or tabs."></textarea>
+              </div>
+
+              <div class="full">
+                <label class="caption" for="playerNote">Player note</label>
+                <textarea class="note-field" id="playerNote" placeholder="Mandatory, minimum 5 symbols"></textarea>
+                <div class="error" id="playerNoteError">Player note is mandatory and must contain at least 5 symbols.</div>
+              </div>
+
+              <div>
+                <label class="caption" for="playerNotePriority">Player note priority</label>
+                <select class="simple-select" id="playerNotePriority">
+                  <option value="3">Positive</option>
+                  <option value="2" selected>Neutral</option>
+                  <option value="1">Negative</option>
+                </select>
+                <span class="hidden" id="priorityPill"></span>
+              </div>
+
+              <div>
+                <label class="caption" for="inPlayBetDelay">In-play bet delay</label>
+                <input id="inPlayBetDelay" placeholder="Optional; leave empty if not needed" />
+              </div>
+
+              <label class="toggle-switch" for="disableCO">
+                <span>Disable CO</span>
                 <input id="disableCO" type="checkbox" />
-                <span class="slider"></span>
+                <span class="switch-track"><span class="switch-thumb"></span></span>
               </label>
-            </div>
 
-            <div class="toggle-card">
-              <div class="toggle-copy">
-                <b>Disable Boosts</b>
-                <span>Writes boost codes in disableBoost.</span>
-              </div>
-              <label class="switch" for="disableBoosts" aria-label="Disable Boosts">
+              <label class="toggle-switch" for="disableBoosts">
+                <span>Disable Boosts</span>
                 <input id="disableBoosts" type="checkbox" />
-                <span class="slider"></span>
+                <span class="switch-track"><span class="switch-thumb"></span></span>
               </label>
+
+              <div class="full button-row">
+                <button class="primary-btn" id="generateBtn" type="button" disabled>
+                  <span id="generateIcon">↓</span>
+                  <span id="generateLabel">Generate CSV</span>
+                </button>
+                <button class="secondary-btn" id="copyBtn" type="button" disabled>
+                  <span>⧉</span>
+                  <span id="copyLabel">Copy first CSV text</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
 
-        <div class="actions">
-          <button class="btn" type="button" id="generateBtn" disabled><span id="generateIcon">↓</span><span id="generateLabel">Generate CSV</span></button>
-          <button class="btn secondary" type="button" id="copyBtn" disabled>⧉ <span id="copyLabel">Copy first CSV text</span></button>
+        <div class="card">
+          <div class="card-title">Selected data</div>
+          <div class="card-body">
+            <div class="stats">
+              <div class="stat"><div class="stat-label">Players</div><div class="stat-value" id="playersCount">0</div></div>
+              <div class="stat"><div class="stat-label">Files</div><div class="stat-value" id="filesCount">0</div></div>
+              <div class="stat"><div class="stat-label">Output</div><div class="stat-value" id="outputType">—</div></div>
+            </div>
+
+            <div class="info-box">
+              <p class="info-title"><span id="statusIcon">✓</span><span id="statusTitle">Core upload / betFactor 1.01</span></p>
+              <p class="info-text" id="statusText">Paste player IDs to start.</p>
+            </div>
+
+            <div class="settings-list">
+              <div class="setting-row"><div><strong>Brand ID</strong><small>brandId column value</small></div><span class="pill" id="brandPill">empty</span></div>
+              <div class="setting-row"><div><strong>Disable CO</strong><small>disableCO column value</small></div><span class="pill" id="disableCOPill">empty</span></div>
+              <div class="setting-row"><div><strong>Disable Boosts</strong><small>disableBoost column value</small></div><span class="pill" id="disableBoostPill">empty</span></div>
+              <div class="setting-row"><div><strong>Player note</strong><small>applied to all generated rows</small></div><span class="pill" id="notePill">empty</span></div>
+              <div class="setting-row"><div><strong>Player note priority</strong><small>playerNotePriority column value</small></div><span class="pill" id="priorityPillDisplay">Neutral / 2</span></div>
+              <div class="setting-row"><div><strong>In-play bet delay</strong><small>left empty when not provided</small></div><span class="pill" id="delayPill">empty</span></div>
+            </div>
+
+            <div class="preview-title">▦ <span id="previewTitle">CSV preview</span></div>
+            <pre id="preview">Paste player IDs to see a preview.</pre>
+          </div>
         </div>
       </div>
-
-      <aside class="card">
-        <h2 class="section-title"><span class="icon">☰</span> Selected data</h2>
-        <div class="stats">
-          <div class="stat"><div class="label">Players</div><div class="value" id="playersCount">0</div></div>
-          <div class="stat"><div class="label">Files</div><div class="value" id="filesCount">0</div></div>
-          <div class="stat"><div class="label">Output</div><div class="value" id="outputType">—</div></div>
-        </div>
-
-        <div class="status">
-          <div class="status-icon" id="statusIcon">✓</div>
-          <div>
-            <p class="status-title" id="statusTitle">Core upload / betFactor 1.01</p>
-            <p class="status-text" id="statusText">Paste player IDs to start.</p>
-          </div>
-        </div>
-
-        <div class="pill-grid">
-          <div class="pill-card"><div class="k">Brand ID</div><div class="d">brandId column value</div><div class="v" id="brandPill">empty</div></div>
-          <div class="pill-card"><div class="k">Disable CO</div><div class="d">disableCO column value</div><div class="v" id="disableCOPill">empty</div></div>
-          <div class="pill-card"><div class="k">Disable Boosts</div><div class="d">disableBoost column value</div><div class="v" id="disableBoostPill">empty</div></div>
-          <div class="pill-card"><div class="k">Player note</div><div class="d">applied to all generated rows</div><div class="v" id="notePill">empty</div></div>
-          <div class="pill-card"><div class="k">Player note priority</div><div class="d">playerNotePriority column value</div><div class="v" id="priorityPillDisplay">Neutral / 2</div></div>
-          <div class="pill-card"><div class="k">In-play bet delay</div><div class="d">left empty when not provided</div><div class="v" id="delayPill">empty</div></div>
-        </div>
-
-        <h2 class="section-title"><span class="icon">▦</span> <span id="previewTitle">CSV preview</span></h2>
-        <pre id="preview">Paste player IDs to see a preview.</pre>
-      </aside>
     </section>
 
     <section id="cutterPanel" class="grid hidden">
       <div class="card">
-        <h2 class="section-title"><span class="icon">✂</span> File Cutter</h2>
-        <input class="hidden" id="cutterFile" type="file" accept=".csv,text/csv" />
-        <div class="drop" id="fileDrop" role="button" tabindex="0">
-          <strong>Drop CSV here or click to choose</strong>
-          <span>The first row will be kept as the header in every split file. Each output CSV will contain maximum 98 accounts/data rows.</span>
-          <div class="file-name" id="cutterFileName">No file selected</div>
-        </div>
-        <div class="error" id="cutterError"></div>
-        <div class="actions">
-          <button class="btn" type="button" id="cutFileBtn" disabled>▣ Cut file and download ZIP</button>
-          <button class="btn danger" type="button" id="clearCutterBtn">× Clear file</button>
+        <div class="card-title">File Cutter</div>
+        <div class="card-body">
+          <label class="caption">Upload ready CSV file</label>
+          <input class="hidden" id="cutterFile" type="file" accept=".csv,text/csv" />
+          <div class="drop-zone" id="fileDrop" role="button" tabindex="0">
+            <strong>Drop CSV here or click to choose</strong>
+            <span>The first row will be kept as the header in every split file. Each output CSV will contain maximum 98 accounts/data rows.</span>
+            <div class="file-name" id="cutterFileName">No file selected</div>
+          </div>
+          <div class="error" id="cutterError"></div>
+          <div class="button-row" style="margin-top:16px">
+            <button class="primary-btn" type="button" id="cutFileBtn" disabled>▣ Cut file and download ZIP</button>
+            <button class="danger-btn" type="button" id="clearCutterBtn">× Clear file</button>
+          </div>
         </div>
       </div>
 
-      <aside class="card">
-        <h2 class="section-title"><span class="icon">☰</span> Cutter preview</h2>
-        <div class="stats">
-          <div class="stat"><div class="label">Rows</div><div class="value" id="cutterRowsCount">0</div></div>
-          <div class="stat"><div class="label">Files</div><div class="value" id="cutterFilesCount">0</div></div>
-          <div class="stat"><div class="label">Max / file</div><div class="value">98</div></div>
-        </div>
-        <div class="status">
-          <div class="status-icon" id="cutterStatusIcon">✓</div>
-          <div>
-            <p class="status-title" id="cutterStatusTitle">Waiting for CSV</p>
-            <p class="status-text" id="cutterStatusText">Upload a prepared CSV and I will split it into files with the same header row.</p>
+      <div class="card">
+        <div class="card-title">Cutter preview</div>
+        <div class="card-body">
+          <div class="stats">
+            <div class="stat"><div class="stat-label">Rows</div><div class="stat-value" id="cutterRowsCount">0</div></div>
+            <div class="stat"><div class="stat-label">Files</div><div class="stat-value" id="cutterFilesCount">0</div></div>
+            <div class="stat"><div class="stat-label">Max / file</div><div class="stat-value">98</div></div>
           </div>
+          <div class="info-box">
+            <p class="info-title"><span id="cutterStatusIcon">✓</span><span id="cutterStatusTitle">Waiting for CSV</span></p>
+            <p class="info-text" id="cutterStatusText">Upload a prepared CSV and I will split it into files with the same header row.</p>
+          </div>
+          <div class="preview-title">▦ Uploaded file preview</div>
+          <pre id="cutterPreview">Upload a CSV file to see the header and first rows.</pre>
         </div>
-        <h2 class="section-title"><span class="icon">▦</span> Uploaded file preview</h2>
-        <pre id="cutterPreview">Upload a CSV file to see the header and first rows.</pre>
-      </aside>
+      </div>
     </section>
 
     <section id="betnotesPanel" class="grid hidden">
       <div class="card">
-        <h2 class="section-title"><span class="icon">◎</span> Auto Betnotes Format+Cut</h2>
-        <input class="hidden" id="betnotesFile" type="file" accept=".xlsx,.xls,.csv,text/csv" />
-        <div class="drop" id="betnotesDrop" role="button" tabindex="0">
-          <strong>Drop XLSX/CSV here or click to choose</strong>
-          <span>The tool reads Bet ID, Brand, Bet Note Priority, and Bet Note, then creates CSV files with max 998 betIds each.</span>
-          <div class="file-name" id="betnotesFileName">No file selected</div>
-        </div>
-        <div class="error" id="betnotesError"></div>
-        <div class="actions">
-          <button class="btn" type="button" id="formatBetnotesBtn" disabled>▦ Format and download</button>
-          <button class="btn danger" type="button" id="clearBetnotesBtn">× Clear file</button>
+        <div class="card-title">Auto Betnotes Format+Cut</div>
+        <div class="card-body">
+          <label class="caption">Upload automated bet notes report</label>
+          <input class="hidden" id="betnotesFile" type="file" accept=".xlsx,.xls,.csv,text/csv" />
+          <div class="drop-zone" id="betnotesDrop" role="button" tabindex="0">
+            <strong>Drop XLSX/CSV here or click to choose</strong>
+            <span>The tool reads Bet ID, Brand, Bet Note Priority, and Bet Note, then creates CSV files with max 998 betIds each.</span>
+            <div class="file-name" id="betnotesFileName">No file selected</div>
+          </div>
+          <div class="error" id="betnotesError"></div>
+          <div class="button-row" style="margin-top:16px">
+            <button class="primary-btn" type="button" id="formatBetnotesBtn" disabled>▦ Format and download</button>
+            <button class="danger-btn" type="button" id="clearBetnotesBtn">× Clear file</button>
+          </div>
         </div>
       </div>
 
-      <aside class="card">
-        <h2 class="section-title"><span class="icon">☰</span> Betnotes preview</h2>
-        <div class="stats">
-          <div class="stat"><div class="label">Bet IDs</div><div class="value" id="betnotesRowsCount">0</div></div>
-          <div class="stat"><div class="label">Files</div><div class="value" id="betnotesFilesCount">0</div></div>
-          <div class="stat"><div class="label">Max / file</div><div class="value">998</div></div>
-        </div>
-        <div class="status">
-          <div class="status-icon" id="betnotesStatusIcon">✓</div>
-          <div>
-            <p class="status-title" id="betnotesStatusTitle">Waiting for report</p>
-            <p class="status-text" id="betnotesStatusText">Upload the automated bet noting report and I will format it into betId, brand, betNotePriority, betNoteText.</p>
+      <div class="card">
+        <div class="card-title">Betnotes preview</div>
+        <div class="card-body">
+          <div class="stats">
+            <div class="stat"><div class="stat-label">Bet IDs</div><div class="stat-value" id="betnotesRowsCount">0</div></div>
+            <div class="stat"><div class="stat-label">Files</div><div class="stat-value" id="betnotesFilesCount">0</div></div>
+            <div class="stat"><div class="stat-label">Max / file</div><div class="stat-value">998</div></div>
           </div>
+          <div class="info-box">
+            <p class="info-title"><span id="betnotesStatusIcon">✓</span><span id="betnotesStatusTitle">Waiting for report</span></p>
+            <p class="info-text" id="betnotesStatusText">Upload the automated bet noting report and I will format it into betId, brand, betNotePriority, betNoteText.</p>
+          </div>
+          <div class="settings-list">
+            <div class="setting-row"><div><strong>Output columns</strong><small>betId, brand, betNotePriority, betNoteText</small></div></div>
+            <div class="setting-row"><div><strong>Source columns</strong><small>Bet ID, Brand, Bet Note Priority, Bet Note</small></div></div>
+          </div>
+          <div class="preview-title">▦ Formatted CSV preview</div>
+          <pre id="betnotesPreview">Upload XLSX/CSV to see the formatted output preview.</pre>
         </div>
-        <div class="pill-grid">
-          <div class="pill-card"><div class="k">Output columns</div><div class="v">betId, brand, betNotePriority, betNoteText</div></div>
-          <div class="pill-card"><div class="k">Source columns</div><div class="v">Bet ID, Brand, Bet Note Priority, Bet Note</div></div>
-        </div>
-        <h2 class="section-title"><span class="icon">▦</span> Formatted CSV preview</h2>
-        <pre id="betnotesPreview">Upload XLSX/CSV to see the formatted output preview.</pre>
-      </aside>
+      </div>
     </section>
-  </div>
+  </main>
 
   <div class="toast" id="toast">Copied</div>
-
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script src="app.js"></script>
 </body>
