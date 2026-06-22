@@ -8,12 +8,12 @@ Static website. Upload the contents of this folder to GitHub Pages or any static
 - File Cutter
 - Auto Betnotes Format+Cut
 
-## Update in v9
+## Update
 
-Compact layout so each tool takes less vertical space and requires much less scrolling.
+Added a **Disable Boosts** toggle in Bulk Uploads Generator. When enabled, the `disableBoost` column is filled with:
 
+```text
+BET_BOOST;acca_boost;TRENDING_PRECANNED_ACCA_BOOST
+```
 
-Version v15: softened colours and improved searchable dropdown behaviour.
-
-
-Version v15: professional UI cleanup, softer colors, cleaner tab navigation, removed the repeating footer helper card.
+When disabled, the `disableBoost` column remains empty.

@@ -7,2007 +7,708 @@
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <style>
     :root {
-      --bg: #171d2b;
-      --panel: rgba(39, 45, 64, 0.96);
-      --panel-2: #20283a;
-      --input: #0b1220;
-      --input-2: #151d2d;
-      --line: rgba(215,225,245,.10);
-      --muted: #aeb7c8;
-      --muted-2: #828ca1;
-      --green: #42c86b;
-      --green-2: #56d47b;
-      --cyan: #2f9bb1;
-      --text: #f7f9ff;
-      --shadow: 0 18px 48px rgba(0,0,0,.24);
-      --radius: 22px;
+      --bg: #f4f7fb;
+      --surface: #ffffff;
+      --surface-2: #eef4fb;
+      --text: #172033;
+      --muted: #65758b;
+      --border: #dbe5f0;
+      --primary: #3867d6;
+      --primary-2: #2f5ec7;
+      --danger: #c94b4b;
+      --success: #178c5a;
+      --category-color: #55c878;
+      --factor-text-color: #06120a;
+      --shadow: 0 12px 34px rgba(26, 44, 74, 0.10);
+      --radius: 18px;
+      --radius-sm: 12px;
+      color-scheme: light;
     }
 
     * { box-sizing: border-box; }
 
-    html, body { min-height: 100%; }
-
     body {
       margin: 0;
-      background: var(--bg);
+      min-height: 100vh;
+      background: radial-gradient(circle at top left, #e9f0ff 0, transparent 34rem), var(--bg);
       color: var(--text);
-      font-family: Inter, "Segoe UI", Roboto, Arial, Helvetica, sans-serif;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      text-rendering: optimizeLegibility;
-      overflow-x: hidden;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
-    body::before {
-      content: "";
-      position: fixed;
-      left: -150px;
-      top: -70px;
-      width: 440px;
-      height: 560px;
-      transform: rotate(-39deg);
-      background: linear-gradient(180deg, rgba(66,200,107,.18), rgba(47,155,177,.14));
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    body::after {
-      content: "";
-      position: fixed;
-      right: -135px;
-      bottom: -120px;
-      width: 560px;
-      height: 390px;
-      background-image: radial-gradient(circle, rgba(40,214,238,.9) 1.5px, transparent 2px);
-      background-size: 18px 18px;
-      opacity: .075;
-      pointer-events: none;
-      z-index: 0;
-    }
+    button, input, textarea, select { font: inherit; }
 
     .page {
-      position: relative;
-      z-index: 1;
-      width: min(1360px, calc(100% - 64px));
+      width: min(1180px, calc(100% - 32px));
       margin: 0 auto;
-      padding: 28px 0 34px;
+      padding: 28px 0 40px;
     }
 
     .topbar {
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      align-items: flex-start;
-      gap: 24px;
-      margin-bottom: 26px;
+      gap: 16px;
+      margin-bottom: 18px;
     }
 
-    .badge {
-      display: inline-flex;
-      border: 1px solid #4d6375;
-      background: #12303d;
-      border-radius: 999px;
-      padding: 7px 13px;
-      font-size: 13px;
-      font-weight: 750;
-      letter-spacing: -.02em;
-      box-shadow: 0 10px 30px rgba(0,0,0,.25);
-      margin-bottom: 14px;
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      color: white;
+      font-weight: 800;
+      background: linear-gradient(135deg, #3867d6, #55c878);
+      box-shadow: var(--shadow);
+      letter-spacing: -0.04em;
+    }
+
+    .eyebrow {
+      margin: 0 0 2px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
     }
 
     h1 {
       margin: 0;
-      font-size: clamp(34px, 4vw, 48px);
-      letter-spacing: -.045em;
-      line-height: 1;
-      font-weight: 750;
+      font-size: clamp(27px, 4vw, 46px);
+      letter-spacing: -0.055em;
+      line-height: 1.02;
     }
 
-    .subtitle {
-      margin: 14px 0 0;
-      max-width: 870px;
+    .subhead {
+      margin: 8px 0 0;
+      max-width: 760px;
       color: var(--muted);
-      font-weight: 650;
-      line-height: 1.48;
       font-size: 15px;
+      line-height: 1.55;
     }
 
-    .reset-btn {
+    .btn {
       border: 0;
-      color: #fff;
-      background: var(--input-2);
-      border-radius: 16px;
-      padding: 14px 20px;
-      font-weight: 750;
-      box-shadow: 0 10px 30px rgba(0,0,0,.25);
-      outline: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 11px 16px;
+      font-weight: 800;
       cursor: pointer;
-      transition: .16s ease;
+      background: var(--primary);
+      color: white;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 10px 22px rgba(56, 103, 214, 0.22);
+      transition: transform .15s ease, background .15s ease, opacity .15s ease;
+    }
+
+    .btn:hover:not(:disabled) { transform: translateY(-1px); background: var(--primary-2); }
+    .btn:disabled { opacity: .48; cursor: not-allowed; box-shadow: none; }
+    .btn.secondary { background: #e9eef7; color: var(--text); box-shadow: none; }
+    .btn.ghost { background: transparent; color: var(--text); border: 1px solid var(--border); box-shadow: none; }
+    .btn.danger { background: #fff0f0; color: #9c3131; box-shadow: none; }
+
+    .tabs {
+      margin: 22px 0;
+      display: flex;
+      gap: 8px;
+      padding: 6px;
+      background: rgba(255, 255, 255, .72);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      width: fit-content;
+      max-width: 100%;
+      overflow-x: auto;
+      box-shadow: var(--shadow);
+    }
+
+    .tab {
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-weight: 800;
+      cursor: pointer;
       white-space: nowrap;
     }
 
-    .reset-btn:hover { background: #1f2840; transform: translateY(-1px); }
+    .tab.active {
+      color: white;
+      background: var(--primary);
+      box-shadow: 0 8px 18px rgba(56, 103, 214, .24);
+    }
 
     .grid {
       display: grid;
-      grid-template-columns: minmax(0, 1.05fr) minmax(420px, .95fr);
-      gap: 22px;
+      grid-template-columns: minmax(0, 1.1fr) minmax(320px, .9fr);
+      gap: 18px;
       align-items: start;
     }
 
     .card {
-      border: 1px solid var(--line);
-      background: var(--panel);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      overflow: visible;
-      backdrop-filter: blur(6px);
-    }
-
-    .card-title {
-      border-bottom: 1px solid var(--line);
-      padding: 14px 18px;
-      font-size: 18px;
-      font-weight: 750;
-      letter-spacing: -.01em;
-    }
-
-    .card-body { padding: 22px; position: relative; }
-    #generatorPanel .grid .card:first-child { position: relative; z-index: 30; }
-    #generatorPanel .grid .card:last-child { position: relative; z-index: 1; }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-    }
-
-    .full { grid-column: 1 / -1; }
-
-    label.caption, .caption {
-      display: block;
-      margin-bottom: 8px;
-      color: #d5d9e5;
-      font-size: 12px;
-      line-height: 1;
-      text-transform: uppercase;
-      font-weight: 750;
-      letter-spacing: .03em;
-    }
-
-    select, input, textarea {
-      width: 100%;
-      color: white;
-      background: var(--input);
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      outline: none;
-      font: inherit;
-      font-weight: 700;
-      transition: border-color .15s ease, box-shadow .15s ease;
-    }
-
-    select, input { height: 54px; padding: 0 15px; }
-    textarea { min-height: 232px; resize: vertical; padding: 15px; line-height: 1.55; }
-
-    select:focus, input:focus, textarea:focus {
-      border-color: var(--green);
-      box-shadow: 0 0 0 3px rgba(67,214,107,.08);
-    }
-
-    ::placeholder { color: #6e778b; opacity: 1; }
-
-    .simple-select {
-      appearance: auto;
-      cursor: pointer;
-      background-color: var(--input);
-    }
-
-    .simple-select option {
-      background: #111827;
-      color: #ffffff;
-    }
-
-    .factor-box {
-      min-height: 86px;
-      border: 1px solid color-mix(in srgb, var(--category-color) 30%, rgba(255,255,255,.12));
-      background: color-mix(in srgb, var(--category-color) 8%, #20283a);
-      border-radius: 16px;
-      padding: 13px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,.025);
-      transition: border-color .15s ease, background .15s ease;
-    }
-
-    .factor-line {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-top: 7px;
-    }
-
-    .category-swatch {
-      width: 28px;
-      height: 28px;
-      flex: 0 0 auto;
-      border-radius: 8px;
-      background: var(--category-color);
-      box-shadow: 0 0 0 1px rgba(255,255,255,.18);
-    }
-
-    .factor-input {
-      height: 44px;
-      padding: 0 8px;
-      border: 0;
-      border-radius: 10px;
-      background: rgba(7,12,22,.52);
-      color: #f7f9ff;
-      font-size: 32px;
-      line-height: 1;
-      font-weight: 900;
-      letter-spacing: -.04em;
-      box-shadow: none;
-      text-shadow: none;
-    }
-
-    .factor-input:focus {
-      border: 0;
-      box-shadow: none;
-      outline: 2px solid color-mix(in srgb, var(--category-color) 38%, white);
-      outline-offset: 2px;
-    }
-
-    .hint { margin-top: 7px; color: var(--muted-2); font-size: 13px; font-weight: 700; }
-
-    .brand-picker, .category-picker {
-      position: relative;
-    }
-
-    .search-control {
-      display: grid;
-      grid-template-columns: 1fr 42px;
-      gap: 8px;
-    }
-
-    .search-button {
-      height: 54px;
-      border: 1px solid var(--line);
-      background: var(--input);
-      color: #cbd4e5;
-      border-radius: 16px;
-      padding: 0;
-      font-weight: 750;
-      cursor: pointer;
-      transition: .15s ease;
-    }
-
-    .search-button:hover { background: #111a2b; color: #ffffff; }
-
-    .brand-results, .category-results {
-      position: absolute;
-      left: 0;
-      right: 0;
-      top: calc(100% + 7px);
-      z-index: 20;
-      display: none;
-      max-height: 230px;
-      overflow: auto;
-      border: 1px solid rgba(255,255,255,.12);
-      border-radius: 15px;
-      background: #101827;
-      box-shadow: 0 16px 36px rgba(0,0,0,.32);
-      padding: 6px;
-    }
-
-    .brand-results::-webkit-scrollbar, .category-results::-webkit-scrollbar { width: 10px; }
-    .brand-results::-webkit-scrollbar-thumb, .category-results::-webkit-scrollbar-thumb { background: #334058; border-radius: 999px; border: 2px solid #111827; }
-
-    .brand-results.show, .category-results.show { display: block; }
-
-    .brand-option, .category-option {
-      width: 100%;
-      border: 0;
-      background: transparent;
-      color: #fff;
-      text-align: left;
-      border-radius: 12px;
-      padding: 11px 12px;
-      font: inherit;
-      font-weight: 750;
-      cursor: pointer;
-    }
-
-    .brand-option:hover, .brand-option.active, .category-option:hover, .category-option.active {
-      background: rgba(255,255,255,.075);
-      color: #f7fafc;
-    }
-
-    .category-option.selected, .brand-option.selected {
-      background: rgba(67,214,107,.13);
-      color: #dfffe8;
-      outline: 1px solid rgba(67,214,107,.25);
-    }
-
-    .category-option {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
-
-    .category-left {
-      display: inline-flex;
-      align-items: center;
-      gap: 9px;
-    }
-
-    .mini-swatch {
-      width: 18px;
-      height: 18px;
-      border-radius: 5px;
-      background: var(--option-color);
-      box-shadow: 0 0 0 1px rgba(255,255,255,.22);
-    }
-
-    .category-factor {
-      color: #cbd3e2;
-      font-size: 12px;
-      font-weight: 850;
-    }
-
-    .brand-empty {
-      padding: 12px;
-      color: var(--muted-2);
-      font-weight: 750;
-    }
-
-    .brand-hint {
-      margin-top: 7px;
-      color: var(--muted-2);
-      font-size: 13px;
-      font-weight: 700;
-    }
-
-    .toggle-switch {
-      height: 54px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 14px;
-      align-self: end;
-      border: 1px solid var(--line);
-      background: #20283a;
-      border-radius: 16px;
-      padding: 0 16px;
-      font-weight: 750;
-      cursor: pointer;
-      user-select: none;
-      transition: .15s ease;
-    }
-
-    .toggle-switch:hover { background: #263047; }
-    .toggle-switch input { position: absolute; opacity: 0; pointer-events: none; }
-
-    .switch-track {
-      position: relative;
-      width: 72px;
-      height: 34px;
-      flex: 0 0 auto;
-      border-radius: 999px;
-      background: #111827;
-      border: 1px solid rgba(255,255,255,.13);
-      box-shadow: inset 0 0 16px rgba(0,0,0,.30);
-      transition: .18s ease;
-    }
-
-    .switch-track::before {
-      content: "NO";
-      position: absolute;
-      right: 10px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #9aa4b8;
-      font-size: 11px;
-      font-weight: 750;
-    }
-
-    .switch-thumb {
-      position: absolute;
-      left: 4px;
-      top: 4px;
-      width: 26px;
-      height: 26px;
-      border-radius: 50%;
-      background: #7d879c;
-      transition: .18s ease;
-      box-shadow: 0 6px 14px rgba(0,0,0,.35);
-    }
-
-    .toggle-switch input:checked + .switch-track {
-      background: rgba(69,255,104,.18);
-      border-color: rgba(69,255,104,.55);
-    }
-
-    .toggle-switch input:checked + .switch-track::before {
-      content: "YES";
-      left: 10px;
-      right: auto;
-      color: var(--green);
-    }
-
-    .toggle-switch input:checked + .switch-track .switch-thumb {
-      transform: translateX(38px);
-      background: var(--green);
-    }
-
-    .button-row {
-      display: flex;
-      gap: 12px;
-      margin-top: 2px;
-    }
-
-    .primary-btn, .secondary-btn {
-      height: 54px;
-      border: 0;
-      border-radius: 16px;
-      padding: 0 20px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      font-weight: 750;
-      font-size: 15px;
-      cursor: pointer;
-      transition: .16s ease;
-      white-space: nowrap;
-    }
-
-    .primary-btn {
-      flex: 1;
-      background: #3aa861;
-      color: #07120c;
-      box-shadow: 0 10px 22px rgba(0,0,0,.16);
-    }
-
-    .primary-btn:hover:not(:disabled) { background: #45b76d; transform: translateY(-1px); }
-
-    .secondary-btn {
-      background: var(--input-2);
-      color: white;
-      outline: 1px solid var(--line);
-    }
-
-    .secondary-btn:hover:not(:disabled) { background: #1f2840; }
-    button:disabled { cursor: not-allowed; opacity: .42; }
-
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-    }
-
-    .stat {
-      border: 1px solid rgba(255,255,255,.06);
-      background: var(--panel-2);
-      border-radius: 18px;
-      padding: 16px;
-      box-shadow: inset 0 0 24px rgba(0,0,0,.10);
-    }
-
-    .stat-label {
-      font-size: 12px;
-      font-weight: 750;
-      text-transform: uppercase;
-      color: #d5d9e5;
-    }
-
-    .stat-value {
-      margin-top: 3px;
-      font-size: 32px;
-      line-height: 1;
-      font-weight: 750;
-      letter-spacing: -.04em;
-    }
-
-    .info-box {
-      margin-top: 18px;
-      border: 1px solid rgba(87,151,178,.36);
-      background: rgba(31,55,75,.58);
-      border-radius: 18px;
-      padding: 16px;
-      color: #eef7ff;
-      font-size: 14px;
-      font-weight: 700;
-      line-height: 1.55;
-    }
-
-    .info-title {
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      color: white;
-      font-size: 15px;
-      font-weight: 750;
-      margin-bottom: 7px;
-    }
-
-    .settings-list {
-      display: grid;
-      gap: 12px;
-      margin-top: 18px;
-    }
-
-    .setting-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      border: 1px solid var(--line);
-      background: var(--panel-2);
-      border-radius: 18px;
-      padding: 14px;
-    }
-
-    .setting-name { font-size: 14px; font-weight: 800; }
-    .setting-desc { margin-top: 2px; font-size: 13px; color: var(--muted-2); font-weight: 700; }
-    .pill {
-      max-width: min(420px, 58%);
-      overflow: visible;
-      white-space: normal;
-      word-break: break-word;
-      text-align: right;
-      border-radius: 14px;
-      background: #101827;
-      color: #f5f7fb;
-      padding: 8px 12px;
-      font-size: 13px;
-      line-height: 1.35;
-      font-weight: 750;
-    }
-    .pill.green { color: var(--green); }
-
-    .preview-wrap {
-      margin-top: 18px;
-      border: 1px solid var(--line);
-      background: #0c1220;
-      border-radius: 18px;
-      padding: 15px;
-    }
-
-    .preview-title {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 11px;
-      color: #d9deeb;
-      font-size: 14px;
-      font-weight: 750;
-    }
-
-    pre {
-      margin: 0;
-      max-height: 300px;
-      overflow: auto;
-      white-space: pre;
-      word-break: normal;
-      background: #020713;
-      border: 1px solid rgba(69,255,104,.18);
-      border-radius: 14px;
-      padding: 16px;
-      color: #f4f7ff;
-      font-size: 13px;
-      line-height: 1.65;
-      font-weight: 700;
-    }
-
-    .footer-card {
-      margin-top: 22px;
-      display: none;
-      align-items: flex-start;
-      gap: 14px;
-      border: 1px solid var(--line);
-      background: rgba(51, 56, 77, .82);
+      background: rgba(255, 255, 255, .86);
+      border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 18px;
       box-shadow: var(--shadow);
     }
 
-    .footer-icon {
-      width: 44px;
-      height: 44px;
-      display: grid;
-      place-items: center;
-      flex: 0 0 auto;
-      border-radius: 16px;
-      color: #07120c;
-      background: var(--green);
-      font-weight: 750;
+    .section-title {
+      margin: 0 0 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 17px;
+      letter-spacing: -0.02em;
     }
 
-    .footer-title { font-weight: 800; font-size: 18px; }
-    .footer-text { margin-top: 4px; color: var(--muted); font-size: 14px; line-height: 1.6; font-weight: 700; }
+    .section-title .icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 11px;
+      background: var(--surface-2);
+      display: grid;
+      place-items: center;
+      color: var(--primary);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .field { position: relative; }
+    .field.full { grid-column: 1 / -1; }
+
+    label {
+      display: block;
+      font-size: 12px;
+      font-weight: 900;
+      color: #334155;
+      margin-bottom: 7px;
+      letter-spacing: .01em;
+    }
+
+    .hint {
+      margin: 7px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    input[type="text"], input[type="number"], textarea, select {
+      width: 100%;
+      border: 1px solid var(--border);
+      background: #fbfdff;
+      color: var(--text);
+      border-radius: var(--radius-sm);
+      padding: 12px 13px;
+      outline: none;
+      transition: border-color .15s ease, box-shadow .15s ease, background .15s ease;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      border-color: rgba(56, 103, 214, .55);
+      box-shadow: 0 0 0 4px rgba(56, 103, 214, .11);
+      background: white;
+    }
+
+    textarea {
+      min-height: 168px;
+      resize: vertical;
+      line-height: 1.42;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 13px;
+    }
+
+    textarea.small { min-height: 86px; font-family: inherit; }
+    .invalid { border-color: rgba(201, 75, 75, .85) !important; box-shadow: 0 0 0 4px rgba(201, 75, 75, .10) !important; }
+    .error { display: none; color: var(--danger); font-size: 12px; font-weight: 800; margin-top: 7px; }
+    .error.show { display: block; }
+
+    .category-row {
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr);
+      gap: 8px;
+      align-items: center;
+    }
+
+    .swatch {
+      width: 34px;
+      height: 34px;
+      border-radius: 11px;
+      background: var(--category-color);
+      border: 1px solid rgba(0,0,0,.08);
+    }
+
+    .category-results, .brand-results {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: calc(100% + 6px);
+      z-index: 20;
+      display: none;
+      max-height: 220px;
+      overflow: auto;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: white;
+      box-shadow: var(--shadow);
+      padding: 6px;
+    }
+
+    .category-results.show, .brand-results.show { display: block; }
+    .brand-option, .category-option {
+      display: block;
+      width: 100%;
+      border: 0;
+      background: transparent;
+      border-radius: 10px;
+      padding: 9px 10px;
+      text-align: left;
+      cursor: pointer;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .brand-option:hover, .brand-option.selected, .category-option:hover { background: var(--surface-2); }
+    .brand-empty { padding: 10px; color: var(--muted); font-size: 13px; line-height: 1.35; }
+
+    .toggles {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      grid-column: 1 / -1;
+    }
+
+    .toggle-card {
+      border: 1px solid var(--border);
+      background: #fbfdff;
+      border-radius: 15px;
+      padding: 13px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .toggle-copy b { display: block; font-size: 13px; }
+    .toggle-copy span { display: block; color: var(--muted); font-size: 12px; margin-top: 2px; }
+
+    .switch {
+      position: relative;
+      display: inline-flex;
+      width: 48px;
+      height: 28px;
+      flex: 0 0 auto;
+    }
+
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider {
+      position: absolute;
+      inset: 0;
+      cursor: pointer;
+      border-radius: 999px;
+      background: #cbd5e1;
+      transition: .18s ease;
+    }
+
+    .slider:before {
+      content: "";
+      position: absolute;
+      width: 22px;
+      height: 22px;
+      left: 3px;
+      top: 3px;
+      border-radius: 50%;
+      background: white;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, .22);
+      transition: .18s ease;
+    }
+
+    .switch input:checked + .slider { background: var(--primary); }
+    .switch input:checked + .slider:before { transform: translateX(20px); }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .stat {
+      background: #fbfdff;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      padding: 12px;
+    }
+
+    .stat .label { color: var(--muted); font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: .08em; }
+    .stat .value { margin-top: 4px; font-size: 24px; font-weight: 900; letter-spacing: -0.04em; }
+
+    .status {
+      display: flex;
+      align-items: flex-start;
+      gap: 11px;
+      padding: 13px;
+      border-radius: 16px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      margin-bottom: 12px;
+    }
+
+    .status-icon {
+      width: 31px;
+      height: 31px;
+      border-radius: 11px;
+      display: grid;
+      place-items: center;
+      background: white;
+      color: var(--success);
+      font-weight: 900;
+      flex: 0 0 auto;
+    }
+
+    .status-title { margin: 0 0 3px; font-weight: 900; }
+    .status-text { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.4; white-space: pre-line; }
+
+    .pill-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .pill-card {
+      border: 1px solid var(--border);
+      background: #fbfdff;
+      border-radius: 14px;
+      padding: 11px 12px;
+      min-width: 0;
+    }
+
+    .pill-card .k { color: var(--muted); font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: .06em; }
+    .pill-card .d { color: var(--muted); font-size: 11px; margin-top: 3px; }
+    .pill-card .v { margin-top: 7px; font-weight: 900; overflow-wrap: anywhere; }
+
+    pre {
+      margin: 0;
+      padding: 14px;
+      border-radius: 15px;
+      border: 1px solid var(--border);
+      background: #0f172a;
+      color: #dbeafe;
+      min-height: 160px;
+      overflow: auto;
+      white-space: pre;
+      font: 12px/1.45 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+
+    .drop {
+      border: 1.8px dashed #adc0da;
+      border-radius: var(--radius);
+      background: #fbfdff;
+      padding: 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: background .15s ease, border-color .15s ease;
+    }
+
+    .drop.dragover {
+      background: #edf4ff;
+      border-color: var(--primary);
+    }
+
+    .drop strong { display: block; font-size: 16px; margin-bottom: 6px; }
+    .drop span { color: var(--muted); font-size: 13px; line-height: 1.4; }
+    .file-name { margin-top: 10px; color: var(--muted); font-size: 13px; font-weight: 700; }
+    .hidden { display: none !important; }
 
     .toast {
       position: fixed;
-      right: 22px;
-      bottom: 22px;
-      z-index: 5;
-      opacity: 0;
-      transform: translateY(10px);
-      pointer-events: none;
-      transition: .18s ease;
-      border-radius: 16px;
-      background: #101827;
-      border: 1px solid rgba(69,255,104,.35);
+      left: 50%;
+      bottom: 24px;
+      transform: translate(-50%, 12px);
+      background: #111827;
       color: white;
-      padding: 13px 16px;
-      box-shadow: 0 18px 40px rgba(0,0,0,.35);
-      font-weight: 750;
-    }
-    .toast.show { opacity: 1; transform: translateY(0); }
-
-
-
-    .tool-tabs {
-      display: inline-flex;
-      gap: 4px;
-      margin: 0 0 18px;
-      padding: 5px;
-      flex-wrap: wrap;
-      border: 1px solid var(--line);
-      background: rgba(10,16,29,.42);
-      border-radius: 16px;
-    }
-
-    .tool-tab {
-      border: 0;
-      color: #b9c4d7;
-      background: transparent;
-      border-radius: 12px;
-      padding: 10px 14px;
-      font-weight: 750;
-      cursor: pointer;
-      transition: .14s ease;
-      box-shadow: none;
-    }
-
-    .tool-tab:hover { color: #ffffff; background: rgba(255,255,255,.06); }
-    .tool-tab.active { background: #253149; color: #ffffff; box-shadow: inset 0 0 0 1px rgba(255,255,255,.08); }
-
-    .tool-panel.hidden { display: none; }
-
-    .wide-grid {
-      display: grid;
-      grid-template-columns: minmax(0, .95fr) minmax(420px, 1.05fr);
-      gap: 22px;
-      align-items: start;
-    }
-
-    .file-drop {
-      position: relative;
-      min-height: 180px;
-      display: grid;
-      place-items: center;
-      border: 2px dashed rgba(69,255,104,.28);
-      border-radius: 20px;
-      background: #090f1c;
-      padding: 26px;
-      text-align: center;
-      transition: .16s ease;
-      cursor: pointer;
-    }
-
-    .file-drop:hover, .file-drop.dragover {
-      border-color: var(--green);
-      background: #0d1525;
-      box-shadow: 0 0 0 3px rgba(67,214,107,.08);
-    }
-
-    .file-drop input {
-      position: absolute;
-      inset: 0;
-      opacity: 0;
-      cursor: pointer;
-    }
-
-    .file-drop-title { font-size: 20px; font-weight: 900; }
-    .file-drop-subtitle { margin-top: 8px; color: var(--muted-2); font-size: 14px; line-height: 1.5; font-weight: 800; }
-
-    .file-name {
-      margin-top: 14px;
-      display: inline-flex;
-      max-width: 100%;
       border-radius: 999px;
-      background: #101827;
-      color: var(--green);
-      padding: 8px 12px;
-      font-size: 13px;
-      line-height: 1.35;
+      padding: 11px 17px;
       font-weight: 900;
-      word-break: break-word;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .18s ease, transform .18s ease;
+      box-shadow: var(--shadow);
     }
 
-    .error-box {
-      display: none;
-      margin-top: 14px;
-      border: 1px solid rgba(255,45,45,.45);
-      background: rgba(120,20,20,.35);
-      color: #ffecec;
-      border-radius: 16px;
-      padding: 13px 14px;
-      font-size: 14px;
-      line-height: 1.45;
-      font-weight: 750;
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+    @media (max-width: 860px) {
+      .topbar { align-items: flex-start; flex-direction: column; }
+      .grid { grid-template-columns: 1fr; }
+      .form-grid, .toggles, .pill-grid { grid-template-columns: 1fr; }
+      .stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .tabs { width: 100%; }
     }
 
-    .error-box.show { display: block; }
-
-    .field-error {
-      display: none;
-      margin-top: 8px;
-      color: #ffb4b4;
-      font-size: 13px;
-      line-height: 1.35;
-      font-weight: 750;
-    }
-
-    .field-error.show { display: block; }
-
-    input.invalid, textarea.invalid {
-      border-color: rgba(255,45,45,.72) !important;
-      box-shadow: 0 0 0 4px rgba(255,45,45,.10) !important;
-    }
-
-    .mini-table {
-      display: grid;
-      gap: 10px;
-      margin-top: 18px;
-    }
-
-    .mini-row {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 12px;
-      border: 1px solid var(--line);
-      background: var(--panel-2);
-      border-radius: 18px;
-      padding: 14px;
-      font-weight: 750;
-    }
-
-    .mini-row span:last-child { color: var(--green); }
-
-
-
-    /* Compact layout: keeps each tool visible without painful scrolling */
-    .page { width: min(1440px, calc(100% - 40px)); padding: 22px 0 24px; }
-    .topbar { margin-bottom: 14px; }
-    .badge { padding: 5px 10px; font-size: 12px; margin-bottom: 8px; }
-    h1 { font-size: clamp(28px, 3vw, 38px); }
-    .subtitle { margin-top: 8px; font-size: 14px; line-height: 1.35; max-width: 920px; }
-    .reset-btn { padding: 10px 15px; border-radius: 13px; }
-    .tool-tabs { gap: 8px; margin-bottom: 14px; }
-    .tool-tab { padding: 10px 14px; border-radius: 13px; font-size: 14px; }
-    .grid, .wide-grid { gap: 16px; grid-template-columns: minmax(0, 1.02fr) minmax(380px, .98fr); }
-    .card { border-radius: 20px; }
-    .card-title { padding: 13px 17px; font-size: 18px; }
-    .card-body { padding: 16px 18px; }
-    .form-grid { gap: 12px; }
-    label.caption, .caption { margin-bottom: 6px; font-size: 11px; }
-    select, input { height: 42px; padding: 0 13px; border-radius: 13px; font-size: 14px; }
-    textarea { min-height: 150px; padding: 12px 13px; border-radius: 13px; line-height: 1.4; font-size: 14px; }
-    .factor-box { min-height: 68px; padding: 11px 13px; border-radius: 15px; }
-    .factor-line { gap: 9px; margin-top: 4px; }
-    .category-swatch { width: 22px; height: 22px; border-radius: 7px; }
-    .factor-input { height: 34px; font-size: 26px; border-radius: 9px; }
-    .hint, .brand-hint { margin-top: 5px; font-size: 12px; line-height: 1.25; }
-    .search-control { gap: 8px; }
-    .search-button { height: 42px; padding: 0 13px; border-radius: 13px; font-size: 13px; }
-    .brand-results, .category-results { top: calc(100% + 6px); max-height: 205px; border-radius: 13px; padding: 5px; }
-    .brand-option, .category-option { padding: 9px 10px; border-radius: 10px; font-size: 14px; }
-    .toggle-switch { height: 42px; padding: 0 13px; border-radius: 13px; font-size: 14px; }
-    .switch-track { width: 62px; height: 28px; }
-    .switch-track::before { font-size: 10px; right: 8px; }
-    .toggle-switch input:checked + .switch-track::before { left: 8px; }
-    .switch-thumb { width: 20px; height: 20px; }
-    .toggle-switch input:checked + .switch-track .switch-thumb { transform: translateX(34px); }
-    .button-row { gap: 10px; }
-    .primary-btn, .secondary-btn { height: 44px; border-radius: 13px; padding: 0 16px; font-size: 14px; }
-    .stats { gap: 10px; }
-    .stat { padding: 12px 13px; border-radius: 15px; }
-    .stat-label { font-size: 11px; }
-    .stat-value { font-size: 26px; }
-    .info-box { margin-top: 12px; padding: 12px 13px; border-radius: 15px; font-size: 13px; line-height: 1.38; }
-    .info-title { font-size: 14px; margin-bottom: 5px; }
-    .settings-list { gap: 8px; margin-top: 12px; }
-    .setting-row { padding: 10px 12px; border-radius: 15px; }
-    .setting-name { font-size: 13px; }
-    .setting-desc { font-size: 12px; }
-    .pill { padding: 6px 10px; font-size: 12px; border-radius: 12px; max-width: 55%; }
-    .preview-wrap { margin-top: 12px; padding: 12px; border-radius: 15px; }
-    .preview-title { margin-bottom: 8px; font-size: 13px; }
-    pre { max-height: 155px; padding: 12px; border-radius: 12px; font-size: 12px; line-height: 1.45; }
-    .file-drop { min-height: 118px; padding: 18px; border-radius: 16px; }
-    .file-drop-title { font-size: 17px; }
-    .file-drop-subtitle { margin-top: 5px; font-size: 13px; line-height: 1.35; }
-    .file-name { margin-top: 9px; padding: 6px 10px; font-size: 12px; }
-    .error-box { margin-top: 9px; padding: 10px 12px; font-size: 13px; border-radius: 13px; }
-    .field-error { margin-top: 5px; font-size: 12px; }
-    .mini-table { gap: 8px; margin-top: 12px; }
-    .mini-row { padding: 10px 12px; border-radius: 14px; font-size: 13px; }
-    .footer-card { margin-top: 14px; padding: 13px 15px; border-radius: 18px; }
-    .footer-icon { width: 36px; height: 36px; border-radius: 13px; }
-    .footer-title { font-size: 16px; }
-    .footer-text { font-size: 12px; line-height: 1.4; }
-
-    @media (max-width: 980px) {
-      .page { width: min(100% - 28px, 760px); padding-top: 24px; }
-      .topbar { flex-direction: column; }
-      .grid, .wide-grid { grid-template-columns: 1fr; }
-    }
-
-    @media (max-width: 640px) {
-      .form-grid, .stats { grid-template-columns: 1fr; }
-      .button-row { flex-direction: column; }
-      .secondary-btn { width: 100%; }
-      .setting-row { align-items: flex-start; flex-direction: column; }
-      .pill { max-width: 100%; text-align: left; }
-      body::before { opacity: .55; }
+    @media (max-width: 520px) {
+      .page { width: min(100% - 20px, 1180px); padding-top: 18px; }
+      .stats { grid-template-columns: 1fr; }
+      .card { padding: 14px; }
+      .btn { width: 100%; justify-content: center; }
     }
   </style>
 </head>
 <body>
-  <main class="page">
-    <section class="topbar">
+  <div class="page">
+    <header class="topbar">
       <div>
-        <div class="badge">Y.B.Project ARC</div>
-        <h1>Bulk Uploads Helper</h1>
-        <p class="subtitle">Create and prepare upload files in three focused tools: generate player CSVs, split ready files, or format automated bet notes.</p>
+        <div class="brand">
+          <div class="brand-mark">YB</div>
+          <div>
+            <p class="eyebrow">Y.B.Project ARC</p>
+            <h1>Bulk Uploads Helper</h1>
+          </div>
+        </div>
+        <p class="subhead">Create and prepare upload files in three focused tools: generate player CSVs, split ready files, or format automated bet notes.</p>
       </div>
-      <button class="reset-btn" id="resetBtn" type="button">Reset form</button>
-    </section>
+      <button class="btn ghost" type="button" id="resetBtn">Reset form</button>
+    </header>
 
-    <section class="tool-tabs" aria-label="Tools">
-      <button class="tool-tab active" id="generatorTab" type="button">Bulk Uploads Generator</button>
-      <button class="tool-tab" id="cutterTab" type="button">File Cutter</button>
-      <button class="tool-tab" id="betnotesTab" type="button">Auto Betnotes Format+Cut</button>
-    </section>
+    <nav class="tabs" aria-label="Tools">
+      <button class="tab active" type="button" id="generatorTab">Bulk Uploads Generator</button>
+      <button class="tab" type="button" id="cutterTab">File Cutter</button>
+      <button class="tab" type="button" id="betnotesTab">Auto Betnotes Format+Cut</button>
+    </nav>
 
-    <section class="tool-panel" id="generatorPanel">
-    <section class="grid">
+    <section id="generatorPanel" class="grid">
       <div class="card">
-        <div class="card-title">Upload CSV setup</div>
-        <div class="card-body">
-          <div class="form-grid">
-            <div class="category-picker">
-              <label class="caption" for="categorySearch">Upload category</label>
-              <select id="categorySearch" class="simple-select" aria-label="Upload category">
-                  <option value="PVIP">PVIP</option>
-                  <option value="Core" selected>Core</option>
-                  <option value="Unclass">Unclass</option>
-                  <option value="Wise">Wise</option>
-                  <option value="BonusAbuse">BonusAbuse</option>
-                  <option value="VIP">VIP</option>
-                  <option value="New★">New★</option>
-                  <option value="OpPolicy">OpPolicy</option>
-                  <option value="SpainClos">SpainClos</option>
-                  <option value="Review">Review</option>
-                  <option value="PPTR">PPTR</option>
-                  <option value="Arbs">Arbs</option>
-                  <option value="Palps">Palps</option>
-                  <option value="Exchange">Exchange</option>
-                  <option value="Latency">Latency</option>
-                  <option value="Integrity">Integrity</option>
-                  <option value="Sharp">Sharp</option>
-              </select>
-              <div class="brand-hint">PVIP, Core, Unclass, Wise, and BonusAbuse are pinned at the top.</div>
-            </div>
-
-            <div class="factor-box" id="factorBox">
-              <label class="caption" for="betFactor">Bet factor</label>
-              <div class="factor-line">
-                <span class="category-swatch" id="categorySwatch"></span>
-                <input class="factor-input" id="betFactor" value="1.01" inputmode="decimal" />
-              </div>
-              <div class="hint">Pre-filled by category, but you can change it.</div>
-            </div>
-
-            <div class="full brand-picker">
-              <label class="caption" for="brandId">Brand ID</label>
-              <input id="brandId" autocomplete="off" placeholder="Choose/search brand or type custom" />
-              <div class="brand-results" id="brandResults" role="listbox" aria-label="Brand suggestions"></div>
-              <div class="brand-hint">Search existing brands or type a custom value.</div>
-            </div>
-
-            <div class="full">
-              <label class="caption" for="accounts">Player IDs / accounts</label>
-              <textarea id="accounts" placeholder="Paste accounts here, one per line. Commas, spaces, tabs, and semicolons also work."></textarea>
-            </div>
-
-            <div class="full">
-              <label class="caption" for="playerNote">Player note</label>
-              <input id="playerNote" minlength="5" required placeholder="Mandatory: minimum 5 symbols" />
-              <div class="field-error" id="playerNoteError">Player note is mandatory and must contain at least 5 symbols.</div>
-            </div>
-
-            <div>
-              <label class="caption" for="playerNotePriority">Player note priority</label>
-              <select id="playerNotePriority" class="simple-select">
-                <option value="3">Positive</option>
-                <option value="2" selected>Neutral</option>
-                <option value="1">Negative</option>
+        <h2 class="section-title"><span class="icon">↥</span> Upload CSV setup</h2>
+        <div class="form-grid">
+          <div class="field">
+            <label for="categorySearch">Upload category</label>
+            <div class="category-row">
+              <span class="swatch" id="categorySwatch" aria-hidden="true"></span>
+              <select id="categorySearch">
+                <option>PVIP</option>
+                <option selected>Core</option>
+                <option>Unclass</option>
+                <option>Wise</option>
+                <option>BonusAbuse</option>
+                <option>VIP</option>
+                <option>New★</option>
+                <option>OpPolicy</option>
+                <option>SpainClos</option>
+                <option>Review</option>
+                <option>PPTR</option>
+                <option>Arbs</option>
+                <option>Palps</option>
+                <option>Exchange</option>
+                <option>Latency</option>
+                <option>Integrity</option>
+                <option>Sharp</option>
               </select>
             </div>
+            <button class="hidden" type="button" id="categorySearchBtn">Search</button>
+            <div class="category-results" id="categoryResults"></div>
+            <p class="hint">PVIP, Core, Unclass, Wise, and BonusAbuse are pinned at the top.</p>
+          </div>
 
-            <div>
-              <label class="caption" for="inPlayBetDelay">In-play bet delay</label>
-              <input id="inPlayBetDelay" placeholder="Optional; leave empty if not needed" />
+          <div class="field">
+            <label for="betFactor">Bet factor</label>
+            <input id="betFactor" type="text" value="1.01" />
+            <div class="hidden" id="factorBox"></div>
+            <p class="hint">Pre-filled by category, but you can change it.</p>
+          </div>
+
+          <div class="field">
+            <label for="brandId">Brand ID</label>
+            <input id="brandId" type="text" autocomplete="off" placeholder="e.g. daznbetes" />
+            <div class="brand-results" id="brandResults"></div>
+            <p class="hint">Search existing brands or type a custom value.</p>
+          </div>
+
+          <div class="field">
+            <label for="inPlayBetDelay">In-play bet delay</label>
+            <input id="inPlayBetDelay" type="text" placeholder="empty by default" />
+          </div>
+
+          <div class="field full">
+            <label for="accounts">Player IDs / accounts</label>
+            <textarea id="accounts" placeholder="Paste player IDs here. Use new lines, spaces, commas, semicolons, or tabs."></textarea>
+          </div>
+
+          <div class="field full">
+            <label for="playerNote">Player note</label>
+            <textarea class="small" id="playerNote" placeholder="Mandatory, minimum 5 symbols"></textarea>
+            <div class="error" id="playerNoteError">Player note is mandatory and must contain at least 5 symbols.</div>
+          </div>
+
+          <div class="field">
+            <label for="playerNotePriority">Player note priority</label>
+            <select id="playerNotePriority">
+              <option value="3">Positive</option>
+              <option value="2" selected>Neutral</option>
+              <option value="1">Negative</option>
+            </select>
+            <span class="hidden" id="priorityPill"></span>
+          </div>
+
+          <div class="toggles">
+            <div class="toggle-card">
+              <div class="toggle-copy">
+                <b>Disable CO</b>
+                <span>Writes TRUE in disableCO.</span>
+              </div>
+              <label class="switch" for="disableCO" aria-label="Disable CO">
+                <input id="disableCO" type="checkbox" />
+                <span class="slider"></span>
+              </label>
             </div>
 
-            <label class="toggle-switch" for="disableCO">
-              <span>Disable CO</span>
-              <input id="disableCO" type="checkbox" />
-              <span class="switch-track"><span class="switch-thumb"></span></span>
-            </label>
-
-            <div class="full button-row">
-              <button class="primary-btn" id="generateBtn" type="button" disabled>
-                <span id="generateIcon">↓</span>
-                <span id="generateLabel">Generate CSV</span>
-              </button>
-              <button class="secondary-btn" id="copyBtn" type="button" disabled>
-                <span>⧉</span>
-                <span id="copyLabel">Copy first CSV text</span>
-              </button>
+            <div class="toggle-card">
+              <div class="toggle-copy">
+                <b>Disable Boosts</b>
+                <span>Writes boost codes in disableBoost.</span>
+              </div>
+              <label class="switch" for="disableBoosts" aria-label="Disable Boosts">
+                <input id="disableBoosts" type="checkbox" />
+                <span class="slider"></span>
+              </label>
             </div>
           </div>
         </div>
+
+        <div class="actions">
+          <button class="btn" type="button" id="generateBtn" disabled><span id="generateIcon">↓</span><span id="generateLabel">Generate CSV</span></button>
+          <button class="btn secondary" type="button" id="copyBtn" disabled>⧉ <span id="copyLabel">Copy first CSV text</span></button>
+        </div>
       </div>
 
+      <aside class="card">
+        <h2 class="section-title"><span class="icon">☰</span> Selected data</h2>
+        <div class="stats">
+          <div class="stat"><div class="label">Players</div><div class="value" id="playersCount">0</div></div>
+          <div class="stat"><div class="label">Files</div><div class="value" id="filesCount">0</div></div>
+          <div class="stat"><div class="label">Output</div><div class="value" id="outputType">—</div></div>
+        </div>
+
+        <div class="status">
+          <div class="status-icon" id="statusIcon">✓</div>
+          <div>
+            <p class="status-title" id="statusTitle">Core upload / betFactor 1.01</p>
+            <p class="status-text" id="statusText">Paste player IDs to start.</p>
+          </div>
+        </div>
+
+        <div class="pill-grid">
+          <div class="pill-card"><div class="k">Brand ID</div><div class="d">brandId column value</div><div class="v" id="brandPill">empty</div></div>
+          <div class="pill-card"><div class="k">Disable CO</div><div class="d">disableCO column value</div><div class="v" id="disableCOPill">empty</div></div>
+          <div class="pill-card"><div class="k">Disable Boosts</div><div class="d">disableBoost column value</div><div class="v" id="disableBoostPill">empty</div></div>
+          <div class="pill-card"><div class="k">Player note</div><div class="d">applied to all generated rows</div><div class="v" id="notePill">empty</div></div>
+          <div class="pill-card"><div class="k">Player note priority</div><div class="d">playerNotePriority column value</div><div class="v" id="priorityPillDisplay">Neutral / 2</div></div>
+          <div class="pill-card"><div class="k">In-play bet delay</div><div class="d">left empty when not provided</div><div class="v" id="delayPill">empty</div></div>
+        </div>
+
+        <h2 class="section-title"><span class="icon">▦</span> <span id="previewTitle">CSV preview</span></h2>
+        <pre id="preview">Paste player IDs to see a preview.</pre>
+      </aside>
+    </section>
+
+    <section id="cutterPanel" class="grid hidden">
       <div class="card">
-        <div class="card-title">Selected data</div>
-        <div class="card-body">
-          <div class="stats">
-            <div class="stat">
-              <div class="stat-label">Players</div>
-              <div class="stat-value" id="playersCount">0</div>
-            </div>
-            <div class="stat">
-              <div class="stat-label">Files</div>
-              <div class="stat-value" id="filesCount">0</div>
-            </div>
-            <div class="stat">
-              <div class="stat-label">Output</div>
-              <div class="stat-value" id="outputType">—</div>
-            </div>
-          </div>
-
-          <div class="info-box">
-            <div class="info-title"><span id="statusIcon">✓</span><span id="statusTitle">Core upload / betFactor 1.01</span></div>
-            <div id="statusText">Paste player IDs to start.</div>
-          </div>
-
-          <div class="settings-list">
-            <div class="setting-row">
-              <div>
-                <div class="setting-name">Brand ID</div>
-                <div class="setting-desc">brandId column value</div>
-              </div>
-              <div class="pill" id="brandPill">empty</div>
-            </div>
-            <div class="setting-row">
-              <div>
-                <div class="setting-name">Disable CO</div>
-                <div class="setting-desc">disableCO column value</div>
-              </div>
-              <div class="pill green" id="disableCOPill">empty</div>
-            </div>
-            <div class="setting-row">
-              <div>
-                <div class="setting-name">Player note</div>
-                <div class="setting-desc">applied to all generated rows</div>
-              </div>
-              <div class="pill" id="notePill">empty</div>
-            </div>
-            <div class="setting-row">
-              <div>
-                <div class="setting-name">Player note priority</div>
-                <div class="setting-desc">playerNotePriority column value</div>
-              </div>
-              <div class="pill" id="priorityPill">Neutral / 2</div>
-            </div>
-            <div class="setting-row">
-              <div>
-                <div class="setting-name">In-play bet delay</div>
-                <div class="setting-desc">left empty when not provided</div>
-              </div>
-              <div class="pill" id="delayPill">empty</div>
-            </div>
-          </div>
-
-          <div class="preview-wrap">
-            <div class="preview-title">▦ <span id="previewTitle">CSV preview</span></div>
-            <pre id="preview">Paste player IDs to see a preview.</pre>
-          </div>
+        <h2 class="section-title"><span class="icon">✂</span> File Cutter</h2>
+        <input class="hidden" id="cutterFile" type="file" accept=".csv,text/csv" />
+        <div class="drop" id="fileDrop" role="button" tabindex="0">
+          <strong>Drop CSV here or click to choose</strong>
+          <span>The first row will be kept as the header in every split file. Each output CSV will contain maximum 98 accounts/data rows.</span>
+          <div class="file-name" id="cutterFileName">No file selected</div>
+        </div>
+        <div class="error" id="cutterError"></div>
+        <div class="actions">
+          <button class="btn" type="button" id="cutFileBtn" disabled>▣ Cut file and download ZIP</button>
+          <button class="btn danger" type="button" id="clearCutterBtn">× Clear file</button>
         </div>
       </div>
-    </section>
-    </section>
 
-    <section class="tool-panel hidden" id="cutterPanel">
-      <section class="wide-grid">
-        <div class="card">
-          <div class="card-title">File Cutter</div>
-          <div class="card-body">
-            <div class="form-grid">
-              <div class="full">
-                <label class="caption" for="cutterFile">Upload ready CSV file</label>
-                <label class="file-drop" id="fileDrop" for="cutterFile">
-                  <input id="cutterFile" type="file" accept=".csv,text/csv" />
-                  <div>
-                    <div class="file-drop-title">Drop CSV here or click to choose</div>
-                    <div class="file-drop-subtitle">The first row will be kept as the header in every split file. Each output CSV will contain maximum 98 accounts/data rows.</div>
-                    <div class="file-name" id="cutterFileName">No file selected</div>
-                  </div>
-                </label>
-                <div class="error-box" id="cutterError"></div>
-              </div>
-
-              <div class="full button-row">
-                <button class="primary-btn" id="cutFileBtn" type="button" disabled>
-                  <span>▣</span>
-                  <span>Cut file and download ZIP</span>
-                </button>
-                <button class="secondary-btn" id="clearCutterBtn" type="button">
-                  <span>×</span>
-                  <span>Clear file</span>
-                </button>
-              </div>
-            </div>
+      <aside class="card">
+        <h2 class="section-title"><span class="icon">☰</span> Cutter preview</h2>
+        <div class="stats">
+          <div class="stat"><div class="label">Rows</div><div class="value" id="cutterRowsCount">0</div></div>
+          <div class="stat"><div class="label">Files</div><div class="value" id="cutterFilesCount">0</div></div>
+          <div class="stat"><div class="label">Max / file</div><div class="value">98</div></div>
+        </div>
+        <div class="status">
+          <div class="status-icon" id="cutterStatusIcon">✓</div>
+          <div>
+            <p class="status-title" id="cutterStatusTitle">Waiting for CSV</p>
+            <p class="status-text" id="cutterStatusText">Upload a prepared CSV and I will split it into files with the same header row.</p>
           </div>
         </div>
-
-        <div class="card">
-          <div class="card-title">Cutter preview</div>
-          <div class="card-body">
-            <div class="stats">
-              <div class="stat">
-                <div class="stat-label">Rows</div>
-                <div class="stat-value" id="cutterRowsCount">0</div>
-              </div>
-              <div class="stat">
-                <div class="stat-label">Files</div>
-                <div class="stat-value" id="cutterFilesCount">0</div>
-              </div>
-              <div class="stat">
-                <div class="stat-label">Max / file</div>
-                <div class="stat-value">98</div>
-              </div>
-            </div>
-
-            <div class="info-box">
-              <div class="info-title"><span id="cutterStatusIcon">✓</span><span id="cutterStatusTitle">Waiting for CSV</span></div>
-              <div id="cutterStatusText">Upload a prepared CSV and I will split it into files with the same header row.</div>
-            </div>
-
-            <div class="preview-wrap">
-              <div class="preview-title">▦ <span>Uploaded file preview</span></div>
-              <pre id="cutterPreview">Upload a CSV file to see the header and first rows.</pre>
-            </div>
-          </div>
-        </div>
-      </section>
+        <h2 class="section-title"><span class="icon">▦</span> Uploaded file preview</h2>
+        <pre id="cutterPreview">Upload a CSV file to see the header and first rows.</pre>
+      </aside>
     </section>
 
+    <section id="betnotesPanel" class="grid hidden">
+      <div class="card">
+        <h2 class="section-title"><span class="icon">◎</span> Auto Betnotes Format+Cut</h2>
+        <input class="hidden" id="betnotesFile" type="file" accept=".xlsx,.xls,.csv,text/csv" />
+        <div class="drop" id="betnotesDrop" role="button" tabindex="0">
+          <strong>Drop XLSX/CSV here or click to choose</strong>
+          <span>The tool reads Bet ID, Brand, Bet Note Priority, and Bet Note, then creates CSV files with max 998 betIds each.</span>
+          <div class="file-name" id="betnotesFileName">No file selected</div>
+        </div>
+        <div class="error" id="betnotesError"></div>
+        <div class="actions">
+          <button class="btn" type="button" id="formatBetnotesBtn" disabled>▦ Format and download</button>
+          <button class="btn danger" type="button" id="clearBetnotesBtn">× Clear file</button>
+        </div>
+      </div>
 
-    <section class="tool-panel hidden" id="betnotesPanel">
-      <section class="wide-grid">
-        <div class="card">
-          <div class="card-title">Auto Betnotes Format+Cut</div>
-          <div class="card-body">
-            <div class="form-grid">
-              <div class="full">
-                <label class="caption" for="betnotesFile">Upload automated bet notes report</label>
-                <label class="file-drop" id="betnotesDrop" for="betnotesFile">
-                  <input id="betnotesFile" type="file" accept=".xlsx,.xls,.csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel,text/csv" />
-                  <div>
-                    <div class="file-drop-title">Drop XLSX/CSV here or click to choose</div>
-                    <div class="file-drop-subtitle">The tool reads Bet ID, Brand, Bet Note Priority, and Bet Note, then creates CSV files with max 998 betIds each.</div>
-                    <div class="file-name" id="betnotesFileName">No file selected</div>
-                  </div>
-                </label>
-                <div class="error-box" id="betnotesError"></div>
-              </div>
-
-              <div class="full button-row">
-                <button class="primary-btn" id="formatBetnotesBtn" type="button" disabled>
-                  <span>▦</span>
-                  <span>Format and download</span>
-                </button>
-                <button class="secondary-btn" id="clearBetnotesBtn" type="button">
-                  <span>×</span>
-                  <span>Clear file</span>
-                </button>
-              </div>
-            </div>
+      <aside class="card">
+        <h2 class="section-title"><span class="icon">☰</span> Betnotes preview</h2>
+        <div class="stats">
+          <div class="stat"><div class="label">Bet IDs</div><div class="value" id="betnotesRowsCount">0</div></div>
+          <div class="stat"><div class="label">Files</div><div class="value" id="betnotesFilesCount">0</div></div>
+          <div class="stat"><div class="label">Max / file</div><div class="value">998</div></div>
+        </div>
+        <div class="status">
+          <div class="status-icon" id="betnotesStatusIcon">✓</div>
+          <div>
+            <p class="status-title" id="betnotesStatusTitle">Waiting for report</p>
+            <p class="status-text" id="betnotesStatusText">Upload the automated bet noting report and I will format it into betId, brand, betNotePriority, betNoteText.</p>
           </div>
         </div>
-
-        <div class="card">
-          <div class="card-title">Betnotes preview</div>
-          <div class="card-body">
-            <div class="stats">
-              <div class="stat">
-                <div class="stat-label">Bet IDs</div>
-                <div class="stat-value" id="betnotesRowsCount">0</div>
-              </div>
-              <div class="stat">
-                <div class="stat-label">Files</div>
-                <div class="stat-value" id="betnotesFilesCount">0</div>
-              </div>
-              <div class="stat">
-                <div class="stat-label">Max / file</div>
-                <div class="stat-value">998</div>
-              </div>
-            </div>
-
-            <div class="info-box">
-              <div class="info-title"><span id="betnotesStatusIcon">✓</span><span id="betnotesStatusTitle">Waiting for report</span></div>
-              <div id="betnotesStatusText">Upload the automated bet noting report and I will format it into betId, brand, betNotePriority, betNoteText.</div>
-            </div>
-
-            <div class="mini-table">
-              <div class="mini-row"><span>Output columns</span><span>betId, brand, betNotePriority, betNoteText</span></div>
-              <div class="mini-row"><span>Source columns</span><span>Bet ID, Brand, Bet Note Priority, Bet Note</span></div>
-            </div>
-
-            <div class="preview-wrap">
-              <div class="preview-title">▦ <span>Formatted CSV preview</span></div>
-              <pre id="betnotesPreview">Upload XLSX/CSV to see the formatted output preview.</pre>
-            </div>
-          </div>
+        <div class="pill-grid">
+          <div class="pill-card"><div class="k">Output columns</div><div class="v">betId, brand, betNotePriority, betNoteText</div></div>
+          <div class="pill-card"><div class="k">Source columns</div><div class="v">Bet ID, Brand, Bet Note Priority, Bet Note</div></div>
         </div>
-      </section>
+        <h2 class="section-title"><span class="icon">▦</span> Formatted CSV preview</h2>
+        <pre id="betnotesPreview">Upload XLSX/CSV to see the formatted output preview.</pre>
+      </aside>
     </section>
-
-  </main>
+  </div>
 
   <div class="toast" id="toast">Copied</div>
 
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-  <script>
-    const CATEGORY_META = [
-      { name: "PVIP", factor: "1.5", color: "#5aa9e6", textColor: "#f7fbff" },
-      { name: "Core", factor: "1.01", color: "#55c878", textColor: "#06120a" },
-      { name: "Unclass", factor: "1", color: "#a85db4", textColor: "#fff7ff" },
-      { name: "Wise", factor: "0.1", color: "#d8ad3d", textColor: "#171000" },
-      { name: "BonusAbuse", factor: "0.49", color: "#8a3e40", textColor: "#ffffff" },
-      { name: "VIP", factor: "2", color: "#3fa85a", textColor: "#f7fff9" },
-      { name: "New★", factor: "1", color: "#8a8f99", textColor: "#ffffff" },
-      { name: "OpPolicy", factor: "1", color: "#49c9bf", textColor: "#061513" },
-      { name: "SpainClos", factor: "0.99", color: "#d65a4a", textColor: "#fff8f7" },
-      { name: "Review", factor: "0.5", color: "#c7d84a", textColor: "#101500" },
-      { name: "PPTR", factor: "1", color: "#111827", textColor: "#ffffff" },
-      { name: "Arbs", factor: "0.01", color: "#cf454b", textColor: "#ffffff" },
-      { name: "Palps", factor: "0.01", color: "#cf454b", textColor: "#ffffff" },
-      { name: "Exchange", factor: "0.01", color: "#cf454b", textColor: "#ffffff" },
-      { name: "Latency", factor: "0.01", color: "#cf454b", textColor: "#ffffff" },
-      { name: "Integrity", factor: "0.01", color: "#cf454b", textColor: "#ffffff" },
-      { name: "Sharp", factor: "0.01", color: "#cf454b", textColor: "#ffffff" }
-    ];
-
-    const BET_FACTORS = Object.fromEntries(CATEGORY_META.map((item) => [item.name, item.factor]));
-    const CATEGORY_BY_NAME = Object.fromEntries(CATEGORY_META.map((item) => [item.name, item]));
-    let selectedCategory = "Core";
-
-    const HEADERS = [
-      "playerId",
-      "brandId",
-      "playerAlias",
-      "inPlayBetDelay",
-      "disableCO",
-      "riskCategory",
-      "betFactor",
-      "playerNote",
-      "playerNotePriority",
-      "Resolved",
-      "disableBoost"
-    ];
-
-    const MAX_PLAYERS_PER_FILE = 98;
-    const MAX_BETNOTES_PER_FILE = 998;
-    const BETNOTE_HEADERS = ["betId", "brand", "betNotePriority", "betNoteText"];
-
-    const BRANDS = [
-      "daznbetes",
-      "quinnbet",
-      "daznbet",
-      "daznbetde",
-      "borawin",
-      "betbox",
-      "ntigaming",
-      "mistycasino",
-      "ganobet",
-      "casitoros",
-      "madridbet",
-      "casinoplata",
-      "granpampa",
-      "betmasr",
-      "goldpot",
-      "casitap",
-      "reysur",
-      "epikbahis",
-      "casinospino",
-      "yedibahis"
-    ];
-
-    const els = {
-      categorySearch: document.getElementById("categorySearch"),
-      categorySearchBtn: document.getElementById("categorySearchBtn"),
-      categoryResults: document.getElementById("categoryResults"),
-      categorySwatch: document.getElementById("categorySwatch"),
-      factorBox: document.getElementById("factorBox"),
-      accounts: document.getElementById("accounts"),
-      brandId: document.getElementById("brandId"),
-      brandResults: document.getElementById("brandResults"),
-      playerNote: document.getElementById("playerNote"),
-      playerNoteError: document.getElementById("playerNoteError"),
-      playerNotePriority: document.getElementById("playerNotePriority"),
-      priorityPill: document.getElementById("priorityPill"),
-      inPlayBetDelay: document.getElementById("inPlayBetDelay"),
-      disableCO: document.getElementById("disableCO"),
-      betFactor: document.getElementById("betFactor"),
-      playersCount: document.getElementById("playersCount"),
-      filesCount: document.getElementById("filesCount"),
-      outputType: document.getElementById("outputType"),
-      statusIcon: document.getElementById("statusIcon"),
-      statusTitle: document.getElementById("statusTitle"),
-      statusText: document.getElementById("statusText"),
-      disableCOPill: document.getElementById("disableCOPill"),
-      brandPill: document.getElementById("brandPill"),
-      notePill: document.getElementById("notePill"),
-      delayPill: document.getElementById("delayPill"),
-      preview: document.getElementById("preview"),
-      previewTitle: document.getElementById("previewTitle"),
-      generateBtn: document.getElementById("generateBtn"),
-      generateIcon: document.getElementById("generateIcon"),
-      generateLabel: document.getElementById("generateLabel"),
-      copyBtn: document.getElementById("copyBtn"),
-      copyLabel: document.getElementById("copyLabel"),
-      resetBtn: document.getElementById("resetBtn"),
-      toast: document.getElementById("toast"),
-      generatorTab: document.getElementById("generatorTab"),
-      cutterTab: document.getElementById("cutterTab"),
-      betnotesTab: document.getElementById("betnotesTab"),
-      generatorPanel: document.getElementById("generatorPanel"),
-      cutterPanel: document.getElementById("cutterPanel"),
-      betnotesPanel: document.getElementById("betnotesPanel"),
-      cutterFile: document.getElementById("cutterFile"),
-      fileDrop: document.getElementById("fileDrop"),
-      cutterFileName: document.getElementById("cutterFileName"),
-      cutterError: document.getElementById("cutterError"),
-      cutFileBtn: document.getElementById("cutFileBtn"),
-      clearCutterBtn: document.getElementById("clearCutterBtn"),
-      cutterRowsCount: document.getElementById("cutterRowsCount"),
-      cutterFilesCount: document.getElementById("cutterFilesCount"),
-      cutterStatusIcon: document.getElementById("cutterStatusIcon"),
-      cutterStatusTitle: document.getElementById("cutterStatusTitle"),
-      cutterStatusText: document.getElementById("cutterStatusText"),
-      cutterPreview: document.getElementById("cutterPreview"),
-      betnotesFile: document.getElementById("betnotesFile"),
-      betnotesDrop: document.getElementById("betnotesDrop"),
-      betnotesFileName: document.getElementById("betnotesFileName"),
-      betnotesError: document.getElementById("betnotesError"),
-      formatBetnotesBtn: document.getElementById("formatBetnotesBtn"),
-      clearBetnotesBtn: document.getElementById("clearBetnotesBtn"),
-      betnotesRowsCount: document.getElementById("betnotesRowsCount"),
-      betnotesFilesCount: document.getElementById("betnotesFilesCount"),
-      betnotesStatusIcon: document.getElementById("betnotesStatusIcon"),
-      betnotesStatusTitle: document.getElementById("betnotesStatusTitle"),
-      betnotesStatusText: document.getElementById("betnotesStatusText"),
-      betnotesPreview: document.getElementById("betnotesPreview")
-    };
-
-    function splitAccounts(raw) {
-      return raw
-        .split(/[\n,;\t ]+/)
-        .map((item) => item.trim())
-        .filter(Boolean);
-    }
-
-    function chunkArray(items, size) {
-      const chunks = [];
-      for (let i = 0; i < items.length; i += size) {
-        chunks.push(items.slice(i, i + size));
-      }
-      return chunks;
-    }
-
-    function escapeCsv(value) {
-      const stringValue = value == null ? "" : String(value);
-      if (/[,"\n\r]/.test(stringValue)) return `"${stringValue.replace(/"/g, '""')}"`;
-      return stringValue;
-    }
-
-    function getSettings() {
-      return {
-        category: selectedCategory,
-        betFactor: els.betFactor.value.trim() || BET_FACTORS[selectedCategory],
-        disableCO: els.disableCO.checked,
-        brandId: els.brandId.value.trim(),
-        playerNote: els.playerNote.value.trim(),
-        playerNotePriority: els.playerNotePriority.value,
-        inPlayBetDelay: els.inPlayBetDelay.value.trim()
-      };
-    }
-
-    function buildRows(accounts, settings) {
-      return accounts.map((playerId) => ({
-        playerId,
-        brandId: settings.brandId || "",
-        playerAlias: "",
-        inPlayBetDelay: settings.inPlayBetDelay || "",
-        disableCO: settings.disableCO ? "TRUE" : "",
-        riskCategory: settings.category,
-        betFactor: settings.betFactor,
-        playerNote: settings.playerNote || "",
-        playerNotePriority: settings.playerNotePriority || "2",
-        Resolved: "",
-        disableBoost: ""
-      }));
-    }
-
-    function buildCsv(accounts, settings, includeBom = true) {
-      const rows = buildRows(accounts, settings);
-      const lines = rows.map((row) => HEADERS.map((header) => escapeCsv(row[header])).join(","));
-      return `${includeBom ? "\uFEFF" : ""}${HEADERS.join(",")}\r\n${lines.join("\r\n")}${lines.length ? "\r\n" : ""}`;
-    }
-
-    function makeFilename(category, index, total) {
-      const safeCategory = category.toLowerCase().replace(/[^a-z0-9]+/g, "-");
-      if (total > 1) {
-        return `bulk-upload-${safeCategory}-${String(index + 1).padStart(2, "0")}-of-${String(total).padStart(2, "0")}.csv`;
-      }
-      return `bulk-upload-${safeCategory}.csv`;
-    }
-
-    function downloadBlob(blob, filename) {
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = filename;
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-      setTimeout(() => URL.revokeObjectURL(url), 1000);
-    }
-
-    function crc32(bytes) {
-      let table = crc32.table;
-      if (!table) {
-        table = new Uint32Array(256);
-        for (let i = 0; i < 256; i++) {
-          let c = i;
-          for (let k = 0; k < 8; k++) c = (c & 1) ? (0xedb88320 ^ (c >>> 1)) : (c >>> 1);
-          table[i] = c >>> 0;
-        }
-        crc32.table = table;
-      }
-      let crc = 0xffffffff;
-      for (let i = 0; i < bytes.length; i++) crc = table[(crc ^ bytes[i]) & 0xff] ^ (crc >>> 8);
-      return (crc ^ 0xffffffff) >>> 0;
-    }
-
-    function dosDateTime(date = new Date()) {
-      const dosTime = (date.getHours() << 11) | (date.getMinutes() << 5) | Math.floor(date.getSeconds() / 2);
-      const dosDate = ((date.getFullYear() - 1980) << 9) | ((date.getMonth() + 1) << 5) | date.getDate();
-      return { dosTime, dosDate };
-    }
-
-    function u16(value) {
-      return new Uint8Array([value & 255, (value >>> 8) & 255]);
-    }
-
-    function u32(value) {
-      return new Uint8Array([value & 255, (value >>> 8) & 255, (value >>> 16) & 255, (value >>> 24) & 255]);
-    }
-
-    function concatArrays(arrays) {
-      const total = arrays.reduce((sum, arr) => sum + arr.length, 0);
-      const out = new Uint8Array(total);
-      let offset = 0;
-      for (const arr of arrays) {
-        out.set(arr, offset);
-        offset += arr.length;
-      }
-      return out;
-    }
-
-    function createZip(files) {
-      const encoder = new TextEncoder();
-      const localParts = [];
-      const centralParts = [];
-      let offset = 0;
-      const { dosTime, dosDate } = dosDateTime();
-
-      files.forEach((file) => {
-        const nameBytes = encoder.encode(file.name);
-        const dataBytes = encoder.encode(file.content);
-        const crc = crc32(dataBytes);
-        const localHeader = concatArrays([
-          u32(0x04034b50), u16(20), u16(0), u16(0), u16(dosTime), u16(dosDate),
-          u32(crc), u32(dataBytes.length), u32(dataBytes.length), u16(nameBytes.length), u16(0), nameBytes
-        ]);
-        localParts.push(localHeader, dataBytes);
-
-        const centralHeader = concatArrays([
-          u32(0x02014b50), u16(20), u16(20), u16(0), u16(0), u16(dosTime), u16(dosDate),
-          u32(crc), u32(dataBytes.length), u32(dataBytes.length), u16(nameBytes.length), u16(0), u16(0),
-          u16(0), u16(0), u32(0), u32(offset), nameBytes
-        ]);
-        centralParts.push(centralHeader);
-        offset += localHeader.length + dataBytes.length;
-      });
-
-      const centralDirectory = concatArrays(centralParts);
-      const localFiles = concatArrays(localParts);
-      const end = concatArrays([
-        u32(0x06054b50), u16(0), u16(0), u16(files.length), u16(files.length),
-        u32(centralDirectory.length), u32(localFiles.length), u16(0)
-      ]);
-
-      return new Blob([localFiles, centralDirectory, end], { type: "application/zip" });
-    }
-
-    function currentState() {
-      const accounts = splitAccounts(els.accounts.value);
-      const settings = getSettings();
-      const chunks = chunkArray(accounts, MAX_PLAYERS_PER_FILE);
-      return { accounts, settings, chunks };
-    }
-
-    function updateUi() {
-      const { accounts, settings, chunks } = currentState();
-      const hasAccounts = accounts.length > 0;
-      const noteIsValid = settings.playerNote.length >= 5;
-      const isZip = accounts.length > MAX_PLAYERS_PER_FILE;
-      const filesCount = hasAccounts ? chunks.length : 0;
-
-      els.playersCount.textContent = accounts.length;
-      els.filesCount.textContent = filesCount;
-      els.outputType.textContent = hasAccounts ? (isZip ? "ZIP" : "CSV") : "—";
-      els.statusIcon.textContent = isZip ? "!" : "✓";
-      els.statusTitle.textContent = `${settings.category} upload / betFactor ${settings.betFactor}`;
-      els.statusText.textContent = !hasAccounts
-        ? "Paste player IDs to start. Player note is mandatory and must be at least 5 symbols."
-        : !noteIsValid
-          ? "Player note is mandatory. Add at least 5 symbols before generating the file."
-        : isZip
-          ? `More than 98 players detected. Download will be a ZIP with ${chunks.length} CSV files, max 98 players in each.`
-          : "Ready to generate one CSV file. Maximum per single file is 98 players.";
-      els.disableCOPill.textContent = settings.disableCO ? "YES / TRUE" : "NO / empty";
-      els.brandPill.textContent = settings.brandId || "empty";
-      els.notePill.textContent = settings.playerNote || "empty";
-      const priorityLabels = { "3": "Positive / 3", "2": "Neutral / 2", "1": "Negative / 1" };
-      els.priorityPill.textContent = priorityLabels[settings.playerNotePriority] || "Neutral / 2";
-      els.delayPill.textContent = settings.inPlayBetDelay || "empty";
-      els.playerNote.classList.toggle("invalid", hasAccounts && !noteIsValid);
-      els.playerNoteError.classList.toggle("show", hasAccounts && !noteIsValid);
-      els.generateBtn.disabled = !hasAccounts || !noteIsValid;
-      els.copyBtn.disabled = !hasAccounts || !noteIsValid;
-      els.generateIcon.textContent = isZip ? "▣" : "↓";
-      els.generateLabel.textContent = `Generate ${hasAccounts && isZip ? "ZIP" : "CSV"}`;
-      els.previewTitle.textContent = `CSV preview${accounts.length > 8 ? " (first 8 rows)" : ""}`;
-      els.preview.textContent = hasAccounts ? buildCsv(accounts.slice(0, 8), settings, false) : "Paste player IDs to see a preview.";
-    }
-
-    function handleDownload() {
-      const { accounts, settings, chunks } = currentState();
-      if (!accounts.length) return;
-
-      if (accounts.length <= MAX_PLAYERS_PER_FILE) {
-        const csv = buildCsv(accounts, settings, true);
-        downloadBlob(new Blob([csv], { type: "text/csv;charset=utf-8" }), makeFilename(settings.category, 0, 1));
-        return;
-      }
-
-      const files = chunks.map((chunk, index) => ({
-        name: makeFilename(settings.category, index, chunks.length),
-        content: buildCsv(chunk, settings, true)
-      }));
-      const zipBlob = createZip(files);
-      const safeCategory = settings.category.toLowerCase().replace(/[^a-z0-9]+/g, "-");
-      downloadBlob(zipBlob, `bulk-upload-${safeCategory}-${accounts.length}-players.zip`);
-    }
-
-    async function handleCopy() {
-      const { accounts, settings } = currentState();
-      if (!accounts.length) return;
-      const csv = buildCsv(accounts.slice(0, MAX_PLAYERS_PER_FILE), settings, false);
-      await navigator.clipboard.writeText(csv);
-      els.copyLabel.textContent = "Copied";
-      els.toast.classList.add("show");
-      setTimeout(() => {
-        els.copyLabel.textContent = "Copy first CSV text";
-        els.toast.classList.remove("show");
-      }, 1400);
-    }
-
-    function resetForm() {
-      selectedCategory = "Core";
-      els.categorySearch.value = "Core";
-      els.betFactor.value = BET_FACTORS.Core;
-      applyCategoryStyle();
-      els.accounts.value = "";
-      els.brandId.value = "";
-      hideBrandResults();
-      els.playerNote.value = "";
-      els.playerNotePriority.value = "2";
-      els.inPlayBetDelay.value = "";
-      els.disableCO.checked = false;
-      updateUi();
-    }
-
-    function matchingBrands() {
-      const query = els.brandId.value.trim().toLowerCase();
-      if (!query) return BRANDS;
-      return BRANDS.filter((brand) => brand.toLowerCase().includes(query));
-    }
-
-    function renderBrandResults() {
-      const matches = matchingBrands();
-      const selectedBrand = els.brandId.value.trim().toLowerCase();
-      els.brandResults.innerHTML = "";
-
-      if (!matches.length) {
-        const empty = document.createElement("div");
-        empty.className = "brand-empty";
-        empty.textContent = "No match. Press Enter or click away to use this as a custom brand.";
-        els.brandResults.appendChild(empty);
-      } else {
-        matches.forEach((brand) => {
-          const button = document.createElement("button");
-          button.type = "button";
-          button.className = "brand-option" + (brand.toLowerCase() === selectedBrand ? " selected" : "");
-          button.textContent = brand;
-          button.addEventListener("mousedown", (event) => {
-            event.preventDefault();
-            els.brandId.value = brand;
-            hideBrandResults();
-            updateUi();
-          });
-          els.brandResults.appendChild(button);
-        });
-      }
-
-      els.brandResults.classList.add("show");
-    }
-
-    function hideBrandResults() {
-      els.brandResults.classList.remove("show");
-    }
-
-    els.brandId.addEventListener("focus", renderBrandResults);
-    els.brandId.addEventListener("input", () => {
-      renderBrandResults();
-      updateUi();
-    });
-    els.brandId.addEventListener("keydown", (event) => {
-      if (event.key === "Escape") hideBrandResults();
-      if (event.key === "Enter") {
-        event.preventDefault();
-        const first = els.brandResults.querySelector(".brand-option");
-        if (first) els.brandId.value = first.textContent;
-        hideBrandResults();
-        updateUi();
-      }
-    });
-    els.brandId.addEventListener("blur", () => setTimeout(hideBrandResults, 120));
-
-    function applyCategoryStyle() {
-      const meta = CATEGORY_BY_NAME[selectedCategory] || CATEGORY_BY_NAME.Core;
-      document.documentElement.style.setProperty("--category-color", meta.color);
-      document.documentElement.style.setProperty("--factor-text-color", meta.textColor);
-      els.categorySwatch.style.background = meta.color;
-    }
-
-    function chooseCategory(name) {
-      const meta = CATEGORY_BY_NAME[name] || CATEGORY_BY_NAME.Core;
-      selectedCategory = meta.name;
-      els.categorySearch.value = meta.name;
-      els.betFactor.value = meta.factor;
-      applyCategoryStyle();
-      updateUi();
-    }
-
-    els.categorySearch.addEventListener("change", () => {
-      chooseCategory(els.categorySearch.value);
-    });
-
-
-    let cutterState = {
-      fileName: "",
-      header: "",
-      rows: []
-    };
-
-    function setActiveTool(tool) {
-      const showCutter = tool === "cutter";
-      const showBetnotes = tool === "betnotes";
-      els.generatorTab.classList.toggle("active", !showCutter && !showBetnotes);
-      els.cutterTab.classList.toggle("active", showCutter);
-      els.betnotesTab.classList.toggle("active", showBetnotes);
-      els.generatorPanel.classList.toggle("hidden", showCutter || showBetnotes);
-      els.cutterPanel.classList.toggle("hidden", !showCutter);
-      els.betnotesPanel.classList.toggle("hidden", !showBetnotes);
-    }
-
-    function showCutterError(message) {
-      els.cutterError.textContent = message || "";
-      els.cutterError.classList.toggle("show", Boolean(message));
-    }
-
-    function splitCsvRecordsRaw(text) {
-      const cleaned = String(text || "").replace(/^﻿/, "");
-      const records = [];
-      let current = "";
-      let inQuotes = false;
-
-      for (let i = 0; i < cleaned.length; i++) {
-        const char = cleaned[i];
-        const next = cleaned[i + 1];
-
-        if (char === '"') {
-          current += char;
-          if (inQuotes && next === '"') {
-            current += next;
-            i++;
-          } else {
-            inQuotes = !inQuotes;
-          }
-          continue;
-        }
-
-        if (!inQuotes && (char === "\n" || char === "\r")) {
-          if (char === "\r" && next === "\n") i++;
-          if (current.trim() !== "") records.push(current);
-          current = "";
-          continue;
-        }
-
-        current += char;
-      }
-
-      if (current.trim() !== "") records.push(current);
-      return records;
-    }
-
-    function baseName(fileName) {
-      return (fileName || "split-file").replace(/\.[^.]+$/, "").replace(/[^a-zA-Z0-9_-]+/g, "-").replace(/^-+|-+$/g, "") || "split-file";
-    }
-
-    function updateCutterUi() {
-      const rows = cutterState.rows || [];
-      const fileCount = rows.length ? Math.ceil(rows.length / MAX_PLAYERS_PER_FILE) : 0;
-      els.cutterRowsCount.textContent = rows.length;
-      els.cutterFilesCount.textContent = fileCount;
-      els.cutFileBtn.disabled = rows.length === 0;
-      els.cutterFileName.textContent = cutterState.fileName || "No file selected";
-      els.cutterStatusIcon.textContent = rows.length > MAX_PLAYERS_PER_FILE ? "!" : "✓";
-      els.cutterStatusTitle.textContent = rows.length ? `${rows.length} data rows / ${fileCount} output file${fileCount === 1 ? "" : "s"}` : "Waiting for CSV";
-      els.cutterStatusText.textContent = rows.length
-        ? `Every split file will include the original header row. Maximum ${MAX_PLAYERS_PER_FILE} data rows per CSV.`
-        : "Upload a prepared CSV and I will split it into files with the same header row.";
-      els.cutterPreview.textContent = rows.length
-        ? [cutterState.header, ...rows.slice(0, 8)].join("\r\n") + (rows.length > 8 ? "\r\n..." : "")
-        : "Upload a CSV file to see the header and first rows.";
-    }
-
-    function clearCutter() {
-      cutterState = { fileName: "", header: "", rows: [] };
-      els.cutterFile.value = "";
-      showCutterError("");
-      updateCutterUi();
-    }
-
-    function loadCutterFile(file) {
-      if (!file) return;
-      if (!file.name.toLowerCase().endsWith(".csv")) {
-        clearCutter();
-        showCutterError("Please upload a CSV file.");
-        return;
-      }
-
-      const reader = new FileReader();
-      reader.onload = () => {
-        try {
-          const records = splitCsvRecordsRaw(reader.result);
-          if (records.length < 2) {
-            clearCutter();
-            showCutterError("This CSV needs one header row and at least one data row.");
-            return;
-          }
-          cutterState = {
-            fileName: file.name,
-            header: records[0],
-            rows: records.slice(1).filter((row) => row.trim() !== "")
-          };
-          showCutterError("");
-          updateCutterUi();
-        } catch (error) {
-          clearCutter();
-          showCutterError("Could not read this CSV. Please check the file and try again.");
-        }
-      };
-      reader.onerror = () => {
-        clearCutter();
-        showCutterError("Could not read this CSV. Please check the file and try again.");
-      };
-      reader.readAsText(file, "utf-8");
-    }
-
-    function makeCutterCsv(rows) {
-      return `﻿${cutterState.header}\r\n${rows.join("\r\n")}\r\n`;
-    }
-
-    function handleCutFile() {
-      if (!cutterState.rows.length) return;
-      const chunks = chunkArray(cutterState.rows, MAX_PLAYERS_PER_FILE);
-      const name = baseName(cutterState.fileName);
-
-      if (chunks.length === 1) {
-        downloadBlob(new Blob([makeCutterCsv(chunks[0])], { type: "text/csv;charset=utf-8" }), `${name}-part-01-of-01.csv`);
-        return;
-      }
-
-      const files = chunks.map((chunk, index) => ({
-        name: `${name}-part-${String(index + 1).padStart(2, "0")}-of-${String(chunks.length).padStart(2, "0")}.csv`,
-        content: makeCutterCsv(chunk)
-      }));
-      downloadBlob(createZip(files), `${name}-split-${chunks.length}-files.zip`);
-    }
-
-
-
-    let betnotesState = {
-      fileName: "",
-      rows: []
-    };
-
-    function showBetnotesError(message) {
-      els.betnotesError.textContent = message || "";
-      els.betnotesError.classList.toggle("show", Boolean(message));
-    }
-
-    function parseCsvToArrays(text) {
-      const cleaned = String(text || "").replace(/^﻿/, "");
-      const rows = [];
-      let row = [];
-      let current = "";
-      let inQuotes = false;
-
-      for (let i = 0; i < cleaned.length; i++) {
-        const char = cleaned[i];
-        const next = cleaned[i + 1];
-
-        if (char === '"') {
-          if (inQuotes && next === '"') {
-            current += '"';
-            i++;
-          } else {
-            inQuotes = !inQuotes;
-          }
-          continue;
-        }
-
-        if (!inQuotes && char === ',') {
-          row.push(current);
-          current = "";
-          continue;
-        }
-
-        if (!inQuotes && (char === "\n" || char === "\r")) {
-          if (char === "\r" && next === "\n") i++;
-          row.push(current);
-          if (row.some((cell) => String(cell).trim() !== "")) rows.push(row);
-          row = [];
-          current = "";
-          continue;
-        }
-
-        current += char;
-      }
-
-      row.push(current);
-      if (row.some((cell) => String(cell).trim() !== "")) rows.push(row);
-      return rows;
-    }
-
-    function normalizeHeader(value) {
-      return String(value || "")
-        .replace(/^﻿/, "")
-        .trim()
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, "");
-    }
-
-    function findHeaderIndex(rows) {
-      const required = ["betid", "brand", "betnotepriority", "betnote"];
-      return rows.findIndex((row) => {
-        const normalized = row.map(normalizeHeader);
-        return required.every((name) => normalized.includes(name));
-      });
-    }
-
-    function extractBetnoteRows(rows) {
-      const headerIndex = findHeaderIndex(rows);
-      if (headerIndex === -1) {
-        throw new Error("Could not find required columns: Bet ID, Brand, Bet Note Priority, Bet Note.");
-      }
-
-      const headers = rows[headerIndex].map(normalizeHeader);
-      const index = {
-        betId: headers.indexOf("betid"),
-        brand: headers.indexOf("brand"),
-        betNotePriority: headers.indexOf("betnotepriority"),
-        betNoteText: headers.indexOf("betnote")
-      };
-
-      return rows.slice(headerIndex + 1)
-        .map((row) => ({
-          betId: String(row[index.betId] ?? "").trim(),
-          brand: String(row[index.brand] ?? "").trim(),
-          betNotePriority: String(row[index.betNotePriority] ?? "").trim(),
-          betNoteText: String(row[index.betNoteText] ?? "").trim()
-        }))
-        .filter((row) => row.betId !== "");
-    }
-
-    function buildBetnotesCsv(rows, includeBom = true) {
-      const lines = rows.map((row) => BETNOTE_HEADERS.map((header) => escapeCsv(row[header])).join(","));
-      return `${includeBom ? "﻿" : ""}${BETNOTE_HEADERS.join(",")}\r\n${lines.join("\r\n")}${lines.length ? "\r\n" : ""}`;
-    }
-
-    function updateBetnotesUi() {
-      const rows = betnotesState.rows || [];
-      const fileCount = rows.length ? Math.ceil(rows.length / MAX_BETNOTES_PER_FILE) : 0;
-      els.betnotesRowsCount.textContent = rows.length;
-      els.betnotesFilesCount.textContent = fileCount;
-      els.formatBetnotesBtn.disabled = rows.length === 0;
-      els.betnotesFileName.textContent = betnotesState.fileName || "No file selected";
-      els.betnotesStatusIcon.textContent = rows.length > MAX_BETNOTES_PER_FILE ? "!" : "✓";
-      els.betnotesStatusTitle.textContent = rows.length ? `${rows.length} betIds / ${fileCount} output file${fileCount === 1 ? "" : "s"}` : "Waiting for report";
-      els.betnotesStatusText.textContent = rows.length
-        ? `Formatted output will use fixed columns and max ${MAX_BETNOTES_PER_FILE} betIds per CSV.`
-        : "Upload the automated bet noting report and I will format it into betId, brand, betNotePriority, betNoteText.";
-      els.betnotesPreview.textContent = rows.length
-        ? buildBetnotesCsv(rows.slice(0, 8), false) + (rows.length > 8 ? "..." : "")
-        : "Upload XLSX/CSV to see the formatted output preview.";
-    }
-
-    function clearBetnotes() {
-      betnotesState = { fileName: "", rows: [] };
-      els.betnotesFile.value = "";
-      showBetnotesError("");
-      updateBetnotesUi();
-    }
-
-    function loadBetnotesFile(file) {
-      if (!file) return;
-      const lowerName = file.name.toLowerCase();
-      const isSpreadsheet = lowerName.endsWith(".xlsx") || lowerName.endsWith(".xls");
-      const isCsv = lowerName.endsWith(".csv");
-      if (!isSpreadsheet && !isCsv) {
-        clearBetnotes();
-        showBetnotesError("Please upload XLSX, XLS, or CSV file.");
-        return;
-      }
-
-      const reader = new FileReader();
-      reader.onload = () => {
-        try {
-          let rows;
-          if (isCsv) {
-            rows = parseCsvToArrays(reader.result);
-          } else {
-            if (!window.XLSX) throw new Error("XLSX parser is still loading. Please refresh the page and try again.");
-            const workbook = XLSX.read(reader.result, { type: "array" });
-            const firstSheetName = workbook.SheetNames[0];
-            const worksheet = workbook.Sheets[firstSheetName];
-            rows = XLSX.utils.sheet_to_json(worksheet, { header: 1, raw: false, defval: "" });
-          }
-
-          const formattedRows = extractBetnoteRows(rows);
-          if (!formattedRows.length) {
-            clearBetnotes();
-            showBetnotesError("Required columns were found, but there are no rows with Bet ID.");
-            return;
-          }
-
-          betnotesState = { fileName: file.name, rows: formattedRows };
-          showBetnotesError("");
-          updateBetnotesUi();
-        } catch (error) {
-          clearBetnotes();
-          showBetnotesError(error.message || "Could not read this file. Please check the template and try again.");
-        }
-      };
-      reader.onerror = () => {
-        clearBetnotes();
-        showBetnotesError("Could not read this file. Please check it and try again.");
-      };
-
-      if (isCsv) reader.readAsText(file, "utf-8");
-      else reader.readAsArrayBuffer(file);
-    }
-
-    function handleFormatBetnotes() {
-      const rows = betnotesState.rows || [];
-      if (!rows.length) return;
-      const chunks = chunkArray(rows, MAX_BETNOTES_PER_FILE);
-      const name = baseName(betnotesState.fileName || "auto-betnotes");
-
-      if (chunks.length === 1) {
-        downloadBlob(new Blob([buildBetnotesCsv(chunks[0], true)], { type: "text/csv;charset=utf-8" }), `${name}-betnotes-01-of-01.csv`);
-        return;
-      }
-
-      const files = chunks.map((chunk, index) => ({
-        name: `${name}-betnotes-${String(index + 1).padStart(2, "0")}-of-${String(chunks.length).padStart(2, "0")}.csv`,
-        content: buildBetnotesCsv(chunk, true)
-      }));
-      downloadBlob(createZip(files), `${name}-betnotes-${chunks.length}-files.zip`);
-    }
-
-    els.generatorTab.addEventListener("click", () => setActiveTool("generator"));
-    els.cutterTab.addEventListener("click", () => setActiveTool("cutter"));
-    els.betnotesTab.addEventListener("click", () => setActiveTool("betnotes"));
-    els.cutterFile.addEventListener("change", () => loadCutterFile(els.cutterFile.files[0]));
-    els.cutFileBtn.addEventListener("click", handleCutFile);
-    els.clearCutterBtn.addEventListener("click", clearCutter);
-    els.betnotesFile.addEventListener("change", () => loadBetnotesFile(els.betnotesFile.files[0]));
-    els.formatBetnotesBtn.addEventListener("click", handleFormatBetnotes);
-    els.clearBetnotesBtn.addEventListener("click", clearBetnotes);
-    ["dragenter", "dragover"].forEach((eventName) => {
-      els.fileDrop.addEventListener(eventName, (event) => {
-        event.preventDefault();
-        els.fileDrop.classList.add("dragover");
-      });
-    });
-    ["dragleave", "drop"].forEach((eventName) => {
-      els.fileDrop.addEventListener(eventName, (event) => {
-        event.preventDefault();
-        els.fileDrop.classList.remove("dragover");
-      });
-    });
-    els.fileDrop.addEventListener("drop", (event) => loadCutterFile(event.dataTransfer.files[0]));
-    ["dragenter", "dragover"].forEach((eventName) => {
-      els.betnotesDrop.addEventListener(eventName, (event) => {
-        event.preventDefault();
-        els.betnotesDrop.classList.add("dragover");
-      });
-    });
-    ["dragleave", "drop"].forEach((eventName) => {
-      els.betnotesDrop.addEventListener(eventName, (event) => {
-        event.preventDefault();
-        els.betnotesDrop.classList.remove("dragover");
-      });
-    });
-    els.betnotesDrop.addEventListener("drop", (event) => loadBetnotesFile(event.dataTransfer.files[0]));
-
-    [els.accounts, els.playerNote, els.playerNotePriority, els.inPlayBetDelay, els.disableCO, els.betFactor].forEach((el) => {
-      el.addEventListener("input", updateUi);
-      el.addEventListener("change", updateUi);
-    });
-    els.generateBtn.addEventListener("click", handleDownload);
-    els.copyBtn.addEventListener("click", handleCopy);
-    els.resetBtn.addEventListener("click", resetForm);
-
-    applyCategoryStyle();
-    updateUi();
-    updateCutterUi();
-    updateBetnotesUi();
-  </script>
+  <script src="app.js"></script>
 </body>
 </html>
