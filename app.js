@@ -5,7 +5,7 @@ const CATEGORY_META = [
   { name: "Wise", factor: "0.1", color: "#d8ad3d", textColor: "#171000" },
   { name: "BonusAbuse", factor: "0.49", color: "#8a3e40", textColor: "#ffffff" },
   { name: "VIP", factor: "2", color: "#3fa85a", textColor: "#f7fff9" },
-  { name: "New★", factor: "1", color: "#8a8f99", textColor: "#ffffff" },
+  { name: "New", factor: "1", color: "#8a8f99", textColor: "#ffffff" },
   { name: "OpPolicy", factor: "1", color: "#49c9bf", textColor: "#061513" },
   { name: "SpainClos", factor: "0.99", color: "#d65a4a", textColor: "#fff8f7" },
   { name: "Review", factor: "0.5", color: "#c7d84a", textColor: "#101500" },
